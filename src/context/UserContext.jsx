@@ -4,15 +4,17 @@ export const UserContext = createContext()
 
 export const UserProvider = ({children}) => {
     
-    const [auth,setAuth]=useState(null)
+    const [auth,setAuth]=useState(false)
     const [user,setUser]=useState(null)
+    const [counter,setCounter]= useState(0)
+
 
     const isAuth= ()=>{
-    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
+        const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
         const loggedUser = window.localStorage.getItem('loggedUser')
         if (loggedUser && token){
             setUser(JSON.parse(loggedUser))
-            setAuth(true)
+            sesisonUser()
             return true
         }else{
             window.localStorage.removeItem('loggedUser')
@@ -21,10 +23,17 @@ export const UserProvider = ({children}) => {
         }
     }
 
+    const addCounter = () =>{
+        setCounter(counter+1)
+    }
+
+    const sesisonUser = () =>{
+        setAuth(true)
+    }
     return (
         <UserContext.Provider value={{
             user,
-            setUser,auth,setAuth,isAuth}}>
+            setUser,auth,setAuth,isAuth,addCounter,counter,setCounter,sesisonUser}}>
             {children}
         </UserContext.Provider>
     )

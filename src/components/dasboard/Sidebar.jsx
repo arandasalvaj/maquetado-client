@@ -13,15 +13,16 @@ const Sidebar = () => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
-    const {setAuth,user} =useContext(UserContext)
+    const {setAuth,user,setCounter} =useContext(UserContext)
     const handleLogout = () =>{
       setAuth(false)
       window.localStorage.removeItem('loggedUser')
-      document.cookie.split(";").forEach((c) => {
+      document.cookie.split(";").forEach((c) => { 
         document.cookie = c
           .replace(/^ +/, "")
           .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
       });
+      setCounter(0) 
     }
     return (
         <div

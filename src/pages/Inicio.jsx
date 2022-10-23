@@ -1,9 +1,22 @@
 
 import { RiSoundcloudLine } from "react-icons/ri";
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import GraficosIndicadores from "../components/invernadero/GraficosIndicadores";
-const Inicio = () => {
+import { UserContext } from "../context/UserContext";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const Inicio = () => {
+    const {user,addCounter,counter} =useContext(UserContext)
+
+    useEffect(()=>{
+        addCounter()
+        if(counter === 1){
+            toast.success(`Bienvenido ${user.nombre} ${user.apellido}`, {
+            position: toast.POSITION.TOP_CENTER
+        })
+    }
+    },[])
   return (
     <>
 
@@ -52,6 +65,7 @@ const Inicio = () => {
     <div className=" grid grid-cols-1 rounded-xl shadow-lg">
         <GraficosIndicadores/>
     </div>
+    <ToastContainer/>
     </>
   )
 }

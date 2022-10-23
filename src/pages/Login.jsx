@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     
-    const {setUser,setAuth} =useContext(UserContext)
+    const {addCounter,setUser,sesisonUser} =useContext(UserContext)
     const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
     const navigate = useNavigate()
     const [message, setMesagge] = useState('hola')
@@ -20,16 +20,16 @@ const Login = () => {
             document.cookie = `token=${response.data.tokenSession}; max-age=${3600*3};path=/;samesite=stric`
             setUser(response.data.data[0])
             window.localStorage.setItem('loggedUser',JSON.stringify(response.data.data[0]))
-            setAuth(true)
+            sesisonUser()
+            addCounter()
             navigate('/dashboard/inicio')
         })
         .catch((error)=>{
             const {status, data:{message}} = error.response
             mensaje(message,status)
-        }
-        )
-        
+        })
     }
+    
     useEffect(()=>{
         mensaje()
     },[message])

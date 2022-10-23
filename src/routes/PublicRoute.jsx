@@ -8,7 +8,9 @@ const PublicRoute = () => {
   const navigate = useNavigate()
   
   useEffect(()=>{
-    if(isAuth()){navigate('/dashboard/inicio')}
+    if(isAuth()){
+      navigate('/dashboard/inicio')
+    }
   },[]) 
 
     if (!auth) {

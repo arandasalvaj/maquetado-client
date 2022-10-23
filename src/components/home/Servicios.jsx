@@ -7,8 +7,7 @@ const Servicios = () => {
         <div className="container px-6 py-12 mx-auto " >
             <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3 ">
                 <div>
-                    <svg className="w-8 h-8" viewBox="0 0 30 30" fill="none">
-                    </svg>
+          
 
                     <h1 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">Filtración industrial</h1>
 
@@ -16,8 +15,7 @@ const Servicios = () => {
                 </div>
 
                 <div>
-                    <svg className="w-8 h-8" viewBox="0 0 30 30" fill="none">
-                    </svg>
+
 
                     <h1 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">Filtración industrial</h1>
 
