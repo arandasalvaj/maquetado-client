@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
@@ -6,12 +6,23 @@ import { TbBuildingWarehouse } from "react-icons/tb";
 import { GiPlantWatering } from "react-icons/gi";
 import { RiPlantLine } from "react-icons/ri";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
+import { UserContext } from '../../context/UserContext';
 
 const Sidebar = () => {
-    const [showMenu, setShowMenu] = useState(false);
-    const toggleMenu = () => {
-      setShowMenu(!showMenu);
-    };
+  const [showMenu, setShowMenu] = useState(false);
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+    const {setAuth,user} =useContext(UserContext)
+    const handleLogout = () =>{
+      setAuth(false)
+      window.localStorage.removeItem('loggedUser')
+      document.cookie.split(";").forEach((c) => {
+        document.cookie = c
+          .replace(/^ +/, "")
+          .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+    }
     return (
         <div
           className={`fixed top-0 w-3/4 xl:left-0 md:w-96 h-full bg-[#406343] p-8 flex flex-col justify-between z-50 transition-all ${
@@ -55,11 +66,11 @@ const Sidebar = () => {
               alt=""
             />
             <div>
-              <h5 className="font-medium text-[#ECE7B4]">Jean Aranda Salva</h5>
+              <h5 className="font-medium text-[#ECE7B4]">{user.nombre} {user.apellido}</h5>
               <p className="text-sm text-white">Calama</p>
             </div>
     
-            <Link to={'/'} onClick={""}><RiLogoutBoxRLine className="text-white h-10 w-10"/></Link>
+            <Link to={'/'} onClick={handleLogout}><RiLogoutBoxRLine className="text-white h-10 w-10"/></Link>
           </div>
        
           <button onClick={toggleMenu}className="fixed bottom-6 right-6 bg-gray-100 rounded-full p-4 xl:hidden">{showMenu ? <RiCloseLine /> : <RiMenu3Fill />}

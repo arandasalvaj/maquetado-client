@@ -28,6 +28,7 @@ const GraficosIndicadores = () => {
   ],
   labels
   }
+  
   return (
     <div className="grid grid-cols-2 gap-8 px-8 py-4 grid-flow-row-dense">
         <div className="bg-white rounded-lg shadow-sm min-h-[350px] col-span-2 sm:col-span-1 row-span-8  flex items-start justify-start py-2  ">
