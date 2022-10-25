@@ -6,6 +6,7 @@ export const UserProvider = ({children}) => {
     
     const [auth,setAuth]=useState(false)
     const [user,setUser]=useState(null)
+    const [url,setUrl]=useState('https://www.tuinvernadero.xyz/')
     const [counter,setCounter]= useState(0)
 
 
@@ -33,7 +34,7 @@ export const UserProvider = ({children}) => {
     return (
         <UserContext.Provider value={{
             user,
-            setUser,auth,setAuth,isAuth,addCounter,counter,setCounter,sesisonUser}}>
+            setUser,auth,setAuth,isAuth,addCounter,counter,setCounter,sesisonUser,url}}>
             {children}
         </UserContext.Provider>
     )

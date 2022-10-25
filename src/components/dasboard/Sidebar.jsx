@@ -37,15 +37,15 @@ const Sidebar = () => {
             </div>
             <ul className='py-20 sm:py-56 grid items-center justify-center gap-5'>
               <li>
-                <Link to={'/dashboard/inicio'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <MdOutlineSpaceDashboard />
+                <Link to={'/dashboard'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <MdOutlineSpaceDashboard />
                   Inicio</Link>
               </li>
               <li>
-              <Link to={'../dashboard/invernaderos'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <TbBuildingWarehouse />
+              <Link to={'../invernadero'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <TbBuildingWarehouse />
                   Invernadero</Link>
               </li>
               <li>
-              <Link to={'../dashboard/cultivos'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <GiPlantWatering />
+              <Link to={'../cultivo'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <GiPlantWatering />
                   Cultivos</Link>
               </li>
               <li>

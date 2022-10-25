@@ -53,13 +53,14 @@ const CultivoCrear = () => {
             </div>
             <div className='flex flex-col text-[#505568] col-span-2'>
                 <label className='py-2 text-[#406343] font-bold'>Tamaño</label>
-                <input  {...register("tamano", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Tamaño"/>
+                <input  {...register("tamano", {required:true}, )} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Tamaño"/>
                 {errors.tamano?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El tamaño es requerido</p>}
             </div>
           </div>
           <div className='flex flex-col text-[#505568] py-2 w-full pb-5 p-4'>
             <label className='py-2 text-[#406343] font-bold'>Ubicacion</label>
             <input  {...register("ubicacion", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ubicación"/>
+            {errors.ubicacion?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La ubicación es requerida</p>}
           </div>
       </div>
 
@@ -71,10 +72,12 @@ const CultivoCrear = () => {
             <div className='flex flex-col text-[#505568] py-2 w-full '>
               <label className='py-2 text-[#406343] font-bold'>Maxima</label>
               <input  {...register("ambienteMaxima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Temperatura maxima"/>
+              {errors.ambienteMaxima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El temperatura es requerida</p>}
             </div>
             <div className='flex flex-col text-[#505568] py-2 w-full'>
               <label className='py-2 text-[#406343] font-bold'>Minima</label>
               <input  {...register("ambienteMinima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Temperatura minima"/>
+              {errors.ambienteMinima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El temperatura es requerida</p>}
             </div>
           </div>
       </div>
@@ -87,10 +90,12 @@ const CultivoCrear = () => {
             <div className='flex flex-col text-[#505568] py-2 w-full'>
               <label className='py-2 text-[#406343] font-bold'>Maxima</label>
               <input  {...register("aguaMaxima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Temperatura maxima"/>
+              {errors.aguaMaxima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El temperatura es requerida</p>}
             </div>
             <div className='flex flex-col text-[#505568] py-2 w-full'>
               <label className='py-2 text-[#406343] font-bold'>Minima</label>
               <input  {...register("aguaMinima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Temperatura minima"/>
+              {errors.aguaMinima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El temperatura es requerida</p>}
             </div>
           </div>
         </div>
@@ -103,10 +108,12 @@ const CultivoCrear = () => {
               <div className='flex flex-col text-[#505568] py-2 w-full'>
                 <label className='py-2 text-[#406343] font-bold'>Maxima</label>
                 <input  {...register("humedadMaxima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Humedad maxima"/>
+                {errors.humedadMaxima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El porcentaje de humedad es requerido</p>}
               </div>
               <div className='flex flex-col text-[#505568] py-2 w-full'>
                 <label className='py-2 text-[#406343] font-bold'>Minima</label>
                 <input  {...register("humedadMinima", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Humedad minima"/>
+                {errors.humedadMinima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El porcentaje de humedad es requerido</p>}
               </div>
             </div>
           </div>
@@ -119,10 +126,12 @@ const CultivoCrear = () => {
               <div className='flex flex-col text-[#505568] py-2 w-full'>
                 <label className='py-2 text-[#406343] font-bold '>Maxima</label>
                 <input  {...register("coDosMaximo", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Co2 maximo"/>
+                {errors.coDosMaximo?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El nivel de Co2 es requerido</p>}
               </div>
               <div className='flex flex-col text-[#505568] py-2 w-full'>
                 <label className='py-2 text-[#406343] font-bold'>Minima</label>
                 <input  {...register("coDosMinimo", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Co2 minimo"/>
+                {errors.coDosMinimo?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El nivel de Co2 es requerido</p>}
               </div>
             </div>
           </div>

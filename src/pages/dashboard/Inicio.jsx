@@ -1,8 +1,8 @@
 
 import { RiSoundcloudLine } from "react-icons/ri";
 import React, { useContext, useEffect, useState } from 'react';
-import GraficosIndicadores from "../components/invernadero/GraficosIndicadores";
-import { UserContext } from "../context/UserContext";
+import GraficosIndicadores from "../../components/invernadero/GraficosIndicadores";
+import { UserContext } from "../../context/UserContext";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

@@ -1,28 +1,28 @@
 import React,{useContext, useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import loginImg from '../assets/portada.jpg'
+import loginImg from '../../assets/portada.jpg'
 import axios from "axios"
-import { UserContext } from '../context/UserContext'
+import { UserContext } from '../../context/UserContext'
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
     
-    const {addCounter,setUser,sesisonUser} =useContext(UserContext)
+    const {addCounter,setUser,sesisonUser,url} =useContext(UserContext)
     const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
     const navigate = useNavigate()
     const [message, setMesagge] = useState('hola')
-
+    
     const onSubmit = (data) => {
-        axios.post("https://www.tuinvernadero.xyz/api/auth/login",data)
+        axios.post(`${url}api/auth/login`,data)
         .then((response) =>{
             document.cookie = `token=${response.data.tokenSession}; max-age=${3600*3};path=/;samesite=stric`
             setUser(response.data.data[0])
             window.localStorage.setItem('loggedUser',JSON.stringify(response.data.data[0]))
             sesisonUser()
             addCounter()
-            navigate('/dashboard/inicio')
+            navigate('/dashboard')
         })
         .catch((error)=>{
             const {status, data:{message}} = error.response

@@ -9,7 +9,7 @@ const PublicRoute = () => {
   
   useEffect(()=>{
     if(isAuth()){
-      navigate('/dashboard/inicio')
+      navigate('/dashboard')
     }
   },[]) 
 
