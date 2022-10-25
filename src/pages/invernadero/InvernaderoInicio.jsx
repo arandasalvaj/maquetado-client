@@ -50,6 +50,7 @@ const InvernaderoInicio = () => {
           <Link to={'/invernadero'}><IoMdRemoveCircle className='text-red-500 text-3xl'/></Link>
         </td>
       </tr>
+      
     )
   })
 
