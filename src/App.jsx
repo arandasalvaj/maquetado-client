@@ -10,6 +10,8 @@ import Cultivos from "./pages/Cultivos"
 import Perfil from "./pages/Perfil"
 import NotFoundPage from "./pages/NotFoundPage"
 import { UserProvider } from "./context/UserContext"
+import ListadoCultvos from "./pages/cultivo/ListadoCultvos"
+import CultivoCrear from "./pages/cultivo/CultivoCrear"
 
 function App() {
   return (
@@ -23,9 +25,14 @@ function App() {
               <Route path="registro" element={<Register />} />
             </Route>
             <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="listado" element={<ListadoCultvos />} />
+              /dashboard/cultivos/crear
               <Route path="invernaderos" element={<Invernadero/>} />
               <Route path="inicio" element={<Inicio />} />
-              <Route path="cultivos" element={<Cultivos />} />
+              <Route path="cultivos" element={<Cultivos />}>
+                <Route index element={<ListadoCultvos />} />
+                <Route path="crear" element={<CultivoCrear />} />
+              </Route>
               <Route path="perfil" element={<Perfil />} />
             </Route>
             <Route path="*" element={<NotFoundPage />} />

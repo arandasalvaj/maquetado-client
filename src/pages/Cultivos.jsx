@@ -1,8 +1,12 @@
 import React from 'react'
+import { Outlet } from 'react-router-dom';
 
 const Cultivos = () => {
+
   return (
-    <div>Cultivos</div>
+    <>
+      <Outlet/>
+    </>
   )
 }
 
