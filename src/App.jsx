@@ -16,6 +16,8 @@ import InvernaderoInicio from './pages/invernadero/InvernaderoInicio'
 import CultivoInicio from './pages/cultivo/CultivoInicio'
 import Cama from "./pages/cama/Cama"
 import InvernaderoCrear from "./pages/invernadero/InvernaderoCrear"
+import InvernaderoDashboard from "./pages/invernadero/InvernaderoDashboard"
+import CamaInicio from "./pages/cama/CamaInicio"
 
 function App() {
   return (
@@ -37,7 +39,8 @@ function App() {
             <Route path="invernadero" element={<Invernadero/>} >
               <Route index element={<InvernaderoInicio />} />
               <Route path="crear" element={<InvernaderoCrear />} />
-              <Route path="editar" element={<Inicio />} />
+              <Route path="/invernadero/:idInvernadero/detalle" element={<InvernaderoDashboard />} />
+              <Route path="editar" element={<InvernaderoDashboard />} />
               <Route path="listado" element={<Inicio />} />
             </Route>  
             
@@ -49,7 +52,7 @@ function App() {
             </Route>
 
             <Route path="cama" element={<Cama />}>
-              <Route index element={<CultivoInicio />} />
+              <Route index element={<CamaInicio />} />
               <Route path="crear" element={<CultivoCrear />} />
               <Route path="editar" element={<Inicio />} />
               <Route path="listado" element={<ListadoCultvos />} />

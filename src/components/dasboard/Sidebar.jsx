@@ -49,11 +49,11 @@ const Sidebar = () => {
                   Cultivos</Link>
               </li>
               <li>
-              <Link to={'../dashboard/camas'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <RiPlantLine />
+              <Link to={'../cama'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <RiPlantLine />
                   Camas</Link>
               </li>
               <li>
-              <Link to={'../dashboard/perfil'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <CgProfile />
+              <Link to={'../perfil'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <CgProfile />
                   Perfil</Link>
               </li>
             </ul>

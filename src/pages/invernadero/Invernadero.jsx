@@ -18,7 +18,7 @@ const Invernadero = () => {
       <div className="min-h-screen">
         <Sidebar />
         <Navbar />
-        <main className="lg:pl-[384px] pt-[64px] bg-gray-100 z-30">
+        <main className="lg:pl-[384px] pt-[64px] h-[930px] bg-gray-100 z-30 ">
           <Outlet/>
         </main>
       </div>

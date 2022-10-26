@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import CultivoCrear from "./CultivoCrear"
+import CamaCrear from "./CamaCrear"
 
 const CultivoInicio = () => {
   return (
@@ -7,10 +7,10 @@ const CultivoInicio = () => {
     <main className='flex-1'>
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
-                <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Cultivos</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Crea cultivos y editalos aqui</p>
+                <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Camas</h1>
+                <p className='text-3sm font-semibold text-gray-500'>Crea Camas y editalas aqui</p>
             </div>
-            <Link to={'/invernadero/crear'} element={<CultivoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
+            <Link to={'/invernadero/crear'} element={<CamaCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
         </div>
     </main>
     <div class="flex justify-center">
