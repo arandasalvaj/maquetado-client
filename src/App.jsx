@@ -18,6 +18,7 @@ import Cama from "./pages/cama/Cama"
 import InvernaderoCrear from "./pages/invernadero/InvernaderoCrear"
 import InvernaderoDashboard from "./pages/invernadero/InvernaderoDashboard"
 import CamaInicio from "./pages/cama/CamaInicio"
+import VerificarEmail from "./pages/auth/VerificarEmail"
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path='/' element={<PublicRoute />}>
               <Route path="login" element={<Login />} />
               <Route path="registro" element={<Register />} />
+              <Route path="verify/email/:token" element={<VerificarEmail />} />
             </Route>
 
             <Route path="/dashboard" element={<Dashboard />}>

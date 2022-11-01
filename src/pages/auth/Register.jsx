@@ -1,18 +1,16 @@
-import React,{ useContext, useState} from 'react'
+import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import loginImg from '../../assets/portada.jpg'
 import axios from "axios"
 import { useForm } from "react-hook-form";
-import { UserContext } from '../../context/UserContext';
+import { addUser } from '../../services/user';
 
 const Register = () => {
     const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
-    const {url} =useContext(UserContext)
     const navigate = useNavigate()
 
     const onSubmit = (data) => {
-        axios.post(`${url}api/auth/registro`,data)
-        .then((response) =>{
+        addUser(data).then((response) =>{
             console.log(response)
             navigate('/login')
         })
@@ -20,7 +18,6 @@ const Register = () => {
             const {status, data:{message}} = error.response
             mensaje(message,status)
         })
-        
     }
 
   return (

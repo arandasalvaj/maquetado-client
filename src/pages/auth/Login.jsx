@@ -6,16 +6,15 @@ import { UserContext } from '../../context/UserContext'
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { loginUser } from '../../services/user'
 const Login = () => {
-    
     const {addCounter,setUser,sesisonUser,url} =useContext(UserContext)
     const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
     const navigate = useNavigate()
     const [message, setMesagge] = useState('hola')
     
     const onSubmit = (data) => {
-        axios.post(`${url}api/auth/login`,data)
+        loginUser(data)
         .then((response) =>{
             document.cookie = `token=${response.data.tokenSession}; max-age=${3600*3};path=/;samesite=stric`
             setUser(response.data.data[0])

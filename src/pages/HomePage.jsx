@@ -3,8 +3,8 @@ import Footer from '../components/home/Footer';
 import HeaderNav from '../components/home/HeaderNav';
 import Productos from '../components/home/Productos';
 import Servicios from '../components/home/Servicios';
-
 const HomePage = () => {
+
     return (
         <>
             <HeaderNav/> 

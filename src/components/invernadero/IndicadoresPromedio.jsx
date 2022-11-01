@@ -18,7 +18,7 @@ const Indicadores = ({nombre,fecha}) => {
             setPercentage(Math.floor(Math.random() * (78 - 76 + 1)) + 76)
             setAmbiente(Math.floor(Math.random() * (30 - 24 + 1)) + 24)
             setPpm(Math.floor(Math.random() * (120 - 110 + 1)) + 110)
-        }, 3000);
+        }, 5000);
     })
 
 

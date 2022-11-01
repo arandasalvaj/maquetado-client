@@ -7,9 +7,12 @@ export const UserProvider = ({children}) => {
     const [invernaderoContext,setInvernaderoContext]=useState([])
     const [auth,setAuth]=useState(false)
     const [user,setUser]=useState(null)
-    const [url,setUrl]=useState('https://testkinglioncalama.ga/')
+    const [url,setUrl]=useState('http://localhost:8000/')
     const [counter,setCounter]= useState(0)
-//http://localhost:8000/
+    
+//const [url,setUrl]=useState('http://localhost:8000/')
+//const [url,setUrl]=useState('https://testkinglioncalama.ga/')
+
     const isAuth= ()=>{
         const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
         const loggedUser = window.localStorage.getItem('loggedUser')
