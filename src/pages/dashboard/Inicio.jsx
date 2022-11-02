@@ -8,11 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Inicio = () => {
     const {user,addCounter,counter} =useContext(UserContext)
-
     useEffect(()=>{
         addCounter()
         if(counter === 1){
-            toast.success(`Bienvenido ${user.nombre} ${user.apellido}`, {
+            toast.success(`Bienvenido ${user.nombre_usuario} ${user.apellido_usuario}`, {
             position: toast.POSITION.TOP_CENTER
         })
     }
@@ -21,6 +20,9 @@ const Inicio = () => {
     <>
 
     <div className='grid grid-cols-1 sm:grid-cols-4 gap-5 w-full px-20 py-5'>
+
+
+
         <div className='bg-white rounded-xl shadow-lg p-5 py-3'>
             <div className='flex justify-center gap-12'>
                 <span className=' text-black font-semibold text-7xl pt-2'>24</span>

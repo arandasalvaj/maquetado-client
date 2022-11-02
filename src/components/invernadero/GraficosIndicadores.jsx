@@ -12,7 +12,6 @@ const GraficosIndicadores = () => {
   const options = {
     responsive:true,
     fill:true
-
   }
   
   const data = {

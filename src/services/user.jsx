@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = 'http://localhost:8000/'
+const API_URL = 'https://tuinvernadero.xyz/'
 
 export const addUser=async(user)=> await axios.post(`${API_URL}v1/auth/registro`,user) 
 

@@ -15,8 +15,9 @@ const Register = () => {
             navigate('/login')
         })
         .catch((error)=>{
-            const {status, data:{message}} = error.response
-            mensaje(message,status)
+
+            //const { data:{message}} = error.response
+            //mensaje(message)
         })
     }
 

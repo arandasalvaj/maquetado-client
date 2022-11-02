@@ -1,7 +1,3 @@
-import { IoWaterOutline } from "react-icons/io5";
-import { FaTemperatureLow,FaWater } from "react-icons/fa";
-import { BsCloud } from "react-icons/bs";
-import { render } from "react-dom";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useEffect, useState } from "react";
@@ -32,6 +28,13 @@ const Indicadores = ({nombre,fecha}) => {
                 </p>
             </div>  
         </div>
+
+
+
+
+
+
+
         <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-3 sm:col-span-1 flex items-center justify-center"> 
             <div className="flex items-end gap-3 ">
                 <div>
@@ -42,6 +45,12 @@ const Indicadores = ({nombre,fecha}) => {
                 </div>
             </div>  
         </div>
+
+
+
+
+
+
         <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-3 sm:col-span-1 flex items-center justify-center"> 
             <div className="flex items-end gap-3 ">
                 <div>

@@ -1,9 +1,9 @@
 import axios from "axios"
-import { useContext, useEffect, useState } from "react"
+import {  useEffect, useState } from "react"
 import { Link,useNavigate } from "react-router-dom"
-import { UserContext } from "../../context/UserContext"
 import InvernaderoCrear from "./InvernaderoCrear"
 import { IoMdRemoveCircle } from "react-icons/io";
+import { getInvernadero } from "../../services/invernadero";
 import { IoEyeSharp } from "react-icons/io5";
 
 const InvernaderoInicio = () => {
@@ -11,24 +11,66 @@ const InvernaderoInicio = () => {
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-  const {url} =useContext(UserContext)
+
+  /**
+   * Mostrar Errores
+   */
+  const [messageError , setMessageError]= useState([])
+  const [showError , setShowError]= useState(false)
+
   const [invernadero,setInvernadero] = useState([])
   const [nombre,setNombre] = useState([])
   const [indexInv,setIndexInv] = useState([])
+  const [loader,setLoader] = useState(true)
   const navigate = useNavigate()
+
 //{invernaderos.map(invernadero=>console.log(invernadero.nombre_invernadero))}
 //<Link to={'/invernadero'}><IoMdRemoveCircle className='text-red-500 text-3xl'/></Link>
 
   useEffect(()=>{
-    axios.get(`${url}api/usuarios/${id_usuario}/invernaderos`, {
-      headers: {
-        'Authorization': token
-      }
-    }).then((response)=>{
-      setInvernadero(response.data)
-    })
+    obtenerInvernaderos()
   },[indexInv])
-
+  
+  const obtenerInvernaderos = async () =>{
+    try{
+        await getInvernadero(id_usuario,token,setInvernadero,setMessageError)
+        .then((response)=>{
+          setLoader(false)
+          setShowError(false)
+          setInvernadero(response.data)
+        })
+        .catch((error)=>{
+          if(error.response.status === 404 ){
+            setShowError(true)
+            setLoader(false)
+            setMessageError(error.response.data.message)
+            throw error.response.data.message
+          }
+        })
+      }catch(error) {
+        console.log(error)
+        // throw error
+      }
+      
+  }
+  const loaderView = () =>{
+    return(
+    <>
+        <div className="text-lg text-gray-900 font-bold px-6 py-4 whitespace-nowrap text-center">
+          Cargando...
+        </div>
+    </>
+    )
+  }
+  const showErrorMessage = () =>{
+    return(
+    <>
+      <div className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold text-center">
+        {messageError}
+      </div>
+    </>
+    )
+  }
   const invernaderos = invernadero.map((data,index)=>{
     const fecha = data.created_at.split('T')
     return (
@@ -116,9 +158,11 @@ const InvernaderoInicio = () => {
                           </tr>
                       </thead>
                       <tbody>
-                      {invernaderos}
+                        {invernaderos}
                       </tbody>
                 </table>
+                {loader ? loaderView() : "" }
+                {showError ? showErrorMessage():""}
             </div>
         </div>
       </div>

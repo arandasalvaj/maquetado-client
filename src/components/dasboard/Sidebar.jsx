@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { GiPlantWatering } from "react-icons/gi";
-import { RiPlantLine } from "react-icons/ri";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { UserContext } from '../../context/UserContext';
 
@@ -14,6 +13,7 @@ const Sidebar = () => {
     setShowMenu(!showMenu);
   };
     const {setAuth,user,setCounter} =useContext(UserContext)
+    
     const handleLogout = () =>{
       setAuth(false)
       window.localStorage.removeItem('loggedUser')
@@ -26,7 +26,7 @@ const Sidebar = () => {
     }
     return (
         <div
-          className={`fixed top-0 w-3/4 xl:left-0 md:w-96 h-full bg-[#406343] p-8 flex flex-col justify-between z-50 transition-all ${
+          className={`fixed top-0 w-3/4 xl:left-0 md:w-80 h-full bg-[#406343] p-8 flex flex-col justify-between z-50 transition-all ${
             showMenu ? "left-0" : "-left-full"
           }`}
         >
@@ -49,10 +49,6 @@ const Sidebar = () => {
                   Cultivos</Link>
               </li>
               <li>
-              <Link to={'../cama'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <RiPlantLine />
-                  Camas</Link>
-              </li>
-              <li>
               <Link to={'../perfil'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <CgProfile />
                   Perfil</Link>
               </li>
@@ -67,8 +63,8 @@ const Sidebar = () => {
               alt=""
             />
             <div>
-              <h5 className="font-medium text-[#ECE7B4]">{user.nombre} {user.apellido}</h5>
-              <p className="text-sm text-white">Calama</p>
+              <h5 className="font-medium text-[#ECE7B4]">{user.nombre_usuario} {user.apellido_usuario}</h5>
+              <p className="text-sm text-white">{user.rol_usuario === "1"}</p>
             </div>
     
             <Link to={'/'} onClick={handleLogout}><RiLogoutBoxRLine className="text-white h-10 w-10"/></Link>

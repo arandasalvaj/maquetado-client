@@ -1,21 +1,19 @@
-import axios from 'axios';
-import React, { useContext } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { UserContext } from '../../context/UserContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addInvernadero } from '../../services/invernadero';
 const InvernaderoCrear = () => {
 
   const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
   const navigate = useNavigate()
-  const {url} =useContext(UserContext)
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
 
     const onSubmit=(data)=>{
       console.log(data)
-      axios.post(`${url}api/usuarios/${id_usuario}/invernaderos`,data)
+      addInvernadero(data,id_usuario)
       .then((response) =>{
         toast.success('Invernadero creado', {
           position: toast.POSITION.TOP_CENTER
