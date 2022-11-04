@@ -1,12 +1,12 @@
 import React,{useContext, useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import loginImg from '../../assets/portada.jpg'
-import axios from "axios"
 import { UserContext } from '../../context/UserContext'
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { loginUser } from '../../services/user'
+
 const Login = () => {
     const {addCounter,setUser,sesisonUser,url} =useContext(UserContext)
     const { register, handleSubmit, formState: { errors } ,setValue,setFocus } = useForm();
@@ -56,7 +56,6 @@ const Login = () => {
   return (
     
     <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
-        
         <div className='hidden sm:block'>
             <img className='w-full h-full object-cover' src={loginImg} alt="" />
         </div>
@@ -80,6 +79,9 @@ const Login = () => {
                 </div>
                 <button  type='submit' className='w-full my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg' >Ingresar</button>
                 <ToastContainer />
+                <div className='flex flex-col'>
+                    <Link to={'/recovery/password'} className="font-medium  hover:underline text-[#406343] text-center">¿Has olvidado tu contraseña?</Link>
+                </div>
             </form>
         </div>
     </div>

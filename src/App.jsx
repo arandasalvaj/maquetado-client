@@ -19,6 +19,8 @@ import InvernaderoCrear from "./pages/invernadero/InvernaderoCrear"
 import InvernaderoDashboard from "./pages/invernadero/InvernaderoDashboard"
 import CamaInicio from "./pages/cama/CamaInicio"
 import VerificarEmail from "./pages/auth/VerificarEmail"
+import RecoveryPassword from "./pages/auth/RecoveryPassword"
+import ChangePassword from "./pages/auth/ChangePassword"
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="registro" element={<Register />} />
               <Route path="verify/email/:token" element={<VerificarEmail />} />
+              <Route path="recovery/password/:token" element={<ChangePassword/>} />
+              <Route path="recovery/password" element={<RecoveryPassword/>} />
             </Route>
 
             <Route path="/dashboard" element={<Dashboard />}>
@@ -52,7 +56,7 @@ function App() {
               <Route path="editar" element={<Inicio />} />
               <Route path="listado" element={<ListadoCultvos />} />
             </Route>
-
+           
             <Route path="cama" element={<Cama />}>
               <Route index element={<CamaInicio />} />
               <Route path="crear" element={<CultivoCrear />} />

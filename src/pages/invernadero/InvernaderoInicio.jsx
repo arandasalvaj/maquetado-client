@@ -1,10 +1,10 @@
-import axios from "axios"
 import {  useEffect, useState } from "react"
 import { Link,useNavigate } from "react-router-dom"
 import InvernaderoCrear from "./InvernaderoCrear"
 import { IoMdRemoveCircle } from "react-icons/io";
 import { getInvernadero } from "../../services/invernadero";
 import { IoEyeSharp } from "react-icons/io5";
+import { deleteUser } from "../../services/user";
 
 const InvernaderoInicio = () => {
   const [showModal, setShowModal] = useState(false);
@@ -40,16 +40,17 @@ const InvernaderoInicio = () => {
           setInvernadero(response.data)
         })
         .catch((error)=>{
+          console.log(error)
           if(error.response.status === 404 ){
             setShowError(true)
             setLoader(false)
             setMessageError(error.response.data.message)
-            throw error.response.data.message
+            //throw error.response.data.message
           }
         })
       }catch(error) {
         console.log(error)
-        // throw error
+        throw error
       }
       
   }
@@ -208,7 +209,7 @@ const InvernaderoInicio = () => {
                   type="button"
                   onClick={()=>{
                       setShowModal(false)
-                      axios.delete(`${url}api/usuarios/${id_usuario}/invernaderos/${indexInv}`)  
+                      deleteUser(id_usuario,indexInv)  
                       .then((res) => {
                         setIndexInv(0)
                       }) 
