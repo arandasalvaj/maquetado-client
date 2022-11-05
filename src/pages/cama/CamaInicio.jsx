@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import CamaCrear from "./CamaCrear"
 
-const CultivoInicio = () => {
+const CamaInicio = () => {
   return (
   <>
     <main className='flex-1'>
@@ -101,4 +101,4 @@ const CultivoInicio = () => {
   )
 }
 
-export default CultivoInicio
+export default CamaInicio

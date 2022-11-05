@@ -1,17 +1,20 @@
+import axios from "axios"
 import {  useEffect, useState } from "react"
 import { Link,useNavigate } from "react-router-dom"
 import InvernaderoCrear from "./InvernaderoCrear"
 import { IoMdRemoveCircle } from "react-icons/io";
 import { getInvernadero } from "../../services/invernadero";
 import { IoEyeSharp } from "react-icons/io5";
-import { deleteUser } from "../../services/user";
+import Informacion from "../../components/invernadero/InformacionRendimiento";
+import Indicadores from "../../components/invernadero/IndicadoresPromedio";
+
 
 const InvernaderoInicio = () => {
   const [showModal, setShowModal] = useState(false);
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-
+  
   /**
    * Mostrar Errores
    */
@@ -40,17 +43,16 @@ const InvernaderoInicio = () => {
           setInvernadero(response.data)
         })
         .catch((error)=>{
-          console.log(error)
           if(error.response.status === 404 ){
             setShowError(true)
             setLoader(false)
             setMessageError(error.response.data.message)
-            //throw error.response.data.message
+            throw error.response.data.message
           }
         })
       }catch(error) {
         console.log(error)
-        throw error
+        // throw error
       }
       
   }
@@ -72,6 +74,7 @@ const InvernaderoInicio = () => {
     </>
     )
   }
+  
   const invernaderos = invernadero.map((data,index)=>{
     const fecha = data.created_at.split('T')
     return (
@@ -106,7 +109,7 @@ const InvernaderoInicio = () => {
           >
             <IoMdRemoveCircle className="text-3xl text-red-600" />
           </button>
-          <button onClick={()=>{navigate(`/invernadero/${data.id_invernadero}/detalle`)}}>
+          <button onClick={()=>{navigate(`/invernadero`)}}>
             <IoEyeSharp className='text-3xl text-blue-400' />
           </button>
         </div>
@@ -118,6 +121,7 @@ const InvernaderoInicio = () => {
 
 
   return (
+    
   <>
     <main className='flex-1'>
         <div className='flex items-center justify-between py-7 px-10'>
@@ -128,6 +132,9 @@ const InvernaderoInicio = () => {
             <Link to={'/invernadero/crear'} element={<InvernaderoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
         </div>
     </main>
+    <Indicadores/>
+    <Informacion/>
+
     <div className="flex justify-center">
       <div className="overflow-x-auto w-[90%]  sm:-mx-6 lg:-mx-8">
           <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">
@@ -209,7 +216,7 @@ const InvernaderoInicio = () => {
                   type="button"
                   onClick={()=>{
                       setShowModal(false)
-                      deleteUser(id_usuario,indexInv)  
+                      axios.delete(`${url}api/usuarios/${id_usuario}/invernaderos/${indexInv}`)  
                       .then((res) => {
                         setIndexInv(0)
                       }) 

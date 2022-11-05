@@ -30,7 +30,7 @@ const InvernaderoDashboard = () => {
     <div>
         <IndicadoresPromedio nombre={invernadero.nombre_invernadero} fecha={fecha}/>
         <InformacionRendimiento ubicacion={invernadero.ubicacion_invernadero} />
-        <GraficosIndicadores/>
+        
     </div>
   )
 }

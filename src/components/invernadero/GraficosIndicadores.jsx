@@ -34,9 +34,12 @@ const GraficosIndicadores = () => {
           <Line data={data} options={options} />
         </div>
         <div className="bg-white rounded-lg shadow-sm min-h-[350px] col-span-2 sm:col-span-1 row-span-8">
-
+        <Line data={data} options={options} />
         </div>
-    </div>
+        </div>
+
+        
+    
   )
 }
 
