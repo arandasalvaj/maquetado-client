@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import IndicadoresOptimos from "../../components/invernadero/IndicadoresOptimos"
 import Cama from "../cama/Cama"
 import CultivoCrear from "./CultivoCrear"
 
@@ -13,6 +14,7 @@ const CultivoInicio = () => {
             </div>
             <Link to={'/cultivo/crear'} element={<CultivoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear Cultivo</Link>
         </div>
+        <IndicadoresOptimos/>
     </main>
     <div class="flex justify-center">
             <div class="overflow-x-auto w-[90%]  sm:-mx-6 lg:-mx-8">
