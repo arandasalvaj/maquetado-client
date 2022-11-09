@@ -26,52 +26,59 @@ const Sidebar = () => {
     }
     return (
         <div
-          className={`fixed top-0 w-3/4 xl:left-0 md:w-80 h-full bg-[#406343] p-8 flex flex-col justify-between z-50 transition-all ${
+          className={`fixed top-0 w-3/4 lg:left-0 md:w-80 h-full bg-[#406343] flex flex-col justify-between z-50 transition-all ${
             showMenu ? "left-0" : "-left-full"
           }`}
         >
-          <div className='grid items-center '>
-            <div className=' mx-auto pt-10 sm:pt-0'>
-            <Link to={'/dashboard/inicio'} className='inline-flex text-[#ECE7B4] transition-colors  text-3xl font-bold tracking-wide uppercase'>
-                  MH Global</Link>
+          <div className='grid items-center'>
+
+            <div className='mx-auto pt-12'>
+              <Link to={'/dashboard/inicio'} className='inline-flex text-[#ECE7B4] transition-colors  text-3xl font-bold tracking-wide uppercase'>
+                    MH Global
+              </Link>
             </div>
-            <ul className='py-20 sm:py-56 grid items-center justify-center gap-5'>
+
+            <ul className='py-40 md:py-56 grid items-center justify-center gap-8'>
               <li>
-                <Link to={'/dashboard'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <MdOutlineSpaceDashboard />
-                  Inicio</Link>
+                <Link to={'/dashboard'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-2xl'>
+                  <MdOutlineSpaceDashboard className='text-5xl' />
+                  Inicio
+                </Link>
               </li>
               <li>
-              <Link to={'../invernadero'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <TbBuildingWarehouse />
-                  Invernadero</Link>
+                <Link to={'../invernadero'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-2xl'>              
+                  <TbBuildingWarehouse className='text-5xl' />
+                    Invernadero
+                </Link>
               </li>
               <li>
-              <Link to={'../cultivo'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <GiPlantWatering />
-                  Cultivos</Link>
+                <Link to={'../cultivo'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-2xl'>              
+                  <GiPlantWatering className='text-5xl'  />
+                    Cultivos
+                </Link>
               </li>
               <li>
-              <Link to={'../perfil'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#406343] transition-colors py-2 px-4 rounded-lg font-bold text-[20px]'>              <CgProfile />
-                  Perfil</Link>
+                <Link to={'../perfil'} className='flex items-center gap-4 text-[#ECE7B4] hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-2xl'>              
+                  <CgProfile className='text-5xl' />
+                    Perfil
+                </Link>
               </li>
             </ul>
-
-    
           </div>
-          <div className="flex items-center gap-4 mx-auto">
-            <img
-              className="w-10 h-10 object-cover rounded-full ring-4 ring-white"
-              src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg"
-              alt=""
-            />
+
+          <div className="flex items-center gap-4 mx-auto pb-12">
+            <img className="w-10 h-10 object-cover rounded-full ring-4 ring-white"src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg"alt=""/>
             <div>
               <h5 className="font-medium text-[#ECE7B4]">{user.nombre_usuario} {user.apellido_usuario}</h5>
-              <p className="text-sm text-white">{user.rol_usuario === "1"}</p>
+              {user.rol_usuario === 2 ? <p className='text-white font-bold'>Agricultor</p> : <p className='text-white font-bold'>Visitante</p>}
             </div>
-    
             <Link to={'/'} onClick={handleLogout}><RiLogoutBoxRLine className="text-white h-10 w-10"/></Link>
           </div>
        
-          <button onClick={toggleMenu}className="fixed bottom-6 right-6 bg-gray-100 rounded-full p-4 xl:hidden">{showMenu ? <RiCloseLine /> : <RiMenu3Fill />}
+          <button onClick={toggleMenu}className="fixed bottom-6 right-6 bg-gray-100 rounded-full p-4 xl:hidden border-solid border-2 border-gray-300">
+            {showMenu ? <RiCloseLine /> : <RiMenu3Fill />}
           </button>
+
         </div>
       );
 }

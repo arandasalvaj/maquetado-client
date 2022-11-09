@@ -1,121 +1,39 @@
 import {  useEffect, useState } from "react"
 import { Link,useNavigate } from "react-router-dom"
-import InvernaderoCrear from "./InvernaderoCrear"
-import { IoMdRemoveCircle } from "react-icons/io";
-import { getInvernadero } from "../../services/invernadero";
-import { IoEyeSharp } from "react-icons/io5";
+
+import { getAllInvernaderos } from "../../services/invernadero";
 import { deleteUser } from "../../services/user";
+import IndicadoresPromedio from "../../components/invernadero/IndicadoresPromedio";
+import InformacionRendimiento from "../../components/invernadero/InformacionRendimiento";
+import { getInvernadero } from '../../services/invernadero'
+
 
 const InvernaderoInicio = () => {
   const [showModal, setShowModal] = useState(false);
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
-  const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
 
   /**
    * Mostrar Errores
    */
-  const [messageError , setMessageError]= useState([])
-  const [showError , setShowError]= useState(false)
 
-  const [invernadero,setInvernadero] = useState([])
+  const [invernaderoSolo,setInvernaderoSolo] = useState([])
+  const [invernaderoId,setInvernaderoId] = useState([])
   const [nombre,setNombre] = useState([])
   const [indexInv,setIndexInv] = useState([])
-  const [loader,setLoader] = useState(true)
-  const navigate = useNavigate()
 
-//{invernaderos.map(invernadero=>console.log(invernadero.nombre_invernadero))}
-//<Link to={'/invernadero'}><IoMdRemoveCircle className='text-red-500 text-3xl'/></Link>
+  const navigate = useNavigate()
 
   useEffect(()=>{
     obtenerInvernaderos()
   },[indexInv])
   
-  const obtenerInvernaderos = async () =>{
-    try{
-        await getInvernadero(id_usuario,token,setInvernadero,setMessageError)
-        .then((response)=>{
-          setLoader(false)
-          setShowError(false)
-          setInvernadero(response.data)
-        })
-        .catch((error)=>{
-          console.log(error)
-          if(error.response.status === 404 ){
-            setShowError(true)
-            setLoader(false)
-            setMessageError(error.response.data.message)
-            //throw error.response.data.message
-          }
-        })
-      }catch(error) {
-        console.log(error)
-        throw error
-      }
-      
+  const obtenerInvernadero = () =>{
+    getInvernadero(id_usuario,invernaderoId)
+    .then((response)=>{
+      setInvernaderoSolo(response.data)
+    })
   }
-  const loaderView = () =>{
-    return(
-    <>
-        <div className="text-lg text-gray-900 font-bold px-6 py-4 whitespace-nowrap text-center">
-          Cargando...
-        </div>
-    </>
-    )
-  }
-  const showErrorMessage = () =>{
-    return(
-    <>
-      <div className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold text-center">
-        {messageError}
-      </div>
-    </>
-    )
-  }
-  const invernaderos = invernadero.map((data,index)=>{
-    const fecha = data.created_at.split('T')
-    return (
-      <tr className="bg-white border-b" key={index}>
-        <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
-          {index+1}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          {data.nombre_invernadero}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          {data.ubicacion_invernadero}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          {fecha[0]}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          {data.estado_invernadero === 0 ? <p className="bg-red-600 rounded-xl text-white">Desactivado</p> : <p className="bg-blue-500">Activado</p>}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          {data.tamano_invernadero}
-        </td>
-        <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-          <div className="flex gap-4 justify-center items-center">
-          <button
-            className="text-white"
-            type="button"
-            onClick={() => {setShowModal(true)
-              setNombre(data.nombre_invernadero)
-              setIndexInv(data.id_invernadero)
-            }}
-          >
-            <IoMdRemoveCircle className="text-3xl text-red-600" />
-          </button>
-          <button onClick={()=>{navigate(`/invernadero/${data.id_invernadero}/detalle`)}}>
-            <IoEyeSharp className='text-3xl text-blue-400' />
-          </button>
-        </div>
-        </td>
-      </tr>
-      
-    )
-  })
-
 
   return (
   <>
@@ -128,46 +46,6 @@ const InvernaderoInicio = () => {
             <Link to={'/invernadero/crear'} element={<InvernaderoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
         </div>
     </main>
-    <div className="flex justify-center">
-      <div className="overflow-x-auto w-[90%]  sm:-mx-6 lg:-mx-8">
-          <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
-                  <table className="min-w-full text-center">
-                      <thead className="border-b bg-gray-800">
-                          <tr>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                ID
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Nombre
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Ubicación
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Creado
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Estado
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Tamaño
-                              </th>
-                              <th scope="col" className="text-sm font-medium text-white px-6 py-4">
-                                Acciones
-                              </th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                        {invernaderos}
-                      </tbody>
-                </table>
-                {loader ? loaderView() : "" }
-                {showError ? showErrorMessage():""}
-            </div>
-        </div>
-      </div>
-    </div>
 
     {showModal ? (
       <>

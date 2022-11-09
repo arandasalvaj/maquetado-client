@@ -10,7 +10,7 @@ const CultivoInicio = () => {
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Camas</h1>
                 <p className='text-3sm font-semibold text-gray-500'>Crea Camas y editalas aqui</p>
             </div>
-            <Link to={'/invernadero/crear'} element={<CamaCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
+            <Link to={'/invernadero/crear'} element={<CamaCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear cama</Link>
         </div>
     </main>
     <div class="flex justify-center">

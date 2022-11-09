@@ -1,6 +1,5 @@
 import React from 'react'
-const scores =  [6,5,5,5,3,4,6,4,5]
-const labels = [100,200,300,400,500,600,700] 
+
 
 import {Chart as ChartJS,CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend,Filler} from 'chart.js'
 
@@ -8,15 +7,20 @@ import {Line} from 'react-chartjs-2'
 
 ChartJS.register(CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend,Filler)
 
-const GraficosIndicadores = () => {
+const GraficosIndicadores = ({titulo}) => {
+
+  const scores =  [6,5,5,5,3,4,6,4,5]
+  const labels = [100,200,300,400,500,600,700] 
+
   const options = {
     responsive:true,
     fill:true
   }
   
   const data = {
+
     datasets:[{
-      label:"CO2",
+      label:titulo,
       data:scores,
       tension: 0.3,
       borderColor: "rgb(75,192,192)",
@@ -29,14 +33,19 @@ const GraficosIndicadores = () => {
   }
   
   return (
-    <div className="grid grid-cols-2 gap-8 px-8 py-4 grid-flow-row-dense">
-        <div className="bg-white rounded-lg shadow-sm min-h-[350px] col-span-2 sm:col-span-1 row-span-8  flex items-start justify-start py-2  ">
-          <Line data={data} options={options} />
-        </div>
-        <div className="bg-white rounded-lg shadow-sm min-h-[350px] col-span-2 sm:col-span-1 row-span-8">
+  <>
 
-        </div>
+    <div className='shadow-lg m-2'>
+      <div className=' bg-gray-100 rounded-t-lg p-4 border border-gray-300 text-center'>
+        <h1 className='text-xl font-semibold'>{titulo}</h1>
+      </div>
+      <div className="grid grid-cols-1 rounded-b-lg">
+          <div className="bg-white md:min-h-[100px] rounded-b-lg p-4 md:p-8">
+            <Line data={data} options={options} />
+          </div>
+      </div>
     </div>
+  </>
   )
 }
 

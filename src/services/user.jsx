@@ -1,5 +1,5 @@
 import axios from "axios"
-
+const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
 const API_URL = 'https://tuinvernadero.xyz/' //URL DE PRODUCCION, SOLO CUANDO ESTA EN PRODUCCION.
 //const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
 

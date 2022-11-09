@@ -17,7 +17,7 @@ const Cultivos = () => {
       <>
       <div className="min-h-screen">
         <Sidebar />
-        <main className="lg:pl-[384px] pt-[64px] h-full bg-gray-100 z-30">
+        <main className="pl-[20px] pr-[20px] lg:pl-[340px] pt-[64px] h-full bg-[#F8FAFD] z-30">
           <Outlet/>
         </main>
       </div>
