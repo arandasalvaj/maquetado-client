@@ -55,8 +55,8 @@ const HeaderNav = () => {
         <>
           <div className="relative flex items-center justify-between ">
             <div className="flex items-center">
-                <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-                  MH Global
+                <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase ">
+                MhGlobal
                 </span>
             </div>
               <ul className="flex items-center hidden space-x-8 lg:flex">
