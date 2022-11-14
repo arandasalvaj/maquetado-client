@@ -6,14 +6,14 @@ import { useState } from 'react';
 
 const IndicadoresOptimos = ({idCultivo}) => {
     const [cultivo,setCultivo] = useState([])
-    
+    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
     useEffect(()=>{
         obttenerCultivo()
     },[])
 
 const obttenerCultivo= () =>{
     setCultivo([])
-    getCultivoFind(idCultivo)
+    getCultivoFind(idCultivo,token)
     .then((response)=>{
         setCultivo(response.data)
       })
@@ -28,8 +28,8 @@ const obttenerCultivo= () =>{
             <h1 className='text-4xl font-bold mb-6'>{cultivo.nombre_cultivo}</h1>
             <div className='flex flex-col gap-6'>
                 <h1 className='text-2xl font-semibold'>Invernadero: {cultivo.nombre_invernadero}</h1>
-                <h1 className='text-2xl font-semibold'>Brotes totales: {cultivo.cantidad_brotes}</h1>
-                <h1 className='text-2xl font-semibold'>Cantidad de camas: {cultivo.cantidad_camas}</h1>
+                <h1 className='text-2xl font-semibold'>Brotes totales: {cultivo.cantidad_brotes ? cultivo.cantidad_brotes : 0}</h1>
+                <h1 className='text-2xl font-semibold'>Cantidad de camas: {cultivo.cantidad_camas ? cultivo.cantidad_camas : 0}</h1>
                 <h1 className='text-2xl font-semibold'>Fecha: {cultivo.created_at}</h1>
             </div>
         </div>

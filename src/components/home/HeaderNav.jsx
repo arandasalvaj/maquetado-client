@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext'
 import Inicio from '../../pages/dashboard/Inicio'
+
 const HeaderNav = () => {
   const {isAuth,auth,setAuth} = useContext(UserContext)
   
@@ -24,9 +25,9 @@ const HeaderNav = () => {
         <>
           <div className="relative flex items-center justify-between ">
             <div className="flex items-center">
-                <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-                  MH Global
-                </span>
+              <a href="/"aria-label="Go home" title="Company" className="inline-flex items-center">
+                <img className="w-[160px] h-[85px]  object-contain " src='https://i.postimg.cc/pTVKL5pW/LOGOMHGLOBAL.png'></img>
+              </a>
             </div>
               <ul className="flex items-center hidden space-x-8 lg:flex">
                   <li>
@@ -55,9 +56,9 @@ const HeaderNav = () => {
         <>
           <div className="relative flex items-center justify-between ">
             <div className="flex items-center">
-                <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
-                  MH Global
-                </span>
+            <a href="/"aria-label="Go home" title="Company" className="inline-flex items-center">
+              <img className="w-[160px] h-[85px]  object-contain " src='https://i.postimg.cc/pTVKL5pW/LOGOMHGLOBAL.png'></img>
+            </a>
             </div>
               <ul className="flex items-center hidden space-x-8 lg:flex">
                   <li>

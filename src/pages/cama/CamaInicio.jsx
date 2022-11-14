@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 import CamaCrear from "./CamaCrear"
 
 const CultivoInicio = () => {
+    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
   return (
   <>
     <main className='flex-1'>

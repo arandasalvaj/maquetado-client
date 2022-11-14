@@ -9,7 +9,7 @@ import { IoMdRemoveCircle } from "react-icons/io";
 import CultivoDetalle from '../cultivo/CultivoDetalle';
 import InvernaderoCrear from './InvernaderoCrear';
 
-const InvernaderoDashboard = () => {
+const InvernaderoDetalle = () => {
     const {invernaderoId} = useParams()
     const loggedUser = window.localStorage.getItem('loggedUser')
     const {id_usuario} = JSON.parse(loggedUser)
@@ -19,7 +19,7 @@ const InvernaderoDashboard = () => {
     const [cultivoTodos , setCultivoTodos]= useState([])
     const [loader,setLoader] = useState(true)
     const navigate = useNavigate()
-
+    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
     useEffect(()=>{
         obtenerInvernadero()
 
@@ -27,30 +27,48 @@ const InvernaderoDashboard = () => {
       },[])
 
     const obtenerInvernadero = () =>{
-        getInvernadero(id_usuario,invernaderoId)
+        getInvernadero(id_usuario,invernaderoId,token)
         .then((response)=>{
             setInvernadero(response.data)
+        })
+        .catch((error)=>{
+          if(error.response.status === 404 ){
+            setShowError(true)
+            setLoader(false)
+            setMessageError(error.response.data.message)
+            throw error.response.data.message
+          }
+          if(error.response.status === 409 ){
+            setShowError(true)
+            setLoader(false)
+            setMessageError(error.response.data.error)
+            throw error.response.data.message
+          }
         })
     }
     const obtenerCultivo = async () =>{
       try{
-          await getAllCultivos(invernaderoId)
+          await getAllCultivos(invernaderoId,token)
           .then((response)=>{
             setLoader(false)
             setShowError(false)
             setCultivoTodos(response.data)
           })
           .catch((error)=>{
-            console.log(error)
             if(error.response.status === 404 ){
               setShowError(true)
               setLoader(false)
               setMessageError(error.response.data.message)
-              //throw error.response.data.message
+              throw error.response.data.message
+            }
+            if(error.response.status === 409 ){
+              setShowError(true)
+              setLoader(false)
+              setMessageError(error.response.data.error)
+              throw error.response.data.message
             }
           })
         }catch(error) {
-          console.log(error)
           throw error
         }
     }
@@ -59,6 +77,8 @@ const InvernaderoDashboard = () => {
       return(
       <>
           <div className="text-lg text-gray-900 font-bold px-6 py-4 whitespace-nowrap text-center">
+          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+          </svg>
             Cargando...
           </div>
       </>
@@ -67,7 +87,7 @@ const InvernaderoDashboard = () => {
     const showErrorMessage = () =>{
       return(
       <>
-        <div className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold text-center">
+        <div className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold text-center border bg-[#FFFFFF] pb-6">
           {messageError}
         </div>
       </>
@@ -75,36 +95,6 @@ const InvernaderoDashboard = () => {
     }
     //onClick={()=>{navigate(`cultivo/${data.id_cultivo}`)}}
 
-    const cultivos = cultivoTodos.map((data,index)=>{
-      const fecha = data.created_at.split('T')
-      return (
-        <tr className="bg-white border-b" key={index}>
-          <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
-            {index+1}
-          </td>
-          <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-            {data.id_invernadero}
-          </td>
-          <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-            {data.nombre_cultivo}
-          </td>
-          <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-            {fecha[0]}
-          </td>
-          <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-            <div className="flex gap-4 justify-center items-center">
-            <button className="text-white"type="button">
-              <IoMdRemoveCircle className="text-3xl text-red-600" />
-            </button>
-            <Link to={`../../cultivo/${data.id_cultivo}`} element={<CultivoDetalle/>}>
-              <IoEyeSharp className='text-3xl text-blue-400' />
-            </Link>
-          </div>
-          </td>
-        </tr>
-        
-      )
-    })
   return (
     <>
       <main className='  flex flex-col justify-between mx-[70px]'>
@@ -126,7 +116,7 @@ const InvernaderoDashboard = () => {
             <h1 className='text-4xl font-semibold leading-relaxed text-gray-800 text-center '> Listado de Cultivos</h1>
         </div>
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center pb-52">
         <div className="overflow-x-auto w-[70%]  sm:-mx-6 lg:-mx-8 ">
             <div className="py-4 inline-block min-w-full sm:px-6 lg:px-8">
                 <div className="overflow-hidden">
@@ -151,7 +141,38 @@ const InvernaderoDashboard = () => {
                             </tr>
                         </thead>
                         <tbody>
-                          {cultivos}
+                          {
+                            cultivoTodos.map((data,index)=>{
+                                  
+                              return (
+                                <tr className="bg-white border-b" key={index}>
+                                  <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
+                                    {index+1}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                    {data.id_invernadero}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                    {data.nombre_cultivo}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                    {data.created_at}
+                                  </td>
+                                  <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
+                                    <div className="flex gap-4 justify-center items-center">
+                                    <button className="text-white"type="button">
+                                      <IoMdRemoveCircle className="text-3xl text-red-600" />
+                                    </button>
+                                    <Link to={`../../cultivo/${data.id_cultivo}`} element={<CultivoDetalle/>}>
+                                      <IoEyeSharp className='text-3xl text-blue-400' />
+                                    </Link>
+                                  </div>
+                                  </td>
+                                </tr>
+                                
+                              )
+                            })
+                          }
                         </tbody>
                   </table>
                   {loader ? loaderView() : "" }
@@ -164,4 +185,4 @@ const InvernaderoDashboard = () => {
   )
 }
 
-export default InvernaderoDashboard
+export default InvernaderoDetalle

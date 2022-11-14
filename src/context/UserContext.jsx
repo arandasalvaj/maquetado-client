@@ -9,9 +9,6 @@ export const UserProvider = ({children}) => {
     const [user,setUser]=useState(null)
     const [counter,setCounter]= useState(0)
     
-//const [url,setUrl]=useState('http://localhost:8000/')
-//const [url,setUrl]=useState('https://testkinglioncalama.ga/')
-
     const isAuth= ()=>{
         const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
         const loggedUser = window.localStorage.getItem('loggedUser')

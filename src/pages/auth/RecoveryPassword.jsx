@@ -40,10 +40,10 @@ const RecoveryPassword = () => {
 
     const messageError = (msj) =>{
         setMensaje(msj) 
-        setValue("email", "")
-        setFocus ('email')
+        setValue("email_usuario", "")
+        setFocus ('email_usuario')
     }
-    useEffect(()=>{setFocus("email")},[])
+    useEffect(()=>{setFocus("email_usuario")},[])
   return (
     <div className='bg-gray-200 grid grid-cols-1 h-screen w-full justify-center items-center'>
         <form onSubmit={handleSubmit(onSubmit)} className='max-w-[400px] mx-auto rounded-lg bg-white p-8 px-8'>
@@ -52,7 +52,7 @@ const RecoveryPassword = () => {
             <h2 className='text-sm text-center pt-2'>(Se enviará un link a tu correo para restablecer tu contraseña)</h2>
             <div className='flex flex-col text-[#505568] '>
                 <label className='pb-2'>Correo</label>
-                <input  {...register("email", {required:true})} onClick={()=> setMensaje('')} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Correo"/>
+                <input  {...register("email_usuario", {required:true})} onClick={()=> setMensaje('')} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Correo"/>
             </div>
             {mensaje? <p className='text-red-500 text-sm italic pt-2 '>{mensaje}</p>:""}
             <button  type='submit' className='w-full my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg'>Enviar</button>

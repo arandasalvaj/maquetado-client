@@ -8,7 +8,7 @@ const ChangePassword = () => {
     const { register, handleSubmit, formState: { errors } ,setValue,watch,setFocus } = useForm();
     const [mensaje,setMensaje] = useState('')
     const navigate = useNavigate()
-    const password = watch("password")
+    const password = watch("password_usuario")
     const newPassword = watch("confirmPassword")
     const {token} = useParams()
     const onSubmit = (data) => {
@@ -43,18 +43,18 @@ const ChangePassword = () => {
 
     const messageError = (msj) =>{
         setMensaje(msj) 
-        setValue("password", "")
+        setValue("password_usuario", "")
         setValue("confirmPassword", "")
-        setFocus ('password')
+        setFocus ('password_usuario')
     }
-    useEffect(()=>{setFocus("password")},[])
+    useEffect(()=>{setFocus("password_usuario")},[])
   return (
         <div className='bg-gray-200 grid grid-cols-1 h-screen w-full justify-center items-center'>
             <form onSubmit={handleSubmit(onSubmit)} className='max-w-[400px] w-full mx-auto rounded-lg bg-white p-8 px-8'>
                 <h2 className='text-3xl text-[#505568] font-bold text-center'>Restablece tu contraseña</h2>
                 <div className='flex flex-col text-[#505568] py-6'>
                     <label className='pb-2'>Contraseña</label>
-                    <input  {...register("password", {required:true})} onClick={()=>setMensaje('')} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="password" placeholder="Contraseña"/>
+                    <input  {...register("password_usuario", {required:true})} onClick={()=>setMensaje('')} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="password" placeholder="Contraseña"/>
                 </div>
                 <div className='flex flex-col text-[#505568]'>
                     <label className='pb-2'>Confirmar Contraseña</label>

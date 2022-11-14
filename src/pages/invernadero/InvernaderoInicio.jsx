@@ -33,6 +33,20 @@ const InvernaderoInicio = () => {
     .then((response)=>{
       setInvernaderoSolo(response.data)
     })
+    .catch((error)=>{
+      if(error.response.status === 404 ){
+        setShowError(true)
+        setLoader(false)
+        setMessageError(error.response.data.message)
+        throw error.response.data.message
+      }
+      if(error.response.status === 409 ){
+        setShowError(true)
+        setLoader(false)
+        setMessageError(error.response.data.error)
+        throw error.response.data.message
+      }
+    })
   }
 
   return (

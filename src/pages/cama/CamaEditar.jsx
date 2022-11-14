@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { IoChevronBack } from 'react-icons/io5'
+
 import { getAllCultivosUsuario } from '../../services/cultivo';
 import { addCama } from '../../services/cama';
 
-const CamaCrear = () => {
+const CamaEditar = () => {
   const { register, handleSubmit, formState: { errors }} = useForm();
   const navigate = useNavigate()
   const loggedUser = window.localStorage.getItem('loggedUser')
@@ -109,5 +110,4 @@ const CamaCrear = () => {
   )
 }
 
-
-export default CamaCrear
+export default CamaEditar

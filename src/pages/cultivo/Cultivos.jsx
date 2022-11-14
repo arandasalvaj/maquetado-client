@@ -7,7 +7,6 @@ import { UserContext } from '../../context/UserContext'
 const Cultivos = () => {
   const {auth,isAuth} =useContext(UserContext)
   const navigate = useNavigate()
-
   useEffect(()=>{
     if(!isAuth()){navigate('/login')}
   },[])  

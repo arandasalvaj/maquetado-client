@@ -1,29 +1,53 @@
 import { HashRouter, Route, Routes } from "react-router-dom"
-import Dashboard from "./pages/dashboard/Dashboard"
-import Inicio from "./pages/dashboard/Inicio"
-import HomePage from "./pages/HomePage"
-import Invernadero from "./pages/invernadero/Invernadero"
-import PublicRoute from './routes/PublicRoute'
+import { UserProvider } from "./context/UserContext"
+
+// AUTH
+
 import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
-import Cultivos from "./pages/cultivo/Cultivos"
-import Perfil from "./pages/perfil/Perfil"
-import NotFoundPage from "./pages/NotFoundPage"
-import { UserProvider } from "./context/UserContext"
-import ListadoCultvos from "./pages/cultivo/ListadoCultvos"
-import CultivoCrear from "./pages/cultivo/CultivoCrear"
-import InvernaderoDashboard from './pages/invernadero/InvernaderoDashboard'
-import Cama from "./pages/cama/Cama"
-import InvernaderoCrear from "./pages/invernadero/InvernaderoCrear"
-import InvernaderoEditar from "./pages/invernadero/InvernaderoEditar"
-import InvernaderoListado from "./pages/invernadero/InvernaderoListado"
-import CamaInicio from "./pages/cama/CamaInicio"
 import VerificarEmail from "./pages/auth/VerificarEmail"
 import RecoveryPassword from "./pages/auth/RecoveryPassword"
 import ChangePassword from "./pages/auth/ChangePassword"
-import CamaDetalle from "./pages/cama/CamaDetalle"
-import Perfilindex from "./pages/perfil/Perfilindex"
+
+// DASHBOARD
+
+import Dashboard from "./pages/dashboard/Dashboard"
+import Inicio from "./pages/dashboard/Inicio"
+
+// INVERNADERO
+
+import InvernaderoDetalle from './pages/invernadero/InvernaderoDetalle'
+import Invernadero from "./pages/invernadero/Invernadero"
+import InvernaderoCrear from "./pages/invernadero/InvernaderoCrear"
+import InvernaderoEditar from "./pages/invernadero/InvernaderoEditar"
+import InvernaderoListado from "./pages/invernadero/InvernaderoListado"
+
+// CULTIVO
+
+import Cultivos from "./pages/cultivo/Cultivos"
+import CultivoEditar from "./pages/cultivo/CultivoEditar"
+import CultivoListado from "./pages/cultivo/CultivoListado"
+import CultivoCrear from "./pages/cultivo/CultivoCrear"
 import CultivoDetalle from "./pages/cultivo/CultivoDetalle"
+
+// CAMA
+
+import Cama from "./pages/cama/Cama"
+import CamaEditar from "./pages/cama/CamaEditar"
+import CamaDetalle from "./pages/cama/CamaDetalle"
+import CamaListado from "./pages/cama/CamaListado"
+import CamaCrear from "./pages/cama/CamaCrear"
+
+// PULBIC 
+
+import HomePage from "./pages/HomePage"
+import PublicRoute from './routes/PublicRoute'
+import NotFoundPage from "./pages/NotFoundPage"
+
+//PERFIL
+
+import Perfil from "./pages/perfil/Perfil"
+import Perfilindex from "./pages/perfil/Perfilindex"
 
 function App() {
   return (
@@ -49,24 +73,23 @@ function App() {
               <Route index element={<InvernaderoListado />} />
               <Route path="crear" element={<InvernaderoCrear />} />
               <Route path="editar" element={<InvernaderoEditar />} />
-              <Route path=":invernaderoId" element={<InvernaderoDashboard />} />
+              <Route path=":invernaderoId" element={<InvernaderoDetalle />} />
             </Route>  
 
             <Route path="cultivo" element={<Cultivos />}>
-              <Route index element={<ListadoCultvos />} />
+              <Route index element={<CultivoListado />} />
               <Route path="crear" element={<CultivoCrear />} />
-              <Route path="editar" element={<Inicio />} />
+              <Route path="editar" element={<CultivoEditar />} />
               <Route path=":idCultivo" element={<CultivoDetalle />} />
             </Route>
            
             <Route path="cama" element={<Cama />}>
-              <Route index element={<CamaInicio />} />
-              <Route path="crear" element={<CultivoCrear />} />
-              <Route path="editar" element={<Inicio />} />
-              <Route path="listado" element={<ListadoCultvos />} />
-              <Route path="detalle" element={<CamaDetalle />} />
-              <Route path="camas" element={<CamaDetalle />} />
+              <Route index element={<CamaListado />} />
+              <Route path="crear" element={<CamaCrear />} />
+              <Route path="editar" element={<CamaEditar />} />
+              <Route path=":idCama" element={<CamaDetalle />} />
             </Route>
+
             <Route path="perfil" element={<Perfilindex />}>
               <Route index element={<Perfil />} />
             </Route>

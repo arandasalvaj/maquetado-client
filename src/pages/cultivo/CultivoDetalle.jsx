@@ -12,33 +12,33 @@ const CultivoDetalle = () => {
     const [showError , setShowError]= useState(false)
     const [loader,setLoader] = useState(true)
     const [camaTodas,setCamaTodas] = useState([])
-
+    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
     useEffect(()=>{
         obtenerCamas()
     },[])
 
-    const obtenerCamas = async () =>{
-        try{
-            await getAllCamas(idCultivo)
-            .then((response)=>{
-              setLoader(false)
-              setShowError(false)
-              setCamaTodas(response.data)
-            })
-            .catch((error)=>{
-              console.log(error)
-              if(error.response.status === 404 ){
-                setShowError(true)
-                setLoader(false)
-                setMessageError(error.response.data.message)
-                //throw error.response.data.message
-              }
-            })
-          }catch(error) {
-            console.log(error)
-            throw error
-          }
-      }
+    const obtenerCamas = () =>{
+      getAllCamas(idCultivo,token)
+      .then((response)=>{
+        setLoader(false)
+        setShowError(false)
+        setCamaTodas(response.data)
+      })
+      .catch((error)=>{
+        if(error.response.status === 404 ){
+          setShowError(true)
+          setLoader(false)
+          setMessageError(error.response.data.message)
+          throw error.response.data.message
+        }
+        if(error.response.status === 409 ){
+          setShowError(true)
+          setLoader(false)
+          setMessageError(error.response.data.error)
+          throw error.response.data.message
+        }
+      })
+    }
 
 
 
@@ -63,7 +63,6 @@ const CultivoDetalle = () => {
       //onClick={()=>{navigate(`cultivo/${data.id_cultivo}`)}}
   
       const camas = camaTodas.map((data,index)=>{
-        const fecha = data.created_at.split('T')
         return (
           <tr className="bg-white border-b" key={index}>
             <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
@@ -79,7 +78,7 @@ const CultivoDetalle = () => {
                 {data.brotes_cama}
             </td>
             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                {fecha[0]}
+                {data.created_at}
             </td>
             <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
               <div className="flex gap-4 justify-center items-center">

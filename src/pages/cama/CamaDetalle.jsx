@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import IndicadoresCamas from "../../components/camas/IndicadoresCamas";
 const CamaDetalle = () => {
+  const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
   return (
     <>
       <IndicadoresCamas/>
