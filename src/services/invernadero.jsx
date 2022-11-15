@@ -4,7 +4,9 @@ const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
 
 export const addInvernadero=async(invernadero,id_usuario,token)=> await axios.post(`${API_URL}v1/usuarios/${id_usuario}/invernaderos`,invernadero,{headers: {'Authorization': token}})
 
-export const getInvernadero=async(id_usuario,idInvernadero,token)=> await axios.get(`${API_URL}v1/usuarios/${id_usuario}/invernaderos/${idInvernadero}`,{headers: {'Authorization': token}})
+export const getInvernadero=async(idInvernadero,token)=> await axios.get(`${API_URL}v1/usuarios/invernaderos/${idInvernadero}`,{headers: {'Authorization': token}})
+
+export const updateInvernadero=async(invernadero,idInvernadero,token)=> await axios.patch(`${API_URL}v1/usuarios/invernaderos/${idInvernadero}`,invernadero,{headers: {'Authorization': token}})
 
 export const getAllInvernaderosUsuario=async(id_usuario,token,size)=> {
     return await axios.get(`${API_URL}v1/usuarios/${id_usuario}/invernaderos?size=${size}`,{headers: {'Authorization': token}})

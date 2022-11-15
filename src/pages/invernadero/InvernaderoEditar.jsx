@@ -1,62 +1,47 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addInvernadero } from '../../services/invernadero';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import InvernaderoListado from './InvernaderoListado';
-import { IoChevronBack } from 'react-icons/io5'
+import { getInvernadero, updateInvernadero } from '../../services/invernadero';
+import { UserContext } from '../../context/UserContext'
+import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 
 const InvernaderoEditar = () => {
+  const {idInvernadero}= useParams()
+  const {token} = useContext(UserContext)
   const { register, handleSubmit, formState: { errors } ,setValue,setFocus,watch } = useForm();
   const navigate = useNavigate()
-  const loggedUser = window.localStorage.getItem('loggedUser')
-  const {id_usuario} = JSON.parse(loggedUser)
-  const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
 
+  useEffect(()=>{
+    obtenerInvernadero()
 
-  const [value, setValues] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
-  const [coordenadas,setCoordenadas] = useState({lat:-22.441183,long:-68.90638})
+  },[])
 
-  // const [viewState, setViewState] = useState({
-  //     longitude: coordenadas.long,
-  //     latitude: coordenadas.lat,
-  //     zoom: 15
-  // })
-
-  const handleChange = async (event) => {
-    setValues(event.target.value);
-
-    // try {
-    //   const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=pk.eyJ1IjoiYXJhbmRhc2FsdmFqIiwiYSI6ImNsYWVkc2FoYjB0ZzEzcnBlNGZ3ajlucDEifQ.yTtMDd1mUFZDUtiV8txuRw&autocomplete=true`;
-    //   const response = await fetch(endpoint);
-    //   const results = await response.json();
-    //   setSuggestions(results?.features);
-    //   setCoordenadas({lat:results.features[0].center[1],long:results.features[0].center[0]})
-    //   setViewState({longitude: results.features[0].center[0], latitude: results.features[0].center[1], zoom: 15})
-    // } catch (error) {
-    //   console.log("Error en peticion Https, ", error);
-    // }
-
-
-    // <div className='flex flex-col z-20 justify-center items-center pt-4'>
-    //   <Map  mapboxAccessToken='pk.eyJ1IjoiYXJhbmRhc2FsdmFqIiwiYSI6ImNsYWVkc2FoYjB0ZzEzcnBlNGZ3ajlucDEifQ.yTtMDd1mUFZDUtiV8txuRw' {...viewState} style={{width: 400, height: 400}} onMove={evt => setViewState(evt.viewState)} mapStyle="mapbox://styles/mapbox/streets-v9">
-    //       <Marker longitude={coordenadas.long} latitude={coordenadas.lat}> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg></Marker>
-    //   </Map>
-    // </div>
-
-
+  const obtenerInvernadero = () =>{
+    getInvernadero(idInvernadero,token)
+    .then((response) =>{
+      setValue("nombre_invernadero",response.data.nombre_invernadero)
+      setValue("tamano_invernadero",response.data.tamano_invernadero)
+      setValue("ubicacion_invernadero",response.data.ubicacion_invernadero)
+      setValue("inicio_temporada",response.data.inicio_temporada.split("T")[0])
+      setValue("termino_temporada",response.data.termino_temporada.split("T")[0])
+    })
+    .catch((error)=>{
+      console.log(error)
+      if(error.response.status === 404 ){
+        throw error.response.data.message
+      }
+      if(error.response.status === 409 ){
+        throw error.response.data.message
+      }
+    })
   }
+
     const onSubmit=(data)=>{
-      delete data.ubicacion_invernadero
-      const nuevaDireccion = watch("ubicacion_invernadero")
-      
-      data.ubicacion_invernadero = nuevaDireccion
-      addInvernadero(data,id_usuario,token)
+      updateInvernadero(data,idInvernadero,token)
       .then((response) =>{
-        toast.success('Invernadero creado', {
+        toast.success('INVERNADERO ACTUALIZADO', {
           position: toast.POSITION.TOP_CENTER
         })
         const interval = setInterval(() => {
@@ -65,44 +50,45 @@ const InvernaderoEditar = () => {
         }, 4000)
       })
       .catch((error)=>{
-        setShowError(true)
-        setLoader(false)
         if(error.response.status === 404 ){
-          setMessageError(error.response.data.message)
           throw error.response.data.message
         }
         if(error.response.status === 409 ){
-          setMessageError(error.response.data.error)
           throw error.response.data.message
         }
       })
     }
 
-    const vaciarInput = ()=>{
-      setValue("nombre_invernadero",'')
-      setValue('tamano_invernadero','')
-      setValue('ubicacion_invernadero','')
-      setFocus('nombre_invernadero')
-    }
 
   return (
     <>
-      <div className=' grid grid-cols-12'> 
-        <div className='col-span-2 flex pl-16'>
-          <Link to={`../`} element={<InvernaderoListado />} className=' bg-white border-2 border-gray-300 rounded-full py-2 px-2 plex justify-center items-center' >
-            <IoChevronBack className='w-10 h-10 text-gray-500 '/>
-          </Link>
+      <div className=' grid grid-cols-12 '> 
+        <div className='col-span-2 flex px-6 '>
+          <nav>
+            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                <li className="inline-flex items-center">
+                    <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                        <AiTwotoneHome className="mr-1 w-5 h-5"/>
+                        Invernadero
+                    </Link>
+                </li>
+                <li>
+                <div className="flex items-center">
+                    <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
+                    <span className="text-lg font-medium text-gray-600 md:ml-2">Editar</span>
+                </div>
+                </li>
+            </ol>
+          </nav>
         </div>
       </div>
 
     <div className='flex flex-col justify-center items-center'>
-
-      <h1 className='text-5xl font-semibold text-center py-10'>Registrar Invernadero</h1>
-      
+      <h1 className='text-5xl font-semibold text-center py-10'>Editar Invernadero</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='rounded-xl bg-white border border-gray-300 mb-5'>
             <div className='w-full bg-gray-100 rounded-t-lg p-4 border border-gray-300'>
-              <h1 className='text-xl font-semibold'>Información general</h1>
+              <h1 className='text-xl font-semibold text-center'>Información general</h1>
             </div>
               <div className='grid grid-cols-1 md:grid-cols-4 gap-4 p-4 grid-flow-row'>
                 <div className='flex flex-col text-[#505568] col-span-2'>
@@ -112,25 +98,14 @@ const InvernaderoEditar = () => {
                 </div>
                 <div className='flex flex-col text-[#505568] col-span-2'>
                     <label className='py-2 text-[#406343] font-bold'>Tamaño (m²)</label>
-                    <input  {...register("tamano_invernadero", {required:true}, )} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ingrese tamaño"/>
+                    <input  {...register("tamano_invernadero", {required:true}, )} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="number" placeholder="Ingrese tamaño"/>
                     {errors.tamano_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El tamaño es requerido</p>}
                 </div>
               </div>
               <div className='flex flex-col text-[#505568] col-span-2 px-4'>
               <label className='py-2 text-[#406343] font-bold'>Dirección</label>
-                  <input {...register("ubicacion_invernadero")} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ingrese dirección" value={value} onChange={handleChange} autoComplete="off"/>
-                  {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La ubicación es requerida</p>}
-                  {suggestions?.length > 0 && (
-                      <div className='bg-white w-[400px] py-2 px-4 z-50'>
-                          {suggestions.map((suggestion, index) => {
-                              return (
-                              <div className=' hover:text-gray-900 hover:bg-gray-100  w-max-[400px] cursor-pointer py-2 shadow-orange-300' key={index} onClick={() => { setValues(suggestion.place_name); setSuggestions([]);}}>
-                                  {suggestion.place_name}
-                              </div>
-                              )
-                          })}
-                      </div>
-                  )}
+                  <input {...register("ubicacion_invernadero")} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ingrese dirección"/>
+                  {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La dirección es requerida</p>}
               </div>
               <div className='flex gap-4'>
                 <div className='flex flex-col text-[#505568] py-2 w-full pb-5 p-4'>
@@ -145,8 +120,8 @@ const InvernaderoEditar = () => {
                 </div>
               </div>
             <div className='flex justify-center gap-16 pl-10'>
-              <button  type='submit' className='w-[250px] my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg' >Ingresar</button>
-              <button  onClick={vaciarInput} className='w-[250px] my-5 py-2 bg-red-500 hover:bg-red-600 shadow-lg text-white font-semibold rounded-lg' >Vaciar</button>
+              <button  type='submit' className='w-[250px] my-5 py-2 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Editar</button>
+              <Link to={`../`} className='w-[250px] my-5 py-2 bg-red-600 shadow-lg text-white font-semibold rounded-lg text-center' >Cancelar</Link>
               <ToastContainer />
             </div>
           </div>

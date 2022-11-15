@@ -72,14 +72,14 @@ function App() {
             <Route path="invernadero" element={<Invernadero/>} >
               <Route index element={<InvernaderoListado />} />
               <Route path="crear" element={<InvernaderoCrear />} />
-              <Route path="editar/idInvernadero" element={<InvernaderoEditar />} />
-              <Route path="detalle/:invernaderoId" element={<InvernaderoDetalle />} />
+              <Route path="editar/:idInvernadero" element={<InvernaderoEditar />} />
+              <Route path="detalle/:idInvernadero" element={<InvernaderoDetalle />} />
             </Route>  
 
             <Route path="cultivo" element={<Cultivos />}>
               <Route index element={<CultivoListado />} />
               <Route path="crear" element={<CultivoCrear />} />
-              <Route path="editar/idCultivo" element={<CultivoEditar />} />
+              <Route path="editar/:idCultivo" element={<CultivoEditar />} />
               <Route path="detalle/:idCultivo" element={<CultivoDetalle />} />
             </Route>
            

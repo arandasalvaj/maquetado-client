@@ -6,7 +6,7 @@ export const addCultivo=async(cultivo,idInvernadero,token)=> await axios.post(`$
 
 export const deleteCultivo=async(idCultivo,token)=> await axios.delete(`${API_URL}v1/invernaderos/cultivos/${idCultivo}`,{headers: {'Authorization': token}}) 
 
-export const updateCultivo=async(cultivo,idInvernadero,idCultivo,token)=> await axios.patch(`${API_URL}v1/invernaderos/${idInvernadero}/cultivos/${idCultivo}`,cultivo,{headers: {'Authorization': token}})  
+export const updateCultivo=async(cultivo,idCultivo,token)=> await axios.patch(`${API_URL}v1/invernaderos/cultivos/${idCultivo}`,cultivo,{headers: {'Authorization': token}})  
 
 export const getCultivo= async(idCultivo,token)=> await axios.get(`${API_URL}v1/invernaderos/cultivos/${idCultivo}`,{headers: {'Authorization': token}})   
 

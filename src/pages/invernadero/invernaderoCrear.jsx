@@ -4,10 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addInvernadero } from '../../services/invernadero';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import InvernaderoListado from './InvernaderoListado';
 import { IoChevronBack } from 'react-icons/io5'
-
+import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 
 const InvernaderoCrear = () => {
   const { register, handleSubmit, formState: { errors } ,setValue,setFocus,watch } = useForm();
@@ -55,20 +54,27 @@ const InvernaderoCrear = () => {
       })
     }
 
-    const vaciarInput = ()=>{
-      setValue("nombre_invernadero",'')
-      setValue('tamano_invernadero','')
-      setValue('ubicacion_invernadero','')
-      setFocus('nombre_invernadero')
-    }
 
   return (
     <>
-      <div className=' grid grid-cols-12'> 
-        <div className='col-span-2 flex pl-16'>
-          <Link to={`../`} element={<InvernaderoListado />} className=' bg-white border-2 border-gray-300 rounded-full py-2 px-2 plex justify-center items-center' >
-            <IoChevronBack className='w-10 h-10 text-gray-500 '/>
-          </Link>
+      <div className=' grid grid-cols-12 '> 
+        <div className='col-span-2 flex px-6 '>
+          <nav>
+            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                <li className="inline-flex items-center">
+                    <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                        <AiTwotoneHome className="mr-1 w-5 h-5"/>
+                        Invernadero
+                    </Link>
+                </li>
+                <li>
+                <div className="flex items-center">
+                    <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
+                    <span className="text-lg font-medium text-gray-600 md:ml-2">Registrar</span>
+                </div>
+                </li>
+            </ol>
+          </nav>
         </div>
       </div>
 
@@ -79,7 +85,7 @@ const InvernaderoCrear = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='rounded-xl bg-white border border-gray-300 mb-5'>
             <div className='w-full bg-gray-100 rounded-t-lg p-4 border border-gray-300'>
-              <h1 className='text-xl font-semibold'>Información general</h1>
+              <h1 className='text-xl font-semibold text-center'>Información general</h1>
             </div>
               <div className='grid grid-cols-1 md:grid-cols-4 gap-4 p-4 grid-flow-row'>
                 <div className='flex flex-col text-[#505568] col-span-2'>
@@ -122,8 +128,8 @@ const InvernaderoCrear = () => {
                 </div>
               </div>
             <div className='flex justify-center gap-16 pl-10'>
-              <button  type='submit' className='w-[250px] my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg' >Ingresar</button>
-              <button  onClick={vaciarInput} className='w-[250px] my-5 py-2 bg-red-500 hover:bg-red-600 shadow-lg text-white font-semibold rounded-lg' >Vaciar</button>
+              <button  type='submit' className='w-[250px] my-5 py-2 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Registrar</button>
+              <Link to={`../`} className='w-[250px] my-5 py-2 bg-red-600 shadow-lg text-white font-semibold rounded-lg text-center' >Cancelar</Link>
               <ToastContainer />
             </div>
           </div>

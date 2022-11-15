@@ -3,10 +3,9 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IoChevronBack } from 'react-icons/io5'
-
 import { getAllCultivosUsuario } from '../../services/cultivo';
 import { updateCama, getCama } from '../../services/cama';
+import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 
 const CamaEditar = () => {
   const {idCama}= useParams()
@@ -81,7 +80,7 @@ const CamaEditar = () => {
       return (
         <>
           <div className='flex flex-col justify-center items-center '>
-            <h1 className='text-5xl font-semibold text-center pb-20'>Actualizar Cama</h1>
+            <h1 className='text-5xl font-semibold text-center pb-20'>Editar Cama</h1>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className='rounded-xl bg-white border border-gray-300 mb-5'>
                   <div className='w-full bg-gray-100 rounded-t-lg p-4 border border-gray-300'>
@@ -114,10 +113,11 @@ const CamaEditar = () => {
                           {errors.tamano_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El tamaño es requerido</p>}
                       </div>
                     </div>
-                  <div className='flex justify-center gap-16 pl-10'>
-                    <button  type='submit' className='w-full my-5 py-2 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Actualizar</button>
-                    <ToastContainer />
+                  <div className='flex justify-center gap-16 px-10'>
+                    <button  type='submit' className='w-[250px] my-5 py-2 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Editar</button>
+                    <Link to={`../`} className='w-[250px] my-5 py-2 bg-red-600 shadow-lg text-white font-semibold rounded-lg text-center' >Cancelar</Link>
                   </div>
+                    <ToastContainer />
                 </div>
               </form>
           </div>
@@ -129,11 +129,24 @@ const CamaEditar = () => {
 
   return (
     <>
-      <div className=' grid grid-cols-12'> 
-        <div className='col-span-2 flex pl-16'>
-          <Link to={`../`} className=' bg-white border-2 border-gray-300 rounded-full py-2 px-2 plex justify-center items-center' >
-            <IoChevronBack className='w-10 h-10 text-gray-500 '/>
-          </Link>
+      <div className=' grid grid-cols-12 '> 
+        <div className='col-span-2 flex px-6 '>
+          <nav>
+            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                <li className="inline-flex items-center">
+                    <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                        <AiTwotoneHome className="mr-1 w-5 h-5"/>
+                        Cama
+                    </Link>
+                </li>
+                <li>
+                <div className="flex items-center">
+                    <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
+                    <span className="text-lg font-medium text-gray-600 md:ml-2">Editar</span>
+                </div>
+                </li>
+            </ol>
+          </nav>
         </div>
       </div>
       {console.log(showQuit)}
