@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAllInvernaderosUsuario } from '../../services/invernadero'
-import { IoEyeSharp } from "react-icons/io5";
-import { IoMdRemoveCircle } from "react-icons/io";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import ErrorBusqueda from '../../components/messages/ErrorBusqueda';
-import LoaderTableList from '../../components/table/LoaderTableList';
-import MainTableList from '../../components/table/MainTableList';
+import { MdGridView } from "react-icons/md"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import ErrorMessage from '../../components/messages/ErrorMessage'
+import LoaderTableList from '../../components/table/LoaderTableList'
+import MainTableList from '../../components/table/MainTableList'
+import { BiEdit,BiTrash } from 'react-icons/bi'
+import ModalEliminarInvernadero from '../../components/modal/ModalEliminarInvernadero'
+import { UserContext } from '../../context/UserContext'
 
 const InvernaderoListado = () => {
-  const [showModal, setShowModal] = useState(false);
-  const loggedUser = window.localStorage.getItem('loggedUser')
-  const {id_usuario} = JSON.parse(loggedUser)
-  const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
-  const [messageError , setMessageError]= useState([])
-  const [showError , setShowError]= useState(false)
+  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
   const [invernadero,setInvernadero] = useState([])
   const [onlyInvernadero,setOnlyInvernadero] = useState([])
   const [loader,setLoader] = useState(true)
@@ -25,32 +21,37 @@ const InvernaderoListado = () => {
   const [size,setSize]=useState(5)
   const [countItem,setCountItem] = useState(0)
   const [showAlert,setShowAlert]=useState(true)
+  const [idEliminar,setIdEliminar] = useState(0)
+
   useEffect(()=>{
     obtenerInvernaderos()
-  },[size])
+  },[size,counterRender])
 
   const obtenerInvernaderos = () =>{
-     getAllInvernaderosUsuario(id_usuario,token,size)
-    .then((response)=>{
-      setLoader(false)
-      setInvernadero(response.data)
-      setOnlyInvernadero(response.data)
-      setCountItem(response?.data[0].full_count)
-    })
-    .catch((error)=>{
-      setShowError(true)
-      setLoader(false)
-      switch (error.response.status) {
-        case 404:
-            setMessageError(error.response.data.message)
-          break;
-        case 409:
-            setMessageError(error.response.data.message)
-           break;
-        default:
-          break;
-      }
-    })
+    try{
+      setCounterRender(0)
+      getAllInvernaderosUsuario(id_usuario,token,size)
+      .then((response)=>{
+        setLoader(false)
+        setInvernadero(response.data)
+        setOnlyInvernadero(response.data)
+        setCountItem(response?.data[0].full_count)
+      })
+      .catch((error)=>{
+        setShowError(true)
+        setLoader(false)
+        if(error.response.status === 404 ){
+          setMessageError(error.response.data.message)
+          throw error.response.data.message
+        }
+        if(error.response.status === 409 ){
+          setMessageError(error.response.data.error)
+          throw error.response.data.message
+        }
+      })
+    }catch(error) {
+      throw error
+    }
   }
   const handleSelectPage = (e)=>{
     setSize(e.target.value)
@@ -85,6 +86,10 @@ const alert = ()=> {
   }
 
 
+  const eliminarCultivo = (id_invernadero) =>{
+    setIdEliminar(id_invernadero)
+    setShowModal(true)
+  }
   return (
     <>
     {showAlert?alert():null}
@@ -149,58 +154,24 @@ const alert = ()=> {
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   {data.tamano_invernadero} m²
                                 </td>
-                                
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   <div className="flex gap-4 justify-center items-center">
-                                    <button onClick={()=>{setShowModal(true)}} className="text-white"type="button">
-                                      <IoMdRemoveCircle className="text-3xl text-red-600" />
+                                    <button onClick={()=>eliminarCultivo(data.id_invernadero)} className="text-white"type="button">
+                                      <div className='bg-red-200 rounded-full px-2 py-2'>
+                                        <BiTrash className="text-xl text-red-600" />
+                                      </div>
                                     </button>
-                                    <button onClick={()=>{navigate(`${data.id_invernadero}`)}}>
-                                      <IoEyeSharp className='text-3xl text-blue-400' />
+                                    <button onClick={()=>{navigate(`editar/${data.id_invernadero}`)}} className="text-white"type="button">
+                                      <div className='bg-green-200 rounded-full px-2 py-2'>
+                                        <BiEdit className="text-xl text-green-600" />
+                                      </div>
+                                    </button>
+                                    <button onClick={()=>{navigate(`detalle/${data.id_invernadero}`)}}>
+                                      <div className='bg-blue-200 rounded-full px-2 py-2'>
+                                        <MdGridView className='text-xl text-blue-600' />
+                                      </div>
                                     </button>
                                   </div>
-                                  {/* INICIO MODAL */}
-                                  {showModal ? 
-                                  <>
-                                  <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                                    <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                                      <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                                          <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                                              <h3 className="text-3xl font-semibold"> Eliminar Invernadero</h3>
-                                              <button onClick={() => setShowModal(false)} className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none">
-                                              <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                                  <h1>x</h1>
-                                              </span>
-                                              </button>
-                                          </div>
-                                          {/*body*/}
-                                          <div className="relative p-6 flex-auto whitespace-normal">
-                                            <p className="my-4 text-black text-xl font-semibold leading-relaxed ">
-                                                  ¿Estas seguro que deseas eliminar el invernadero? 
-                                              </p>
-                                              <p className="my-4 text-slate-500 text-lg leading-relaxed ">
-                                                  Toda la información relacionada a tu invernadero sera eliminada, esto incluye camas y cultivos.
-                                                  <h1 className='text-red-500 font-bold' >Esta acción no se puede deshacer</h1>
-                                              </p>
-                                          </div>
-                                          {/*footer*/}
-                                          <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                              <button type="button" onClick={() => setShowModal(false)} className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150">
-                                                  Cancelar
-                                              </button>
-                                              <button type="button" className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                              onClick={()=>{
-                                                  setShowModal(false)
-                                              }}>
-                                                  Eliminar
-                                              </button>
-                                          </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                                  <div className="opacity-5 fixed inset-0 z-40 bg-gray-200  "></div>
-                                  </>:null}
-                                  {/* TERMINO MODAL */}
                                 </td>
                               </tr>
                             )
@@ -233,6 +204,7 @@ const alert = ()=> {
         <ToastContainer />
       </div>
     </div>
+    {showModal ? <ModalEliminarInvernadero idInvernadero={idEliminar} /> : null}
     </>
   )
 }

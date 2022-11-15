@@ -1,38 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { IoEyeSharp } from "react-icons/io5";
-import { MdGridView } from "react-icons/md";
-import CamaCrear from './CamaCrear';
-import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ErrorBusqueda from '../../components/messages/ErrorBusqueda';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import LoaderTableList from '../../components/table/LoaderTableList';
-import { getAllCamasUsuario } from '../../services/cama';
+import { MdGridView } from "react-icons/md"
+import CamaCrear from './CamaCrear'
+import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import ErrorBusqueda from '../../components/messages/ErrorBusqueda'
+import ErrorMessage from '../../components/messages/ErrorMessage'
+import LoaderTableList from '../../components/table/LoaderTableList'
+import { getAllCamasUsuario } from '../../services/cama'
 import { BiEdit,BiTrash } from 'react-icons/bi'
+import ModalEliminarCama from '../../components/modal/ModalEliminarCama'
+import { UserContext } from '../../context/UserContext'
 
 const CamaListado = () => {
-    const loggedUser = window.localStorage.getItem('loggedUser')
-    const {id_usuario} = JSON.parse(loggedUser)
-    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-
-    const [messageError , setMessageError]= useState([])
-    const [showError , setShowError]= useState(false)
-    const [cama,setCama] = useState([])
-    const [busqueda,setBusqueda] = useState("")
-    const [onlyCama,setOnlyCama] = useState([])
-    const [loader,setLoader] = useState(true)
-    const navigate = useNavigate()
-    const [size,setSize]=useState(5)
-    const [countItem,setCountItem] = useState(0)
+  
+  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const [cama,setCama] = useState([])
+  const [busqueda,setBusqueda] = useState("")
+  const [onlyCama,setOnlyCama] = useState([])
+  const [loader,setLoader] = useState(true)
+  const navigate = useNavigate()
+  const [size,setSize]=useState(5)
+  const [countItem,setCountItem] = useState(0)
+  const [idEliminar,setIdEliminar] = useState(0)
 
     useEffect(()=>{
-        obtenerCultivo()
-    },[size])
-    
-    const obtenerCultivo = async () =>{
+      obtenerCama()
+    },[size,counterRender])
+
+    const obtenerCama = async () =>{
       try{
+        setCounterRender(0)
         getAllCamasUsuario(id_usuario,token,size)
         .then((response)=>{
             setLoader(false)
@@ -41,7 +40,6 @@ const CamaListado = () => {
             setCountItem(response?.data[0].full_count)
         })
         .catch((error)=>{
-          console.log(error)
             setShowError(true)
             setLoader(false)
             if(error.response.status === 404 ){
@@ -57,6 +55,7 @@ const CamaListado = () => {
           throw error
         }
     }
+
     const handleSelectPage = (e)=>{
       setSize(e.target.value)
     }
@@ -72,6 +71,11 @@ const CamaListado = () => {
         }
       }) 
       setOnlyCama(resultadoBusqueda)
+    }
+
+    const eliminarCultivo = (id_cama) =>{
+      setIdEliminar(id_cama)
+      setShowModal(true)
     }
 
     return (
@@ -140,7 +144,6 @@ const CamaListado = () => {
                             </tr>
                         </thead>
                         <tbody>
-                          {console.log(cama)}
                           {
                             onlyCama.map((data,index)=>{
                               return (
@@ -167,23 +170,23 @@ const CamaListado = () => {
                                       {data?.created_at.split("T")[0]}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                    <div className="flex gap-4 justify-center items-center">
-                                      <button className="text-white"type="button">
-                                        <div className='bg-red-200 rounded-full px-2 py-2'>
-                                          <BiTrash className="text-xl text-red-600" />
-                                        </div>
-                                      </button>
-                                      <button className="text-white"type="button">
-                                        <div className='bg-green-200 rounded-full px-2 py-2'>
-                                          <BiEdit className="text-xl text-green-600" />
-                                        </div>
-                                      </button>
-                                      <button onClick={()=>{navigate(`${data.id_cultivo}`)}}>
-                                        <div className='bg-blue-200 rounded-full px-2 py-2'>
-                                          <MdGridView className='text-xl text-blue-600' />
-                                        </div>
-                                      </button>
-                                    </div>
+                                      <div className="flex gap-4 justify-center items-center">
+                                        <button onClick={()=>eliminarCultivo(data.id_cama)} className="text-white"type="button">
+                                          <div className='bg-red-200 rounded-full px-2 py-2'>
+                                            <BiTrash className="text-xl text-red-600" />
+                                          </div>
+                                        </button>
+                                        <button onClick={()=>{navigate(`editar/${data.id_cama}`)}} className="text-white"type="button">
+                                          <div className='bg-green-200 rounded-full px-2 py-2'>
+                                            <BiEdit className="text-xl text-green-600" />
+                                          </div>
+                                        </button>
+                                        <button onClick={()=>{navigate(`detalle/${data.id_cama}`)}}>
+                                          <div className='bg-blue-200 rounded-full px-2 py-2'>
+                                            <MdGridView className='text-xl text-blue-600' />
+                                          </div>
+                                        </button>
+                                      </div>
                                     </td>
                                   </tr>
                               )
@@ -192,8 +195,10 @@ const CamaListado = () => {
                         </tbody>
                   </table>
                   {loader ? <LoaderTableList/> : "" }
-                  {showError ? <ErrorMessage message={messageError}/>:""}
-                  {onlyCama.length===0 ? <ErrorBusqueda message ={"Cama no encontrada"}/>:""}
+                  {showError ? <ErrorMessage message={messageError}/>:null}
+                  {onlyCama.length===0 ? <ErrorMessage message ={"Cama no encontrada"}/>:null}
+                  
+
                   <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-md xs:text-sm text-gray-900">
                         Mostrando {onlyCama.length} de {countItem} Camas
@@ -213,6 +218,7 @@ const CamaListado = () => {
           <ToastContainer />
         </div>
       </div>
+      {showModal ? <ModalEliminarCama idCama={idEliminar} /> : null}
       </>
     )
   }

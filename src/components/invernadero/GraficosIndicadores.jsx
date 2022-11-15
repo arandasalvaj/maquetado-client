@@ -35,16 +35,6 @@ const GraficosIndicadores = ({titulo}) => {
   return (
   <>
 
-    <div className='shadow-lg m-2'>
-      <div className=' bg-gray-100 rounded-t-lg p-4 border border-gray-300 text-center'>
-        <h1 className='text-xl font-semibold'>{titulo}</h1>
-      </div>
-      <div className="grid grid-cols-1 rounded-b-lg">
-          <div className="bg-white md:min-h-[100px] rounded-b-lg p-4 md:p-8">
-            <Line data={data} options={options} />
-          </div>
-      </div>
-    </div>
   </>
   )
 }

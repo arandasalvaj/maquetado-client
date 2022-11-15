@@ -4,7 +4,7 @@ const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
 
 export const addCultivo=async(cultivo,idInvernadero,token)=> await axios.post(`${API_URL}v1/invernaderos/${idInvernadero}/cultivos`,cultivo,{headers: {'Authorization': token}}) 
 
-export const deleteCultivo=async(idCultivo,idInvernadero,token)=> await axios.delete(`${API_URL}v1/invernaderos/${idInvernadero}/cultivos/${idCultivo}`,{headers: {'Authorization': token}}) 
+export const deleteCultivo=async(idCultivo,token)=> await axios.delete(`${API_URL}v1/invernaderos/cultivos/${idCultivo}`,{headers: {'Authorization': token}}) 
 
 export const updateCultivo=async(cultivo,idInvernadero,idCultivo,token)=> await axios.patch(`${API_URL}v1/invernaderos/${idInvernadero}/cultivos/${idCultivo}`,cultivo,{headers: {'Authorization': token}})  
 

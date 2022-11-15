@@ -1,45 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState,useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { IoEyeSharp } from "react-icons/io5";
-import { IoMdRemoveCircle } from "react-icons/io";
-import CultivoCrear from './CultivoCrear';
-import { getAllCultivosUsuario } from '../../services/cultivo';
-import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import ErrorBusqueda from '../../components/messages/ErrorBusqueda';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import ButtonTableList from '../../components/table/ButtonTableList';
-import LoaderTableList from '../../components/table/LoaderTableList';
+import { MdGridView } from "react-icons/md"
+import CultivoCrear from './CultivoCrear'
+import { getAllCultivosUsuario } from '../../services/cultivo'
+import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri"
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import ErrorBusqueda from '../../components/messages/ErrorBusqueda'
+import ErrorMessage from '../../components/messages/ErrorMessage'
+import LoaderTableList from '../../components/table/LoaderTableList'
+import { BiEdit,BiTrash } from 'react-icons/bi'
+import ModalEliminarCultivo from '../../components/modal/ModalEliminarCultivo'
+import { UserContext } from '../../context/UserContext'
+
 
 const CultivoListado = () => {
-    const loggedUser = window.localStorage.getItem('loggedUser')
-    const {id_usuario} = JSON.parse(loggedUser)
-    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-    
-    /**
-     * Mostrar Errores
-     */
-    
-    const [estadoFiltro,setEstadoFiltro]=useState("0")
-    
-    const [messageError , setMessageError]= useState([])
-    const [showError , setShowError]= useState(false)
-    const [cultivo,setCultivo] = useState([])
-    const [busqueda,setBusqueda] = useState("")
-    const [onlyCultivo,setOnlyCultivo] = useState([])
-    const [loader,setLoader] = useState(true)
-    const navigate = useNavigate()
-    const [showAlert,setShowAlert]=useState(true)
-    const [size,setSize]=useState(5)
-    const [countItem,setCountItem] = useState(0)
+  
+  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const [estadoFiltro,setEstadoFiltro]=useState("0")
+  const [cultivo,setCultivo] = useState([])
+  const [busqueda,setBusqueda] = useState("")
+  const [onlyCultivo,setOnlyCultivo] = useState([])
+  const [loader,setLoader] = useState(true)
+  const navigate = useNavigate()
+  const [showAlert,setShowAlert]=useState(true)
+  const [size,setSize]=useState(5)
+  const [countItem,setCountItem] = useState(0)
+  const [idEliminar,setIdEliminar] = useState(0)
 
     useEffect(()=>{
       obtenerCultivo()
-    },[])
+    },[size,counterRender])
     
     const obtenerCultivo = async () =>{
       try{
+        setCounterRender(0)
         getAllCultivosUsuario(id_usuario,token,size)
         .then((response)=>{
           setLoader(false)
@@ -139,6 +134,15 @@ const CultivoListado = () => {
       </>
       )
     }
+
+
+
+    const eliminarCultivo = (id_cultivo) =>{
+      setIdEliminar(id_cultivo)
+      setShowModal(true)
+    }
+
+
     return (
       <>
     {showAlert?alert():null}
@@ -219,14 +223,24 @@ const CultivoListado = () => {
                                       {data.created_at}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                    <div className="flex gap-4 justify-center items-center">
-                                      <button className="text-white"type="button">
-                                        <IoMdRemoveCircle className="text-3xl text-red-600" />
-                                      </button>
-                                      <button onClick={()=>{navigate(`${data.id_cultivo}`)}}>
-                                        <IoEyeSharp className='text-3xl text-blue-400' />
-                                      </button>
-                                    </div>
+                                      <div className="flex gap-4 justify-center items-center">
+                                        <button onClick={()=>eliminarCultivo(data.id_cultivo)} className="text-white"type="button">
+                                          <div className='bg-red-200 rounded-full px-2 py-2'>
+                                            <BiTrash className="text-xl text-red-600" />
+                                          </div>
+                                        </button>
+                                        <button onClick={()=>{navigate(`editar/${data.id_cultivo}`)}} className="text-white"type="button">
+                                          <div className='bg-green-200 rounded-full px-2 py-2'>
+                                            <BiEdit className="text-xl text-green-600" />
+                                          </div>
+                                        </button>
+                                        <button onClick={()=>{navigate(`detalle/${data.id_cultivo}`)}}>
+                                          <div className='bg-blue-200 rounded-full px-2 py-2'>
+                                            <MdGridView className='text-xl text-blue-600' />
+                                          </div>
+                                        </button>
+                                      </div>
+                                      {showModal ?<ModalEliminarCultivo/> :null}
                                     </td>
                                   </tr>
                               )
@@ -257,6 +271,7 @@ const CultivoListado = () => {
           <ToastContainer />
         </div>
       </div>
+      {showModal ? <ModalEliminarCultivo idCultivo={idEliminar} /> : null}
       </>
     )
   }

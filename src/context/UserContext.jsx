@@ -8,9 +8,18 @@ export const UserProvider = ({children}) => {
     const [auth,setAuth]=useState(false)
     const [user,setUser]=useState(null)
     const [counter,setCounter]= useState(0)
-    
+    const [showModal,setShowModal] = useState(false)
+    const [messageError , setMessageError]= useState([])
+    const [showError , setShowError]= useState(false)
+    const [counterRender,setCounterRender]= useState(0)
+
+    const loggedUser = window.localStorage.getItem('loggedUser')
+    const {id_usuario} = JSON.parse(loggedUser)
+    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
+
+
     const isAuth= ()=>{
-        const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
+        const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
         const loggedUser = window.localStorage.getItem('loggedUser')
         if (loggedUser && token){
             setUser(JSON.parse(loggedUser))
@@ -32,6 +41,16 @@ export const UserProvider = ({children}) => {
     }
     return (
         <UserContext.Provider value={{
+            setCounterRender,
+            counterRender,
+            setShowError,
+            showError,
+            messageError,
+            setMessageError,
+            token,
+            id_usuario,
+            showModal,
+            setShowModal,
             user,
             setUser,
             auth,

@@ -12,5 +12,5 @@ export const getAllInvernaderosUsuario=async(id_usuario,token,size)=> {
 export const getAllSelect=async(id_usuario,token)=> {
     return await axios.get(`${API_URL}v1/usuarios/${id_usuario}/indernaderos/out/cultivos`,{headers: {'Authorization': token}})
 }
-export const deleteInvernadero=async(id_usuario,idInvernadero,token)=> await axios.delete(`${API_URL}v1/usuarios/${id_usuario}/invernaderos/${idInvernadero}`,{headers: {'Authorization': token}})  
+export const deleteInvernadero=async(idInvernadero,token)=> await axios.delete(`${API_URL}v1/usuarios/invernaderos/${idInvernadero}`,{headers: {'Authorization': token}})  
 

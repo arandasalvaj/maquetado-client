@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { GiPlantWatering } from "react-icons/gi";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
@@ -27,7 +27,7 @@ const Sidebar = () => {
     }
     return (
         <div
-          className={`fixed top-0 w-3/4 lg:left-0 md:w-80 h-full bg-green-700 flex flex-col justify-between z-50 transition-all ${
+          className={`fixed top-0 w-3/4 lg:left-0 md:w-72 h-full bg-green-700 flex flex-col justify-between z-50 transition-all ${
             showMenu ? "left-0" : "-left-full"
           }`}
         >

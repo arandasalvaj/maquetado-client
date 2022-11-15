@@ -21,33 +21,9 @@ const InvernaderoCrear = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [coordenadas,setCoordenadas] = useState({lat:-22.441183,long:-68.90638})
 
-  // const [viewState, setViewState] = useState({
-  //     longitude: coordenadas.long,
-  //     latitude: coordenadas.lat,
-  //     zoom: 15
-  // })
 
   const handleChange = async (event) => {
     setValues(event.target.value);
-
-    // try {
-    //   const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=pk.eyJ1IjoiYXJhbmRhc2FsdmFqIiwiYSI6ImNsYWVkc2FoYjB0ZzEzcnBlNGZ3ajlucDEifQ.yTtMDd1mUFZDUtiV8txuRw&autocomplete=true`;
-    //   const response = await fetch(endpoint);
-    //   const results = await response.json();
-    //   setSuggestions(results?.features);
-    //   setCoordenadas({lat:results.features[0].center[1],long:results.features[0].center[0]})
-    //   setViewState({longitude: results.features[0].center[0], latitude: results.features[0].center[1], zoom: 15})
-    // } catch (error) {
-    //   console.log("Error en peticion Https, ", error);
-    // }
-
-
-    // <div className='flex flex-col z-20 justify-center items-center pt-4'>
-    //   <Map  mapboxAccessToken='pk.eyJ1IjoiYXJhbmRhc2FsdmFqIiwiYSI6ImNsYWVkc2FoYjB0ZzEzcnBlNGZ3ajlucDEifQ.yTtMDd1mUFZDUtiV8txuRw' {...viewState} style={{width: 400, height: 400}} onMove={evt => setViewState(evt.viewState)} mapStyle="mapbox://styles/mapbox/streets-v9">
-    //       <Marker longitude={coordenadas.long} latitude={coordenadas.lat}> <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"><path d="M12 0c-4.198 0-8 3.403-8 7.602 0 4.198 3.469 9.21 8 16.398 4.531-7.188 8-12.2 8-16.398 0-4.199-3.801-7.602-8-7.602zm0 11c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3z"/></svg></Marker>
-    //   </Map>
-    // </div>
-
 
   }
     const onSubmit=(data)=>{

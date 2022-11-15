@@ -72,22 +72,22 @@ function App() {
             <Route path="invernadero" element={<Invernadero/>} >
               <Route index element={<InvernaderoListado />} />
               <Route path="crear" element={<InvernaderoCrear />} />
-              <Route path="editar" element={<InvernaderoEditar />} />
-              <Route path=":invernaderoId" element={<InvernaderoDetalle />} />
+              <Route path="editar/idInvernadero" element={<InvernaderoEditar />} />
+              <Route path="detalle/:invernaderoId" element={<InvernaderoDetalle />} />
             </Route>  
 
             <Route path="cultivo" element={<Cultivos />}>
               <Route index element={<CultivoListado />} />
               <Route path="crear" element={<CultivoCrear />} />
-              <Route path="editar" element={<CultivoEditar />} />
-              <Route path=":idCultivo" element={<CultivoDetalle />} />
+              <Route path="editar/idCultivo" element={<CultivoEditar />} />
+              <Route path="detalle/:idCultivo" element={<CultivoDetalle />} />
             </Route>
            
             <Route path="cama" element={<Cama />}>
               <Route index element={<CamaListado />} />
               <Route path="crear" element={<CamaCrear />} />
-              <Route path="editar" element={<CamaEditar />} />
-              <Route path=":idCama" element={<CamaDetalle />} />
+              <Route path="editar/:idCama" element={<CamaEditar />} />
+              <Route path="detalle/:idCama" element={<CamaDetalle />} />
             </Route>
 
             <Route path="perfil" element={<Perfilindex />}>

@@ -24,6 +24,8 @@ const InvernaderoDetalle = () => {
         obtenerInvernadero()
 
         obtenerCultivo()
+        console.log(invernadero)
+        
       },[])
 
     const obtenerInvernadero = () =>{
@@ -77,7 +79,7 @@ const InvernaderoDetalle = () => {
       return(
       <>
           <div className="text-lg text-gray-900 font-bold px-6 py-4 whitespace-nowrap text-center">
-          <svg class="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
+          <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24">
           </svg>
             Cargando...
           </div>
@@ -103,13 +105,12 @@ const InvernaderoDetalle = () => {
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Detalle de Invernadero</h1>
                 <p className='text-3sm font-semibold text-gray-500'>Crea invernaderos y editalos aqui</p>
             </div>
-            <Link to={'/invernadero/crear'} element={<InvernaderoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
+            <Link to={'/invernadero/crear'} className='py-2.5 px-6 text-white font-semibold bg-green-700 rounded-xl'>Crear invernadero</Link>
         </div>
       </main>
-
-      <div>
-          <IndicadoresPromedio nombre={invernadero.nombre_invernadero} fecha={invernadero.created_at}/>
-          <InformacionRendimiento ubicacion={invernadero.ubicacion_invernadero} />
+      <div className='px-28'>
+          <IndicadoresPromedio invernadero={invernadero} />
+          <InformacionRendimiento ubicacion={invernadero.ubicacion_invernadero} invernadero={invernadero} />
       </div>
       <div className='flex items-center justify-between py-7 px-10'>
         <div className=" w-full">

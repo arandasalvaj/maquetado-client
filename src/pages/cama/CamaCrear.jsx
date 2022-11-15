@@ -41,8 +41,6 @@ const CamaCrear = () => {
         }, 4000)
       })
       .catch((error)=>{
-        setShowError(true)
-        setLoader(false)
         if(error.response.status === 404 ){
           setMessageError(error.response.data.message)
           throw error.response.data.message
@@ -79,12 +77,12 @@ const CamaCrear = () => {
                 </div>
                 <div className='flex flex-col text-[#505568] col-span-1'>
                     <label className='py-2 text-gray-600 font-bold'>Tamaño de la cama (m²)</label>
-                    <input  {...register("tamano_cama", {required:true}, )} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ingrese tamaño"/>
+                    <input  {...register("tamano_cama", {required:true}, )} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="number"  placeholder="Ingrese tamaño"/>
                     {errors.tamano_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El tamaño es requerido</p>}
                 </div>
                 <div className='flex flex-col text-[#505568] col-span-1'>
                     <label className='py-2 text-gray-600 font-bold'>Cantidad de brotes</label>
-                    <input  {...register("brotes_cama", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "  type="text" placeholder="Ingrese nombre"/>
+                    <input  {...register("brotes_cama", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "  type="number"  placeholder="Ingrese brotes"/>
                     {errors.nombre_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El nombre es requerido</p>}
                 </div>
               </div>
