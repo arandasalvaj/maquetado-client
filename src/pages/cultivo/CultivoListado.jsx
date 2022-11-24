@@ -16,7 +16,9 @@ import { UserContext } from '../../context/UserContext'
 
 const CultivoListado = () => {
   
-  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const loggedUser = window.localStorage.getItem('loggedUser')
+  const {id_usuario} = JSON.parse(loggedUser)
   const [estadoFiltro,setEstadoFiltro]=useState("0")
   const [cultivo,setCultivo] = useState([])
   const [busqueda,setBusqueda] = useState("")
@@ -150,7 +152,7 @@ const CultivoListado = () => {
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
               <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Listado de Cultivos</h1>
-              <p className='text-3sm font-semibold text-gray-500'>Crea cultivos y editalos aqui</p>
+              <p className='text-3sm font-semibold text-gray-500'>Visualiza y crea cultivos aquí</p>
             </div>
         </div>
         <div className="my-2 flex sm:flex-row flex-col items-center  justify-between ml-11">

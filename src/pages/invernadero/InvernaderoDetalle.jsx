@@ -20,6 +20,7 @@ import ModalEliminarCultivo from '../../components/modal/ModalEliminarCultivo';
 
 const InvernaderoDetalle = () => {
     const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+    
     const {idInvernadero} = useParams()
     const [invernadero,setInvernadero] = useState([])
     const [loader,setLoader] = useState(true)
@@ -138,7 +139,7 @@ const InvernaderoDetalle = () => {
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Detalle de Invernadero</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Crea invernaderos y editalos aqui</p>
+                <p className='text-3sm font-semibold text-gray-500'>Puedes ver los detalles de tu invernadero aqui</p>
             </div>
         </div>
       </main>

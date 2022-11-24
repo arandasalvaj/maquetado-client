@@ -11,8 +11,12 @@ import { BiEdit,BiTrash } from 'react-icons/bi'
 import ModalEliminarInvernadero from '../../components/modal/ModalEliminarInvernadero'
 import { UserContext } from '../../context/UserContext'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
+
 const InvernaderoListado = () => {
-  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const loggedUser = window.localStorage.getItem('loggedUser')
+  const {id_usuario} = JSON.parse(loggedUser)
+  
   const [invernadero,setInvernadero] = useState([])
   const [onlyInvernadero,setOnlyInvernadero] = useState([])
   const [loader,setLoader] = useState(true)
@@ -143,10 +147,10 @@ const alert = ()=> {
                                   {data.ubicacion_invernadero}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {data?.inicio_temporada.split("T")[0]}
+                                  {data?.inicio_temporada}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {data?.termino_temporada.split("T")[0]}
+                                  {data?.termino_temporada}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   {data.estado_invernadero === 0 ? <p className="bg-red-600 rounded-xl text-white">Desactivado</p> : <p className="bg-blue-500">Activado</p>}

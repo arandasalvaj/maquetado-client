@@ -31,6 +31,8 @@ const Perfil = () => {
         if(currentUsuario.rut_usuario === data.rut_usuario){
             delete data.rut_usuario
         }
+        
+        //transition duration-300 transform hover:scale-110
 
         //{...register("telefono_usuario")}
         
@@ -53,12 +55,12 @@ const Perfil = () => {
     <div className="container mx-auto my-28">
         <div className="bg-white relative shadow-lg border-2 rounded-lg w-5/6 md:w-4/6  lg:w-3/6 xl:w-2/6 mx-auto">
             <div className="flex justify-center">
-                <img src="https://avatars0.githubusercontent.com/u/35900628?v=4" alt="" className=" rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"/>
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="" className=" rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110 object-cover" />
             </div>
             <div className="mt-16">
                 <h1 className="font-bold text-center text-3xl text-gray-900">{currentUsuario.nombre_usuario} {currentUsuario.apellido_usuario}</h1>
                 <div className="my-4 px-6">
-                    <div href="#" className="text-white font-bold block rounded-lg text-center  leading-6 px-4 py-2 bg-green-900  "><span className="font-bold text-2xl">Agricultor</span></div>
+                    <div href="#" className="text-white font-bold block rounded-lg text-center  leading-6 px-4 py-2 bg-green-700  "><span className="font-bold text-2xl">Agricultor</span></div>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} >
                     {<div className='w-full px-8 py-4 flex flex-col items-center overflow-hidden gap-4 '>
@@ -86,7 +88,7 @@ const Perfil = () => {
                         </div>
                     </div>}
                     <div className='flex justify-center gap-16 pl-10'>
-                        <button type='submit' className='transition duration-300 transform hover:scale-110 w-[250px] my-5 py-2 border-green-700 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Actualizar</button>
+                        <button type='submit' className=' w-[250px] my-5 py-2 border-green-700 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Actualizar</button>
                         <ToastContainer />
                     </div>
                 </form>

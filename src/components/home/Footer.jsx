@@ -33,7 +33,7 @@ const Footer = () => {
             Contacto
           </p>
           <div className="flex">
-            <p className="mr-1 text-gray-800">Telefono:</p>
+            <p className="mr-1 text-gray-800">Teléfono:</p>
             <a
               href="tel:2830192830"
               aria-label="Nuestro telefono"

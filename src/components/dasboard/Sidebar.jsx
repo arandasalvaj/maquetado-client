@@ -25,6 +25,13 @@ const Sidebar = () => {
       });
       setCounter(0) 
     }
+
+    // <li>
+    //   <Link to={'/dashboard'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>
+    //     <MdOutlineSpaceDashboard className='text-4xl' />
+    //     Inicio
+    //   </Link>
+    // </li>
     return (
         <div
           className={`fixed top-0 w-3/4 lg:left-0 md:w-72 h-full bg-green-700 flex flex-col justify-between z-50 transition-all ${
@@ -40,12 +47,7 @@ const Sidebar = () => {
             </div>
 
             <ul className='pt-20 grid items-center justify-center gap-4'>
-              <li>
-                <Link to={'/dashboard'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>
-                  <MdOutlineSpaceDashboard className='text-4xl' />
-                  Inicio
-                </Link>
-              </li>
+
               <li>
                 <Link to={'../invernadero'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
                   <TbBuildingWarehouse className='text-4xl' />
@@ -74,9 +76,9 @@ const Sidebar = () => {
           </div>
 
           <div className="flex items-center gap-4 mx-auto pb-12">
-            <img className="w-10 h-10 object-cover rounded-full ring-4 ring-white"src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg"alt=""/>
+            <img className="w-10 h-10 object-cover rounded-full ring-4 ring-white"src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"alt=""/>
             <div>
-              <h5 className="font-medium text-[#ECE7B4]">{user.nombre_usuario} {user.apellido_usuario}</h5>
+              <h5 className="font-medium text-white ">{user.nombre_usuario} {user.apellido_usuario}</h5>
               {user.rol_usuario === 2 ? <p className='text-white font-bold'>Agricultor</p> : <p className='text-white font-bold'>Visitante</p>}
             </div>
             <Link to={'/'} onClick={handleLogout}><RiLogoutBoxRLine className="text-white h-8 w-8"/></Link>

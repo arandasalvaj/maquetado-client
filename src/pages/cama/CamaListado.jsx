@@ -15,7 +15,12 @@ import { UserContext } from '../../context/UserContext'
 
 const CamaListado = () => {
   
-  const {showModal,setShowModal,token,id_usuario,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  
+  const loggedUser = window.localStorage.getItem('loggedUser')
+  const {id_usuario} = JSON.parse(loggedUser)
+  
+  
   const [cama,setCama] = useState([])
   const [busqueda,setBusqueda] = useState("")
   const [onlyCama,setOnlyCama] = useState([])
@@ -84,7 +89,7 @@ const CamaListado = () => {
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Listado de Camas</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Crea camas y editalas aqui</p>
+                <p className='text-3sm font-semibold text-gray-500'>Visualiza y crea camas aquí</p>
             </div>
         </div>
         <div className="my-2 flex sm:flex-row flex-col items-center  justify-between ml-11">
@@ -167,7 +172,7 @@ const CamaListado = () => {
                                       {data.brotes_cama}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      {data?.created_at.split("T")[0]}
+                                      {data?.created_at}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       <div className="flex gap-4 justify-center items-center">

@@ -10,7 +10,7 @@ const Servicios = () => {
                         <img className="w-[450px] h-[268px] object-fill rounded-xl" src='https://i.postimg.cc/2SxbJ8Sn/FILTRACION-ORIGINAL.jpg'></img>
                         
                         <h1 className="mt-4 sm:text-3xl lg:text-xl font-semibold text-gray-800 dark:text-black">Filtración industrial</h1>
-                        <p className="mt-2 sm:text-lg lg:text-[15px] text-gray-500 dark:text-gray-400">Representamos en Chile los mejores equipos de filtracion industrial para distintas aplicaciones como proteccion de sistemas de osmosis, recuperacion de agua en torres de refrigeracion,proteccion de equipos industriales entre otras.</p>
+                        <p className="mt-2 sm:text-lg lg:text-[15px] text-gray-500 dark:text-gray-400">Representamos en Chile los mejores equipos de filtración industrial para distintas aplicaciones como protección de sistemas de osmosis, recuperación de agua en torres de refrigeración, protección de equipos industriales, entre otras.</p>
                   </div>
                   <div className='flex flex-col items-center sm:mt-4 lg:mt-2'>
                        <img className="w-[450px] h-[268px]  object-cover rounded-xl" src='https://i.postimg.cc/C17cxV78/CONTORL-DE-OLORES.png'></img>
@@ -20,7 +20,7 @@ const Servicios = () => {
                   <div className='flex flex-col items-center sm:mt-4 lg:mt-2'>
                        <img className="w-[450px] h-[268px]  object-cover rounded-xl" src='https://i.postimg.cc/ZqcRffjH/ORIGINAL-TRATAMIENTO-DE-AGUA.jpg'></img>
                        <h1 className="mt-4 sm:text-3xl lg:text-xl font-semibold text-gray-800 dark:text-black">Tratamiento de agua</h1>
-                       <p className="mt-2 sm:text-lg lg:text-[15px] text-gray-500 dark:text-gray-400">Parte importante de los procesos industriales es el control de temperatura. En Chile contamos con la linea completa de REYMSA torres de refrigeracion fabricadas con el mas alto estandar y certificados en eficiencia.</p>
+                       <p className="mt-2 sm:text-lg lg:text-[15px] text-gray-500 dark:text-gray-400">Parte importante de los procesos industriales es el control de temperatura. En Chile contamos con la línea completa de REYMSA torres de refrigeración fabricadas con el más alto estándar y certificados en eficiencia.</p>
                   </div>
               </div>
           </div>

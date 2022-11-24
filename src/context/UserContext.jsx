@@ -12,9 +12,6 @@ export const UserProvider = ({children}) => {
     const [messageError , setMessageError]= useState([])
     const [showError , setShowError]= useState(false)
     const [counterRender,setCounterRender]= useState(0)
-
-    const loggedUser = window.localStorage.getItem('loggedUser')
-    const {id_usuario} = JSON.parse(loggedUser)
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
 
 
@@ -48,7 +45,6 @@ export const UserProvider = ({children}) => {
             messageError,
             setMessageError,
             token,
-            id_usuario,
             showModal,
             setShowModal,
             user,

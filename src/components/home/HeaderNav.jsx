@@ -31,7 +31,7 @@ const HeaderNav = () => {
             </div>
               <ul className="flex items-center hidden space-x-8 lg:flex">
                   <li>
-                    <Link to={'/dashboard'} element=''><h1 className='font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#406343]'>Dashboard</h1></Link> 
+                    <Link to={'/invernadero'} element=''><h1 className='font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#406343]'>Dashboard</h1></Link> 
                   </li>
                   <li>
                     <a href='/' onClick={handleLogout} ><h1 className='inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-[#406343] -accent-400  focus:shadow-outline focus:outline-none'>Salir</h1></a>
@@ -40,7 +40,7 @@ const HeaderNav = () => {
             <div className="lg:hidden">
               <ul className="flex items-center  space-x-8 lg:flex">
                   <li>
-                    <Link to={'/dashboard'} element={<Inicio/>}> <h1 className='font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#406343]'>Dashboard</h1></Link> 
+                    <Link to={'/invernadero'} element={<Inicio/>}> <h1 className='font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#406343]'>Dashboard</h1></Link> 
                   </li>
                   <li>
                     <a href='/'  onClick={handleLogout} ><h1 className='inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-[#406343] -accent-400 focus:shadow-outline focus:outline-none'>Salir</h1></a>

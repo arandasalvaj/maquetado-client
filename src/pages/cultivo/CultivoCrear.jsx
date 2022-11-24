@@ -108,12 +108,12 @@ const CultivoCrear = () => {
                   </div>
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 grid-flow-row'>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold '>Maxima</label>
+                      <label className='py-2 text-gray-600 font-bold '>Máxima </label>
                       <input  {...register("temperatura_ambiente_max", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ambiente maxima"/>
                       {errors.temperatura_ambiente_max?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La ambiente maxima es requerida</p>}
                     </div>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold'>Minima</label>
+                      <label className='py-2 text-gray-600 font-bold'>Mínima</label>
                       <input  {...register("temperatura_ambiente_min", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Ambiente maxima"/>
                       {errors.temperatura_ambiente_min?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La ambiente minima es requerida</p>}
                     </div>
@@ -123,12 +123,12 @@ const CultivoCrear = () => {
                   </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 grid-flow-row'>
                   <div className='flex flex-col text-[#505568]  w-full'>
-                    <label className='py-2 text-gray-600 font-bold'>Maxima</label>
+                    <label className='py-2 text-gray-600 font-bold'>Máxima </label>
                     <input  {...register("temperatura_agua_max", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Agua maxima"/>
                     {errors.temperatura_agua_max?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La agua maxima es requerida</p>}
                   </div>
                   <div className='flex flex-col text-[#505568] w-full'>
-                    <label className='py-2 text-gray-600 font-bold'>Minima</label>
+                    <label className='py-2 text-gray-600 font-bold'>Mínima</label>
                     <input  {...register("temperatura_agua_min", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Agua minima"/>
                     {errors.temperatura_agua_min?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La agua minima es requerida</p>}
                   </div>
@@ -138,12 +138,12 @@ const CultivoCrear = () => {
                   </div>
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 grid-flow-row'>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold'>Maxima</label>
+                      <label className='py-2 text-gray-600 font-bold'>Máxima </label>
                       <input  {...register("humedad_ambiente_max", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Humedad maxima"/>
                       {errors.humedad_ambiente_max?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El humedad maximo es requerido</p>}
                     </div>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold'>Minima</label>
+                      <label className='py-2 text-gray-600 font-bold'>Mínima</label>
                       <input  {...register("humedad_ambiente_min", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Humedad minima"/>
                       {errors.humedad_ambiente_min?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El humedad minimo es requerido</p>}
                     </div>
@@ -155,12 +155,12 @@ const CultivoCrear = () => {
 
                   <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 grid-flow-row'>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold '>Maximo</label>
+                      <label className='py-2 text-gray-600 font-bold '>Máxima</label>
                       <input  {...register("ppm_gas_max", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Nivel de Co2 maximo"/>
                       {errors.ppm_gas_max?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El Co2 maximo es requerido</p>}
                     </div>
                     <div className='flex flex-col text-[#505568]  w-full'>
-                      <label className='py-2 text-gray-600 font-bold'>Minimo</label>
+                      <label className='py-2 text-gray-600 font-bold'>Mínima</label>
                       <input  {...register("ppm_gas_min", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Nivel de Co2 minimo"/>
                       {errors.ppm_gas_min?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El Co2 minimo es requerido</p>}
                     </div>

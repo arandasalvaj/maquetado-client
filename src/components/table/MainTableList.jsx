@@ -9,7 +9,7 @@ const MainTableList = ({nombre,pathname,busqueda,handleBuscar}) => {
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Listado de {nombre}</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Crea {nombre} y editalas aqui</p>
+                <p className='text-3sm font-semibold text-gray-500'>Visualiza y crea {nombre} aquí</p>
             </div>
         </div>
         <div className="my-2 flex sm:flex-row flex-col items-center  justify-between ml-11">

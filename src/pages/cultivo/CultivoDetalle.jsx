@@ -5,7 +5,7 @@ import { getAllCamas } from '../../services/cama'
 import CultivoCrear from "./CultivoCrear"
 import { IoEyeSharp } from "react-icons/io5";
 import { IoMdRemoveCircle } from "react-icons/io";
-
+import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 const CultivoDetalle = () => {
     const {idCultivo} = useParams()
     const [messageError , setMessageError]= useState([])
@@ -97,18 +97,35 @@ const CultivoDetalle = () => {
 
   return (
     <>
+      <div className=' grid grid-cols-12 '> 
+        <div className='col-span-2 flex px-6 '>
+          <nav>
+            <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                <li className="inline-flex items-center">
+                    <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                        <AiTwotoneHome className="mr-1 w-5 h-5"/>
+                        Cultivo
+                    </Link>
+                </li>
+                <li>
+                <div className="flex items-center">
+                    <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
+                    <span className="text-lg font-medium text-gray-600 md:ml-2">Detalle</span>
+                </div>
+                </li>
+            </ol>
+          </nav>
+        </div>
+      </div>
     <main className='flex-1'>
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
                 <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Detalle de Cultivo</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Detalle de cultivos</p>
+                <p className='text-3sm font-semibold text-gray-500'>Puedes ver los detalles de tu cultivo aqui</p>
             </div>
-            <Link to={'/cultivo/crear'} element={<CultivoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear cultvo</Link>
         </div>
         <IndicadoresOptimos idCultivo={idCultivo}/>
     </main>
-
-
     <div className='flex items-center justify-between py-7 px-10'>
         <div className=" w-full">
             <h1 className='text-4xl font-semibold leading-relaxed text-gray-800 text-center '> Listado de Camas</h1>

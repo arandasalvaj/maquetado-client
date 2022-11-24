@@ -38,7 +38,7 @@ const Login = () => {
             window.localStorage.setItem('loggedUser',JSON.stringify(response.data.data[0]))
             sesisonUser()
             addCounter()
-            navigate('/dashboard')
+            navigate('/invernadero')
         })
         .catch((error)=>{
             const {status, data:{message}} = error.response
@@ -98,7 +98,7 @@ const Login = () => {
                     <ReCAPTCHA sitekey="6LeRYvkiAAAAAITzNI9tdWN_O29RUVAgcX1RRKSU" ref={captcha} onChange={onChange} />
                 </div>
                 
-                <button  type='submit' className='w-full my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg' >Ingresar</button>
+                <button  type='submit' className='w-full my-5 py-2 bg-green-700 shadow-lg text-white font-semibold rounded-lg' >Ingresar</button>
                 <ToastContainer />
                 <div className='flex flex-col'>
                     <Link to={'/recovery/password'} className="font-medium  hover:underline text-[#406343] text-center">¿Has olvidado tu contraseña?</Link>
