@@ -68,7 +68,7 @@ const CultivoCrear = () => {
 
     const alert = () =>{
       return (
-        <div role="alert" className='mx-28'>
+        <div role="alert" className='mx-28 py-8'>
           <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 ">
             Importante
           </div>

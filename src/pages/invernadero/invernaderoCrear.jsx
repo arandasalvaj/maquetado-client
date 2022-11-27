@@ -122,7 +122,7 @@ const InvernaderoCrear = () => {
                   {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La fecha de Inicio de Temporada es requerida</p>}
                 </div>
                 <div className='flex flex-col text-[#505568] py-2 w-full pb-5 p-4'>
-                  <label className='py-2 text-[#406343] font-bold'>Termino de Temporada</label>
+                  <label className='py-2 text-[#406343] font-bold'>Término de Temporada</label>
                   <input  {...register("termino_temporada", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="date" />
                   {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La fecha de Termino de Temporada es requerida</p>}
                 </div>

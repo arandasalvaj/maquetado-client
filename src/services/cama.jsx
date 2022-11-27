@@ -1,6 +1,10 @@
 import axios from "axios"
 const API_URL = 'https://tuinvernadero.xyz/' //URL DE PRODUCCION, SOLO CUANDO ESTA EN PRODUCCION.
+<<<<<<< HEAD
 // const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
+=======
+//const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
+>>>>>>> 0d611a5c32d61ef037841c49feb05ceda42686cf
 
 export const addCama=async(cama,idCultivo,token)=> await axios.post(`${API_URL}v1/cultivo/${idCultivo}/cama`,cama,{headers: {'Authorization': token}}) 
 

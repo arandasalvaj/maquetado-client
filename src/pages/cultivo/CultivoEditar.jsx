@@ -16,7 +16,6 @@ const CultivoEditar = () => {
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-  const [invernaderos, setInvernaderos] = useState([])
   const [nuevoSelect, setNuevoSelect] = useState([])
   const [estadoSelect, setEstadoSelect] = useState(true)
   const [cultivo,setCultivo] = useState([])
@@ -32,9 +31,7 @@ const CultivoEditar = () => {
     getAllSelect(id_usuario,token)
     .then((response)=>{
       setEstadoSelect(false)
-      setInvernaderos(response.data) 
     }).catch((error)=>{
-      console.log(error.response.status )
       if(error.response.status === 404){
         setEstadoSelect(true)
       }
@@ -46,7 +43,6 @@ const CultivoEditar = () => {
     .then((response)=>{
       setCultivo(response.data)
       setValue("nombre_cultivo",response.data.nombre_cultivo)
-      setValue("nombre_invernadero",response.data.nombre_invernadero)
       setValue("temperatura_ambiente_max",response.data.temperatura_ambiente_max)
       setValue("temperatura_ambiente_min",response.data.temperatura_ambiente_min)
       setValue("temperatura_agua_max",response.data.temperatura_agua_max)
@@ -65,19 +61,19 @@ const CultivoEditar = () => {
 
 
     const onSubmit=(data)=>{
-      console.log(data)
       updateCultivo(data,idCultivo,token)
       .then((response)=>{
         toast.success('CULTIVO ACTUALIZADO', {
-          position: toast.POSITION.TOP_CENTER
+          position: toast.POSITION.TOP_CENTER,
+          autoClose:2000,
+          theme: "colored",
         })
         const interval = setInterval(() => {
           navigate('/cultivo')
           clearInterval(interval)
-        }, 4000)
+        }, 2000)
       })
       .catch((error)=>{
-        console.log(error)
         const {status, data:{message}} = error.response
         mensaje(message,status)
       })
@@ -123,14 +119,6 @@ const CultivoEditar = () => {
                       <label className='py-2 text-gray-600 font-bold'>Nombre</label>
                         <input  {...register("nombre_cultivo", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" placeholder="Nombre del cultivo"/>
                       {errors.aguaMaxima?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El nombre es requerido</p>}
-                    </div>
-                    <div className='flex flex-col text-[#505568] w-full '>
-                      <label className='py-2 text-gray-600 font-bold'>Invernadero</label>
-                        <select {...register("id_invernadero", {required:true} )} className="form-select w-full py-2 px-3 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
-                            focus:text-gray-700 focus:bg-white" >
-                              {invernaderos ? invernaderos.map((data,index)=>{return <option key={index} {...register("nombre_invernadero")}    value={data?.id_invernadero}>{data?.nombre_invernadero}</option>}) :<option selected>No tienes invernaderos disponibles</option>}
-                        </select>
-                      {errors.id_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El invernadero es requerido</p>}
                     </div>
                   </div>
                   <div className='mx-36 border-b-4 '>

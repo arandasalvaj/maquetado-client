@@ -6,13 +6,15 @@ import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import ErrorBusqueda from '../../components/messages/ErrorBusqueda'
+
+import { AiOutlineDollarCircle } from 'react-icons/ai'
 import ErrorMessage from '../../components/messages/ErrorMessage'
 import LoaderTableList from '../../components/table/LoaderTableList'
 import { getAllCamasUsuario } from '../../services/cama'
 import { BiEdit,BiTrash } from 'react-icons/bi'
 import ModalEliminarCama from '../../components/modal/ModalEliminarCama'
 import { UserContext } from '../../context/UserContext'
-
+import moment from 'moment'
 const CamaListado = () => {
   
   const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
@@ -35,38 +37,49 @@ const CamaListado = () => {
     },[size,counterRender])
 
     const obtenerCama = async () =>{
-      try{
-        setCounterRender(0)
-        getAllCamasUsuario(id_usuario,token,size)
-        .then((response)=>{
-            setLoader(false)
-            setCama(response.data)
-            setOnlyCama(response.data)
-            setCountItem(response?.data[0].full_count)
-        })
-        .catch((error)=>{
-            setShowError(true)
-            setLoader(false)
-            if(error.response.status === 404 ){
-                setMessageError(error.response.data.message)
-                throw error.response.data.message
-            }
-            if(error.response.status === 409 ){
-                setMessageError(error.response.data.error)
-                throw error.response.data.message
-            }
-        })
-        }catch(error) {
-          throw error
+      setCounterRender(0)
+      getAllCamasUsuario(id_usuario,token,size)
+      .then((response)=>{
+        if(response.data.length === 0){
+          setShowError(true)
+          setLoader(false)
+          setMessageError("NO HAY CAMAS")
+        }else{
+          setShowError(false)
+          setMessageError("")
+          setLoader(false)
+          setCama(response.data)
+          setOnlyCama(response.data)
+          setCountItem(response?.data[0].full_count)
         }
+      })
     }
 
     const handleSelectPage = (e)=>{
       setSize(e.target.value)
     }
+
+
     const handleBuscar = (e) =>{
       setBusqueda(e.target.value)
       filtrar(e.target.value)
+
+      if(onlyCama.length === 0){
+        setShowError(true)
+        setMessageError("CAMA NO ENCONTRADA")
+        if(e.target.value === ""){
+          setShowError(false)
+          setMessageError("")
+        }
+        if(cama.length===0 && e.target.value === ""){
+          setShowError(true)
+          setMessageError("NO HAY CAMAS")
+        }
+      }else{
+        setShowError(false)
+        setMessageError("")
+      }
+
     }
   
     const filtrar = (terminoBusqueda)=>{
@@ -78,7 +91,7 @@ const CamaListado = () => {
       setOnlyCama(resultadoBusqueda)
     }
 
-    const eliminarCultivo = (id_cama) =>{
+    const eliminarCama = (id_cama) =>{
       setIdEliminar(id_cama)
       setShowModal(true)
     }
@@ -150,7 +163,7 @@ const CamaListado = () => {
                         </thead>
                         <tbody>
                           {
-                            onlyCama.map((data,index)=>{
+                            onlyCama === 0 ? cama : onlyCama.map((data,index)=>{
                               return (
                                   <tr className="bg-white border-b" key={index}>
                                     <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
@@ -172,11 +185,11 @@ const CamaListado = () => {
                                       {data.brotes_cama}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      {data?.created_at}
+                                      { moment(data.created_at).format("DD-MM-YYYY")}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       <div className="flex gap-4 justify-center items-center">
-                                        <button onClick={()=>eliminarCultivo(data.id_cama)} className="text-white"type="button">
+                                        <button onClick={()=>eliminarCama(data.id_cama)} className="text-white"type="button">
                                           <div className='bg-red-200 rounded-full px-2 py-2'>
                                             <BiTrash className="text-xl text-red-600" />
                                           </div>
@@ -191,6 +204,11 @@ const CamaListado = () => {
                                             <MdGridView className='text-xl text-blue-600' />
                                           </div>
                                         </button>
+                                        <button onClick={()=>{navigate(`editar/${data.id_cama}`)}} className="text-white"type="button">
+                                          <div className='bg-yellow-200 rounded-full px-2 py-2'>
+                                            <AiOutlineDollarCircle className="text-xl text-yellow-600" />
+                                          </div>
+                                        </button>
                                       </div>
                                     </td>
                                   </tr>
@@ -201,8 +219,6 @@ const CamaListado = () => {
                   </table>
                   {loader ? <LoaderTableList/> : "" }
                   {showError ? <ErrorMessage message={messageError}/>:null}
-                  {onlyCama.length===0 ? <ErrorMessage message ={"Cama no encontrada"}/>:null}
-                  
 
                   <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-md xs:text-sm text-gray-900">

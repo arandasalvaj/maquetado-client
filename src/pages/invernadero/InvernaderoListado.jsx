@@ -11,6 +11,7 @@ import { BiEdit,BiTrash } from 'react-icons/bi'
 import ModalEliminarInvernadero from '../../components/modal/ModalEliminarInvernadero'
 import { UserContext } from '../../context/UserContext'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
+import moment from 'moment'
 
 const InvernaderoListado = () => {
   const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
@@ -32,30 +33,22 @@ const InvernaderoListado = () => {
   },[size,counterRender])
 
   const obtenerInvernaderos = () =>{
-    try{
-      setCounterRender(0)
-      getAllInvernaderosUsuario(id_usuario,token,size)
-      .then((response)=>{
+    setCounterRender(0)
+    getAllInvernaderosUsuario(id_usuario,token,size)
+    .then((response)=>{
+      if(response.data.length === 0){
+        setShowError(true)
+        setLoader(false)
+        setMessageError("NO HAY INVERNADEROS")
+      }else{
+        setShowError(false)
+        setMessageError("")
         setLoader(false)
         setInvernadero(response.data)
         setOnlyInvernadero(response.data)
         setCountItem(response?.data[0].full_count)
-      })
-      .catch((error)=>{
-        setShowError(true)
-        setLoader(false)
-        if(error.response.status === 404 ){
-          setMessageError(error.response.data.message)
-          throw error.response.data.message
-        }
-        if(error.response.status === 409 ){
-          setMessageError(error.response.data.error)
-          throw error.response.data.message
-        }
-      })
-    }catch(error) {
-      throw error
-    }
+      }
+    })
   }
   const handleSelectPage = (e)=>{
     setSize(e.target.value)
@@ -63,6 +56,22 @@ const InvernaderoListado = () => {
   const handleBuscar = (e) =>{
     setBusqueda(e.target.value)
     filtrar(e.target.value)
+
+    if(onlyInvernadero.length === 0){
+      setShowError(true)
+      setMessageError("INVERNADERO NO ENCONTRADO")
+      if(e.target.value === ""){
+        setShowError(false)
+        setMessageError("")
+      }
+      if(invernadero.length===0 && e.target.value === ""){
+        setShowError(true)
+        setMessageError("NO HAY INVERNADEROS")
+      }
+    }else{
+      setShowError(false)
+      setMessageError("")
+    }
   }
 
   const filtrar = (terminoBusqueda)=>{
@@ -77,7 +86,7 @@ const alert = ()=> {
   return (
     <>
       <div className={`mx-28 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative transition-all`} role="alert ">
-        <strong className="font-bold">Recuerda!</strong>
+        <strong className="font-bold">¡Recuerda!</strong>
         <span className="block sm:inline"> Solo puedes eliminar aquellos Invernaderos que no tengan asignado un cultivo.</span>
         <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
         <button type="button" className=" " onClick={()=>setShowAlert(!showAlert)}>
@@ -93,6 +102,19 @@ const alert = ()=> {
   const eliminarCultivo = (id_invernadero) =>{
     setIdEliminar(id_invernadero)
     setShowModal(true)
+  }
+
+  const estadoInvernadero = (estado) =>{
+    switch (estado) {
+      case 0:
+        return <p className="bg-red-600 rounded-xl text-white">Desactivado</p>
+      case 1:
+        return <p className="bg-yellow-500 rounded-xl text-white">Proceso</p>
+      case 2:
+        return <p className="bg-green-600 rounded-xl text-white">Activado</p>
+      default:
+        break;
+    }
   }
   return (
     <>
@@ -147,24 +169,20 @@ const alert = ()=> {
                                   {data.ubicacion_invernadero}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {data?.inicio_temporada}
+                                  {moment(data.inicio_temporada).format('DD-MM-YYYY')}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {data?.termino_temporada}
+                                  {moment(data.termino_temporada).format("DD-MM-YYYY")}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {data.estado_invernadero === 0 ? <p className="bg-red-600 rounded-xl text-white">Desactivado</p> : <p className="bg-blue-500">Activado</p>}
+                                  {estadoInvernadero(data.estado_invernadero)}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   {data.tamano_invernadero} m²
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   <div className="flex gap-4 justify-center items-center">
-                                    <button onClick={()=>eliminarCultivo(data.id_invernadero)} className="text-white"type="button">
-                                      <div className='bg-red-200 rounded-full px-2 py-2'>
-                                        <BiTrash className="text-xl text-red-600" />
-                                      </div>
-                                    </button>
+                                    {data.estado_invernadero === 1 ? "":<button onClick={()=>eliminarCultivo(data.id_invernadero)} className="text-white"type="button"><div className='bg-red-200 rounded-full px-2 py-2'><BiTrash className="text-xl text-red-600" /></div></button>}
                                     <button onClick={()=>{navigate(`editar/${data.id_invernadero}`)}} className="text-white"type="button">
                                       <div className='bg-green-200 rounded-full px-2 py-2'>
                                         <BiEdit className="text-xl text-green-600" />
@@ -185,7 +203,6 @@ const alert = ()=> {
                 </table>
                 {loader ? <LoaderTableList/> : "" }
                 {showError ? <ErrorMessage message={messageError}/>:null}
-                {onlyInvernadero.length===0 ? <ErrorMessage message={"Invernadero no encontrado"}/>:null}
 
                 <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                   <span className="text-md xs:text-sm text-gray-900">

@@ -12,7 +12,7 @@ import LoaderTableList from '../../components/table/LoaderTableList'
 import { BiEdit,BiTrash } from 'react-icons/bi'
 import ModalEliminarCultivo from '../../components/modal/ModalEliminarCultivo'
 import { UserContext } from '../../context/UserContext'
-
+import moment from 'moment'
 
 const CultivoListado = () => {
   
@@ -35,31 +35,22 @@ const CultivoListado = () => {
     },[size,counterRender])
     
     const obtenerCultivo = async () =>{
-      try{
-        setCounterRender(0)
-        getAllCultivosUsuario(id_usuario,token,size)
-        .then((response)=>{
+      setCounterRender(0)
+      getAllCultivosUsuario(id_usuario,token,size)
+      .then((response)=>{
+        if(response.data.length === 0){
+          setShowError(true)
           setLoader(false)
+          setMessageError("NO HAY CULTIVOS")
+        }else{
           setShowError(false)
+          setMessageError("")
+          setLoader(false)
           setCultivo(response.data)
           setOnlyCultivo(response.data)
           setCountItem(response?.data[0].full_count)
-        })
-        .catch((error)=>{
-          setShowError(true)
-          setLoader(false)
-          if(error.response.status === 404 ){
-            setMessageError(error.response.data.message)
-            throw error.response.data.message
-          }
-          if(error.response.status === 409 ){
-            setMessageError(error.response.data.error)
-            throw error.response.data.message
-          }
-        })
-        }catch(error) {
-          throw error
         }
+      })
     }
     const handleSelectPage = (e)=>{
     setSize(e.target.value)
@@ -84,10 +75,42 @@ const CultivoListado = () => {
   const handleBuscarCultivo = (e) =>{
     setBusqueda(e.target.value)
     filtrarCultivo(e.target.value)
+
+    if(onlyCultivo.length === 0){
+      setShowError(true)
+      setMessageError("CULTIVO NO ENCONTRADO")
+      if(e.target.value === ""){
+        setShowError(false)
+        setMessageError("")
+      }
+      if(cultivo.length===0 && e.target.value === ""){
+        setShowError(true)
+        setMessageError("NO HAY CULTIVOS")
+      }
+    }else{
+      setShowError(false)
+      setMessageError("")
+    }
   }
   const handleBuscarInvernadero = (e) =>{
     setBusqueda(e.target.value)
     filtrarInvernadero(e.target.value)
+
+    if(onlyCultivo.length === 0){
+      setShowError(true)
+      setMessageError("CULTIVO NO ENCONTRADO")
+      if(e.target.value === ""){
+        setShowError(false)
+        setMessageError("")
+      }
+      if(cultivo.length===0 && e.target.value === ""){
+        setShowError(true)
+        setMessageError("NO HAY CULTIVOS")
+      }
+    }else{
+      setShowError(false)
+      setMessageError("")
+    }
   }
   const handleSelect = (e) =>{
     setEstadoFiltro(e.target.value)
@@ -125,8 +148,8 @@ const CultivoListado = () => {
     return (
       <>
         <div className={`mx-28 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative transition-all`} role="alert ">
-          <strong className="font-bold">Recuerda!</strong>
-          <span className="block sm:inline"> Solo puedes eliminar aquellos cultivos que no tengan asignada una cama.</span>
+          <strong className="font-bold">¡Recuerda!</strong>
+          <span className="block sm:inline"> Solo puedes eliminar aquellos cultivos que no tengan asignado una cama.</span>
           <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
           <button type="button" className=" " onClick={()=>setShowAlert(!showAlert)}>
             <svg className="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
@@ -167,9 +190,7 @@ const CultivoListado = () => {
                 </div>
             </div>
             {inputFiltro(estadoFiltro )}
-
           </div>
-          
             <div className='pr-10'>
               <Link to={'/cultivo/crear'} element={<CultivoCrear/>} className="border-green-700 bg-green-700 text-white rounded-lg  font-semibold shadow-md shadow-gray-300 hover:scale-[1.02] transition-transform text-md px-5 py-2 text-center">Crear Cultivo</Link>
             </div>
@@ -222,7 +243,7 @@ const CultivoListado = () => {
                                       {0}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      {data.created_at}
+                                      {moment(data.created_at).format('DD-MM-YYYY')}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       <div className="flex gap-4 justify-center items-center">
@@ -251,8 +272,7 @@ const CultivoListado = () => {
                         </tbody>
                   </table>
                   {loader ? <LoaderTableList/> : "" }
-                  {showError ? <ErrorMessage message={messageError}/> :""}
-                  {onlyCultivo.length===0 ? <ErrorBusqueda message ={"Cultivo no encontrado"}/>:""}
+                  {showError ? <ErrorMessage message={messageError}/>:null}
 
                   <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-md xs:text-sm text-gray-900">
