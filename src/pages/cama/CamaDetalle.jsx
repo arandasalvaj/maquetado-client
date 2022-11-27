@@ -20,11 +20,15 @@ const CamaDetalle = () => {
   const [ppm,setPpm]= useState(0)
   const [ambiente,setAmbiente]= useState(0)
   const [humedad,setHumedad]= useState(0)
+  const [sensores,setSensores]= useState([])
 
   useEffect(()=>{
     socket.emit("idCama",idCama);
-    socket.on('agua',(data)=>{
-      console.log(data)
+    socket.on('sensores',(data2)=>{
+      console.log(data2);
+      setSensores(data2)
+    })
+    socket.on('data',(data)=>{
       setPpm(data.dataGas[0].ppm_gas)
       setAmbiente(data.dataAmbiente[0].temperatura_ambiente)
       setHumedad(data.dataAmbiente[0].humedad_ambiente)
@@ -106,10 +110,10 @@ const CamaDetalle = () => {
         </div>
       </div>
         <div className="grid grid-cols-1 md:grid-cols-2 px-10">
-          <IndicadorHumedad titulo="Porcentaje de humedad"/>
-          <IndicadorGas titulo="Nivel de CO2"/>
-          <IndicadorTemperatura titulo="Temperatura del Ambiente"/>
-          <IndicadorTemperaturaAgua titulo="Temperatura del Agua"/>
+          <IndicadorHumedad titulo="Porcentaje de humedad" datos={sensores.dataAmbiente}/>
+          <IndicadorGas titulo="Nivel de CO2" datos={sensores.dataGas}/>
+          <IndicadorTemperatura titulo="Temperatura del Ambiente" datos={sensores.dataAmbiente}/>
+          <IndicadorTemperaturaAgua titulo="Temperatura del Agua" datos={sensores.dataAgua}/>
         </div>
         <ToastContainer/>
     </>
