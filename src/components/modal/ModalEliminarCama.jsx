@@ -15,12 +15,14 @@ const ModalEliminarCama = ({idCama}) => {
         .then((response)=>{
             setCounterRender(1)
             toast.success('CAMA ELIMINADA', {
-                position: toast.POSITION.TOP_CENTER
-              })
-              const interval = setInterval(() => {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose:2000,
+                theme: "colored",
+            })
+            const interval = setInterval(() => {
                 navigate('/cama')
                 clearInterval(interval)
-              }, 4000)
+            }, 2000)
         })
         .catch((error)=>{
         })

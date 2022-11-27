@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getInvernadero, updateInvernadero } from '../../services/invernadero';
 import { UserContext } from '../../context/UserContext'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
-
+import moment from 'moment'
 const InvernaderoEditar = () => {
   const {idInvernadero}= useParams()
   const {token} = useContext(UserContext)
@@ -24,8 +24,8 @@ const InvernaderoEditar = () => {
       setValue("nombre_invernadero",response.data.nombre_invernadero)
       setValue("tamano_invernadero",response.data.tamano_invernadero)
       setValue("ubicacion_invernadero",response.data.ubicacion_invernadero)
-      setValue("inicio_temporada",response.data.inicio_temporada.split("T")[0])
-      setValue("termino_temporada",response.data.termino_temporada.split("T")[0])
+      setValue("inicio_temporada",moment(response.data.inicio_temporada).format("YYYY-MM-DD"))
+      setValue("termino_temporada",moment(response.data.termino_temporada).format("YYYY-MM-DD"))
     })
     .catch((error)=>{
       console.log(error)
@@ -114,7 +114,7 @@ const InvernaderoEditar = () => {
                   {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La fecha de Inicio de Temporada es requerida</p>}
                 </div>
                 <div className='flex flex-col text-[#505568] py-2 w-full pb-5 p-4'>
-                  <label className='py-2 text-[#406343] font-bold'>Termino de Temporada</label>
+                  <label className='py-2 text-[#406343] font-bold'>Término de Temporada</label>
                   <input  {...register("termino_temporada", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="date" />
                   {errors.ubicacion_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>La fecha de Termino de Temporada es requerida</p>}
                 </div>

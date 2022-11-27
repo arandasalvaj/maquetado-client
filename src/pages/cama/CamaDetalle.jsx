@@ -14,14 +14,21 @@ import { io } from "socket.io-client";
 
 const CamaDetalle = () => {
   const {idCama} = useParams();
-  // const socket = io("https://www.tuinvernadero.xyz");
-  const socket = io("http://localhost:8000/");
+  const socket = io("https://www.tuinvernadero.xyz");
+  //const socket = io("http://localhost:8000/");
   const [agua,setAgua]= useState(0)
+  const [ppm,setPpm]= useState(0)
+  const [ambiente,setAmbiente]= useState(0)
+  const [humedad,setHumedad]= useState(0)
+
   useEffect(()=>{
     socket.emit("idCama",idCama);
     socket.on('agua',(data)=>{
-      setAgua(data[0].temperatura_agua)
-      console.log(data[0].temperatura_agua)
+      console.log(data)
+      setPpm(data.dataGas[0].ppm_gas)
+      setAmbiente(data.dataAmbiente[0].temperatura_ambiente)
+      setHumedad(data.dataAmbiente[0].humedad_ambiente)
+      setAgua(data.dataAgua[0].temperatura_agua)
     })
   },[])
 
@@ -58,7 +65,7 @@ const CamaDetalle = () => {
           <div className='py-4 gap-4 flex flex-col col-span-4 md:col-span-1'>
             <div className='flex justify-center '>
               <div style={{ width: 150, height: 150 }} className=' '>
-                <CircularProgressbar value={24} text={`${24}°`} />
+                <CircularProgressbar value={ambiente} text={`${ambiente}°`} />
               </div>
             </div>
             <center><h1 className=' text-black font-semibold text-xl md:text-2xl'>Temperatura del Ambiente</h1></center>
@@ -67,7 +74,7 @@ const CamaDetalle = () => {
           <div className='py-4 gap-4 flex flex-col col-span-4 md:col-span-1'>
             <div className='flex justify-center '>
               <div style={{ width: 150, height: 150 }} className=' '>
-                <CircularProgressbar value={7} text={`${7}°`} />
+                <CircularProgressbar value={agua} text={`${agua}°`} />
               </div>
             </div>
             <center><h1 className=' text-black font-semibold text-xl md:text-2xl'>Temperatura del Agua</h1></center>
@@ -76,7 +83,7 @@ const CamaDetalle = () => {
           <div className='py-4 gap-4 flex flex-col col-span-4 md:col-span-1 '>
             <div className='flex justify-center '>
               <div style={{ width: 150, height: 150 }} className=''>
-                <CircularProgressbar value={agua} text={`${agua}%`} />
+                <CircularProgressbar value={humedad} text={`${humedad}%`} />
               </div>
             </div>
             <center><h1 className=' text-black font-semibold text-xl md:text-2xl'>Humedad del Ambiente</h1></center>
@@ -85,7 +92,7 @@ const CamaDetalle = () => {
           <div className='py-4 gap-4 flex flex-col col-span-4 md:col-span-1 '>
             <div className='flex justify-center '>
               <div style={{ width: 150, height: 150 }} className=''>
-                <CircularProgressbar maxValue={300} value={116} text={`${116} PPM`} />
+                <CircularProgressbar maxValue={1000} value={ppm} text={`${ppm} PPM`} />
               </div>
             </div>
             <center><h1 className=' text-black font-semibold text-xl md:text-2xl'>Nivel de CO2</h1></center>

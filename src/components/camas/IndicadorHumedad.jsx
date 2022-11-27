@@ -7,8 +7,8 @@ import {Line} from 'react-chartjs-2'
 ChartJS.register(CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend,Filler)
 
 const IndicadorHumedad = ({titulo}) => {
-
-    const scores =  [80,82,81,83,83,82,83,82,80,82,81]
+    //80,82,81,83,83,82,83,82,80,82,81
+    const scores =  [80]
     const labels = ["13:30","13:50","14:00","14:20","14:40","15:00","15:20","15:40","16:00"] 
   
     const options = {
