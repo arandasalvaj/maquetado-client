@@ -5,8 +5,6 @@ import CamaCrear from './CamaCrear'
 import { RiSearchLine,RiArrowDownSLine} from "react-icons/ri"
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import ErrorBusqueda from '../../components/messages/ErrorBusqueda'
-
 import { AiOutlineDollarCircle } from 'react-icons/ai'
 import ErrorMessage from '../../components/messages/ErrorMessage'
 import LoaderTableList from '../../components/table/LoaderTableList'
@@ -15,13 +13,13 @@ import { BiEdit,BiTrash } from 'react-icons/bi'
 import ModalEliminarCama from '../../components/modal/ModalEliminarCama'
 import { UserContext } from '../../context/UserContext'
 import moment from 'moment'
+import ModalCosecha from '../../components/modal/ModalCosecha'
 const CamaListado = () => {
   
-  const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {showModalCosecha,setShowModalCosecha,showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
   
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
-  
   
   const [cama,setCama] = useState([])
   const [busqueda,setBusqueda] = useState("")
@@ -95,7 +93,10 @@ const CamaListado = () => {
       setIdEliminar(id_cama)
       setShowModal(true)
     }
-
+    const agregarCosecha = (id_cama) =>{
+      setIdEliminar(id_cama)
+      setShowModalCosecha(true)
+    }
     return (
       <>
       <div className='  flex flex-col justify-between mx-[70px]'>
@@ -204,7 +205,7 @@ const CamaListado = () => {
                                             <MdGridView className='text-xl text-blue-600' />
                                           </div>
                                         </button>
-                                        <button onClick={()=>{navigate(`editar/${data.id_cama}`)}} className="text-white"type="button">
+                                        <button onClick={()=>agregarCosecha(data.id_cama)} className="text-white"type="button">
                                           <div className='bg-yellow-200 rounded-full px-2 py-2'>
                                             <AiOutlineDollarCircle className="text-xl text-yellow-600" />
                                           </div>
@@ -239,6 +240,7 @@ const CamaListado = () => {
           <ToastContainer />
         </div>
       </div>
+      {showModalCosecha ? <ModalCosecha idCama={idEliminar}/>:null}
       {showModal ? <ModalEliminarCama idCama={idEliminar} /> : null}
       </>
     )

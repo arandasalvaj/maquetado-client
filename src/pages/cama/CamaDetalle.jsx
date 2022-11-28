@@ -10,6 +10,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
+import moment from 'moment/moment';
 
 
 const CamaDetalle = () => {
@@ -22,9 +23,8 @@ const CamaDetalle = () => {
   const [humedad,setHumedad]= useState(0)
 
   useEffect(()=>{
-    socket.emit("idCama",idCama);
-    socket.on('agua',(data)=>{
-      console.log(data)
+    socket.emit("idCama",idCama)
+    socket.on('data',(data)=>{
       setPpm(data.dataGas[0].ppm_gas)
       setAmbiente(data.dataAmbiente[0].temperatura_ambiente)
       setHumedad(data.dataAmbiente[0].humedad_ambiente)
