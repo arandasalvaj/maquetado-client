@@ -3,7 +3,7 @@ import { UserContext } from '../../context/UserContext'
 import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { getCosecha, updateCosecha } from '../../services/cosecha'
+import { getCosecha, postCosecha } from '../../services/cosecha'
 import { useEffect } from 'react'
 import { useState } from 'react'
 
@@ -28,7 +28,7 @@ const ModalCosecha = ({idCama}) => {
 
     const onSubmit = (data) =>{
         setShowModalCosecha(false)
-        updateCosecha(cosecha.id_cosecha,data,token)
+        postCosecha(idCama,data,token)
         .then(()=>{
             setCounterRender(1)
             toast.success('COSECHA ACTUALIZADA', {
