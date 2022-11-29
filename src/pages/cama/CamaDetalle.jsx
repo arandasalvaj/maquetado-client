@@ -10,6 +10,7 @@ import 'react-circular-progressbar/dist/styles.css'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
+import moment from 'moment/moment';
 
 
 const CamaDetalle = () => {
@@ -23,6 +24,7 @@ const CamaDetalle = () => {
   const [sensores,setSensores]= useState([])
 
   useEffect(()=>{
+    socket.emit("idCama",idCama)
     socket.emit("idCama",idCama);
     socket.on('sensores',(data2)=>{
       console.log(data2);
