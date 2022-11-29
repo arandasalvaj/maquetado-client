@@ -23,7 +23,6 @@ ChartJS.register(
 );
 
 function IndicadorTemperaturaAgua({titulo, datos}) {
-  console.log(datos)
   
     const optimo = 26.30;
 

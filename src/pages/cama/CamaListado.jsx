@@ -14,9 +14,11 @@ import ModalEliminarCama from '../../components/modal/ModalEliminarCama'
 import { UserContext } from '../../context/UserContext'
 import moment from 'moment'
 import ModalCosecha from '../../components/modal/ModalCosecha'
+import { io } from "socket.io-client";
+
 const CamaListado = () => {
   
-  const {showModalCosecha,setShowModalCosecha,showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {estadoSocket,setEstadoSocket,showModalCosecha,setShowModalCosecha,showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
   
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
@@ -29,9 +31,15 @@ const CamaListado = () => {
   const [size,setSize]=useState(5)
   const [countItem,setCountItem] = useState(0)
   const [idEliminar,setIdEliminar] = useState(0)
+  const socket = io("http://localhost:8000");
 
     useEffect(()=>{
       obtenerCama()
+      if(estadoSocket){
+        socket.emit('end')
+        setEstadoSocket(false)
+      }
+
     },[size,counterRender])
 
     const obtenerCama = async () =>{
@@ -200,11 +208,11 @@ const CamaListado = () => {
                                             <BiEdit className="text-xl text-green-600" />
                                           </div>
                                         </button>
-                                        <button onClick={()=>{navigate(`detalle/${data.id_cama}`)}}>
+                                        <Link to={`detalle/${data.id_cama}`}>
                                           <div className='bg-blue-200 rounded-full px-2 py-2'>
                                             <MdGridView className='text-xl text-blue-600' />
                                           </div>
-                                        </button>
+                                        </Link>
                                         <button onClick={()=>agregarCosecha(data.id_cama)} className="text-white"type="button">
                                           <div className='bg-yellow-200 rounded-full px-2 py-2'>
                                             <AiOutlineDollarCircle className="text-xl text-yellow-600" />

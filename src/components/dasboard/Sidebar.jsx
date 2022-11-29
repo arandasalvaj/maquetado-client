@@ -1,20 +1,29 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { GiPlantWatering } from "react-icons/gi";
-import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { TbPlant2 } from "react-icons/tb";
 import { UserContext } from '../../context/UserContext';
+import { io } from "socket.io-client";
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-    const {setAuth,user,setCounter} =useContext(UserContext)
-    
+  const socket = io("http://localhost:8000");
+
+    const toggleMenu = () => {
+      setShowMenu(!showMenu);
+    };
+
+    const {setAuth,user,setCounter,estadoSocket,setEstadoSocket} =useContext(UserContext)
+    useEffect(()=>{
+      if(estadoSocket){
+        socket.emit('end')
+        setEstadoSocket(false)
+      }
+    },[])
+
     const handleLogout = () =>{
       setAuth(false)
       window.localStorage.removeItem('loggedUser')
@@ -26,12 +35,6 @@ const Sidebar = () => {
       setCounter(0) 
     }
 
-    // <li>
-    //   <Link to={'/dashboard'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>
-    //     <MdOutlineSpaceDashboard className='text-4xl' />
-    //     Inicio
-    //   </Link>
-    // </li>
     return (
         <div
           className={`fixed top-0 w-3/4 lg:left-0 md:w-72 h-full bg-green-700 flex flex-col justify-between z-50 transition-all ${

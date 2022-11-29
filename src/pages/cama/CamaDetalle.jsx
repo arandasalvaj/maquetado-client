@@ -11,12 +11,15 @@ import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 import { Link, useParams } from 'react-router-dom';
 import { io } from "socket.io-client";
 import moment from 'moment/moment';
+import { UserContext } from '../../context/UserContext';
+import Cama from './Cama';
 
 
 const CamaDetalle = () => {
   const {idCama} = useParams();
-  const socket = io("https://www.tuinvernadero.xyz");
-  //const socket = io("http://localhost:8000/");
+  const {setEstadoSocket} =useContext(UserContext)
+  //const socket = io("https://www.tuinvernadero.xyz");
+  const socket = io("http://localhost:8000");
   const [agua,setAgua]= useState(0)
   const [ppm,setPpm]= useState(0)
   const [ambiente,setAmbiente]= useState(0)
@@ -24,8 +27,8 @@ const CamaDetalle = () => {
   const [sensores,setSensores]= useState([])
 
   useEffect(()=>{
+    setEstadoSocket(true)
     socket.emit("idCama",idCama)
-    socket.emit("idCama",idCama);
     socket.on('sensores',(data2)=>{
       console.log(data2);
       setSensores(data2)
@@ -46,7 +49,7 @@ const CamaDetalle = () => {
         <nav>
           <ol className="inline-flex items-center space-x-1 md:space-x-3">
               <li className="inline-flex items-center">
-                  <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                  <Link to={'../'} element={<Cama />} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
                       <AiTwotoneHome className="mr-1 w-5 h-5"/>
                       Cultivo
                   </Link>

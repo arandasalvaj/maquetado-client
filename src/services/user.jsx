@@ -1,4 +1,5 @@
 import axios from "axios"
+
 //const API_URL = 'https://tuinvernadero.xyz/' //URL DE PRODUCCION, SOLO CUANDO ESTA EN PRODUCCION.
 const API_URL = 'http://localhost:8000/' //URL LOCAL, SOLO DE DESARROLLO.
 

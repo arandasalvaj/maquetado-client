@@ -1,4 +1,5 @@
 import React, { createContext,useState } from 'react'
+import { useEffect } from 'react'
 
 export const UserContext = createContext()
 
@@ -14,6 +15,7 @@ export const UserProvider = ({children}) => {
     const [showError , setShowError]= useState(false)
     const [counterRender,setCounterRender]= useState(0)
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
+    const [estadoSocket,setEstadoSocket] = useState(false)
 
 
     const isAuth= ()=>{
@@ -39,6 +41,8 @@ export const UserProvider = ({children}) => {
     }
     return (
         <UserContext.Provider value={{
+            estadoSocket,
+            setEstadoSocket,
             showModalCosecha,
             setShowModalCosecha,
             setCounterRender,

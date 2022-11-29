@@ -1,4 +1,3 @@
-import Navbar from '../../components/dasboard/Navbar'
 import Sidebar from '../../components/dasboard/Sidebar'
 import React, { useContext,useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -7,10 +6,10 @@ import { UserContext } from '../../context/UserContext'
 const Cama = () => {
   const {auth,isAuth} =useContext(UserContext)
   const navigate = useNavigate()
-
   useEffect(()=>{
     if(!isAuth()){navigate('/login')}
   },[])  
+
 //<Sidebar />
   if (auth) {
     return (

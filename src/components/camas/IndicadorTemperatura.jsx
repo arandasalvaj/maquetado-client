@@ -23,7 +23,6 @@ ChartJS.register(
 );
 
 function IndicadorTemperatura({titulo, datos}) {
-  console.log(datos)
   
     const optimo = 26.15;
 
