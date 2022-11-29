@@ -47,12 +47,12 @@ function IndicadorHumedad({titulo, datos}) {
 
   return (
     <>
-    <div className='w-[700px] border border-black rounded-lg my-4'>
+    <div className='border border-black rounded-lg'>
         <div className='bg-green-700 py-4 rounded-t-lg' >
           <h1 className='text-center text-white font-semibold text-xl'>{titulo}</h1>
         </div>
       <Line options={options} data={{ 
-        labels: (datos ? datos.map(dato => moment(dato.created_at).format("L HH:mm")) : ''),
+        labels: (datos ? datos.map(dato => moment(dato.created_at).format("HH:mm")) : ''),
         datasets: [
             {
             label: 'Real',
@@ -73,7 +73,7 @@ function IndicadorHumedad({titulo, datos}) {
 
     ]
 
-  }} />;
+  }} />
   </div>
     </>
   )

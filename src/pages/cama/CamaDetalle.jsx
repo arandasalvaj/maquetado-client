@@ -114,7 +114,7 @@ const CamaDetalle = () => {
             <h1 className='text-4xl font-semibold leading-relaxed text-gray-800 text-center '> Graficos Diario</h1>
         </div>
       </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 px-10">
+        <div className="grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2 py-10 px-10">
           <IndicadorHumedad titulo="Porcentaje de humedad" datos={sensores.dataAmbiente}/>
           <IndicadorGas titulo="Nivel de CO2" datos={sensores.dataGas}/>
           <IndicadorTemperatura titulo="Temperatura del Ambiente" datos={sensores.dataAmbiente}/>
