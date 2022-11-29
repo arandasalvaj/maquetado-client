@@ -47,7 +47,7 @@ function IndicadorTemperaturaAgua({titulo, datos}) {
 
   return (
     <>
-    <div className='w-[700px] border border-black rounded-lg my-4'>
+    <div className='border border-black rounded-lg'>
         <div className='bg-green-700 py-4 rounded-t-lg' >
           <h1 className='text-center text-white font-semibold text-xl'>{titulo}</h1>
         </div>
@@ -73,7 +73,7 @@ function IndicadorTemperaturaAgua({titulo, datos}) {
 
     ]
 
-  }} />;
+  }} />
   </div>
     </>
   )
