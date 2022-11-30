@@ -49,6 +49,10 @@ import NotFoundPage from "./pages/NotFoundPage"
 import Perfil from "./pages/perfil/Perfil"
 import Perfilindex from "./pages/perfil/Perfilindex"
 
+//ANALITICA
+import  AnaliticaIndex  from "./pages/analitica/AnaliticaIndex"
+import  Analitica  from "./pages/analitica/Analitica"
+
 function App() {
   return (
     <div className="bg-white">
@@ -92,6 +96,10 @@ function App() {
 
             <Route path="perfil" element={<Perfilindex />}>
               <Route index element={<Perfil />} />
+            </Route>
+
+            <Route path="analitica" element={<AnaliticaIndex />}>
+              <Route index element={<Analitica />} />
             </Route>
             
             <Route path="*" element={<NotFoundPage />} />

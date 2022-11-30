@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { IoIosAnalytics } from "react-icons/io";
 import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { GiPlantWatering } from "react-icons/gi";
@@ -70,6 +71,12 @@ const Sidebar = () => {
                 <Link to={'../perfil'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
                   <CgProfile className='text-4xl' />
                     Perfil
+                </Link>
+              </li>
+              <li>
+                <Link to={'../analitica'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
+                  <IoIosAnalytics className='text-4xl' />
+                    Analitica
                 </Link>
               </li>
             </ul>
