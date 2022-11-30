@@ -3,8 +3,8 @@ import CamaCrear from "./CamaCrear"
 
 const CultivoInicio = () => {
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-  return (
-  <>
+return (
+<>
     <main className='flex-1'>
         <div className='flex items-center justify-between py-7 px-10'>
             <div >
@@ -98,8 +98,8 @@ const CultivoInicio = () => {
                 </div>
             </div>
         </div>
-  </>
-  )
+</>
+)
 }
 
 export default CultivoInicio

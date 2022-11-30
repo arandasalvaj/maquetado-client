@@ -169,10 +169,10 @@ const alert = ()=> {
                                   {data.ubicacion_invernadero}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {moment(data.inicio_temporada).format('DD-MM-YYYY')}
+                                  {moment(data.inicio_temporada).format('YYYY-MM-DD')}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                  {moment(data.termino_temporada).format("DD-MM-YYYY")}
+                                  {moment(data.termino_temporada).format("YYYY-MM-DD")}
                                 </td>
                                 <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                   {estadoInvernadero(data.estado_invernadero)}

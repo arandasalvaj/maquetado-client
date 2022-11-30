@@ -19,7 +19,7 @@ const Login = () => {
     
     const onChange = () =>{
         if(captcha.current.getValue()){
-         setCaptchaEstado(true)   
+        setCaptchaEstado(true)   
 
         }
     }
@@ -91,8 +91,8 @@ const Login = () => {
                     {errors.password?.type==='required'&& <p className='text-red-500 text-sm italic'>La contraseña es requerida</p> }
                 </div>
                 <div className='flex justify-between text-gray-400 py-2'>
-                    <p className='flex items-center'><input className='mr-2' type="checkbox" /> Recuerdame</p>
-                    <Link to={'/registro'} className="font-medium  hover:underline text-[#406343]"> Registrate</Link>
+                    <p className='flex items-center'><input className='mr-2' type="checkbox" /> Recuérdame</p>
+                    <Link to={'/registro'} className="font-medium  hover:underline text-[#406343]"> Regístrate</Link>
                 </div>
                 <div className='flex items-center justify-center'>
                     <ReCAPTCHA sitekey="6LeRYvkiAAAAAITzNI9tdWN_O29RUVAgcX1RRKSU" ref={captcha} onChange={onChange} />

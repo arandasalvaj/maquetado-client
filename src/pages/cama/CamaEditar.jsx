@@ -58,12 +58,14 @@ const CamaEditar = () => {
       updateCama(data,idCama,token)
       .then((response) =>{
         toast.success('CAMA ACTUALIZADA', {
-          position: toast.POSITION.BOTTOM_CENTER
+          position: toast.POSITION.TOP_CENTER,
+          autoClose:2000,
+          theme: "colored",
         })
         const interval = setInterval(() => {
           navigate('/cama')
           clearInterval(interval)
-        }, 4000)
+        }, 2000)
       })
       .catch((error)=>{
         if(error.response.status === 404 ){

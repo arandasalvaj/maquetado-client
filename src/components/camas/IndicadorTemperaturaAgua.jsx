@@ -23,7 +23,6 @@ ChartJS.register(
 );
 
 function IndicadorTemperaturaAgua({titulo, datos}) {
-  console.log(datos)
   
     const optimo = 26.30;
 
@@ -63,7 +62,7 @@ function IndicadorTemperaturaAgua({titulo, datos}) {
             
             },
             {
-                label: 'Optimo',
+                label: 'Optimó',
                 data: (datos ? datos.map(dato => optimo ) : ''),
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',

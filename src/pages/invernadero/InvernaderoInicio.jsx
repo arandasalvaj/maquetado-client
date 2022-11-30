@@ -1,125 +1,103 @@
-import {  useEffect, useState } from "react"
-import { Link,useNavigate } from "react-router-dom"
-
-import { getAllInvernaderos } from "../../services/invernadero";
-import { deleteUser } from "../../services/user";
+import React, { useContext, useEffect,useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import IndicadoresPromedio from "../../components/invernadero/IndicadoresPromedio";
-import InformacionRendimiento from "../../components/invernadero/InformacionRendimiento";
-import { getInvernadero } from '../../services/invernadero'
+import { getAllCultivos } from '../../services/cultivo';
+import { getInvernadero } from '../../services/invernadero';
+import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
+import { UserContext } from '../../context/UserContext';
+
+import moment from 'moment'
 
 
 const InvernaderoInicio = () => {
-  const [showModal, setShowModal] = useState(false);
-  const loggedUser = window.localStorage.getItem('loggedUser')
-  const {id_usuario} = JSON.parse(loggedUser)
-
-  /**
-   * Mostrar Errores
-   */
-
-  const [invernaderoSolo,setInvernaderoSolo] = useState([])
-  const [invernaderoId,setInvernaderoId] = useState([])
-  const [nombre,setNombre] = useState([])
-  const [indexInv,setIndexInv] = useState([])
-
-  const navigate = useNavigate()
+  const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  
+  const {idInvernadero} = useParams()
+  const [invernadero,setInvernadero] = useState([])
+  const [onlyCultivo,setOnlyCultivo] = useState([])
 
   useEffect(()=>{
-    obtenerInvernaderos()
-  },[indexInv])
-  
+      obtenerInvernadero()
+      obtenerCultivo()
+    },[])
+
   const obtenerInvernadero = () =>{
-    getInvernadero(id_usuario,invernaderoId)
-    .then((response)=>{
-      setInvernaderoSolo(response.data)
-    })
-    .catch((error)=>{
-      if(error.response.status === 404 ){
-        setShowError(true)
-        setLoader(false)
+      getInvernadero(idInvernadero,token)
+      .then((response)=>{
+          setInvernadero(response.data)
+      })
+      .catch((error)=>{
         setMessageError(error.response.data.message)
-        throw error.response.data.message
-      }
-      if(error.response.status === 409 ){
-        setShowError(true)
-        setLoader(false)
-        setMessageError(error.response.data.error)
-        throw error.response.data.message
-      }
-    })
+      })
   }
 
-  return (
-  <>
-    <main className='flex-1'>
-        <div className='flex items-center justify-between py-7 px-10'>
-            <div >
-                <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Invernaderos</h1>
-                <p className='text-3sm font-semibold text-gray-500'>Crea invernaderos y editalos aqui</p>
-            </div>
-            <Link to={'/invernadero/crear'} element={<InvernaderoCrear/>} className='py-2.5 px-6 text-white font-semibold bg-[#406343] hover:bg-[#32502E] rounded-xl'>Crear invernadero</Link>
-        </div>
-    </main>
+  const obtenerCultivo = async () =>{
+    try{
+      setCounterRender(0)
+      getAllCultivos(idInvernadero,token)
+      .then((response)=>{
+        setOnlyCultivo(response.data)
+      })
+      .catch((error)=>{
+        setMessageError(error.response.data.message)
+      })
+      }catch(error) {
+        throw error
+      }
+  }
 
-    {showModal ? (
-      <>
-        <div
-          className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-        >
-          <div className="relative w-auto my-6 mx-auto max-w-3xl">
-            <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-              <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                <h3 className="text-3xl font-semibold">
-                  Eliminar Invernadero
-                </h3>
-                <button
-                  className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                  onClick={() => setShowModal(false)}
-                >
-                  <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                    ×
-                  </span>
-                </button>
+return (
+  <>
+    <div className=' grid grid-cols-12 '> 
+      <div className='col-span-2 flex px-6 '>
+        <nav>
+          <ol className="inline-flex items-center space-x-1 md:space-x-3">
+              <li className="inline-flex items-center">
+                  <Link to={'../'} className="inline-flex items-center text-lg font-medium text-gray-700 hover:text-gray-900 dark:text-gray-400">
+                      <AiTwotoneHome className="mr-1 w-5 h-5"/>
+                      Invernadero
+                  </Link>
+              </li>
+              <li>
+              <div className="flex items-center">
+                  <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
+                  <span className="text-lg font-medium text-gray-600 md:ml-2">Detalle</span>
               </div>
-              {/*body*/}
-              <div className="relative p-6 flex-auto">
-                <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                  ¿Estás seguro que deseas eliminar el invernadero de {nombre} ?
-                </p>
+              </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <main className='  flex flex-col justify-between mx-[70px]'>
+      <div className='flex items-center justify-between py-7 px-10'>
+          <div >
+              <h1 className='text-4xl font-semibold leading-relaxed text-gray-800'>Detalle de Invernadero</h1>
+              <h1 className='text-3sm font-semibold text-gray-500'>Puedes ver el detalle de tu invernadero aquí</h1>
+          </div>
+      </div>
+    </main>
+    <div className='px-28'>
+        <IndicadoresPromedio invernadero={invernadero} />
+        <div className=" grid rounded-xl bg-gray-200 my-4 ">
+          <div className=" grid grid-cols-4 gap-4 px-4 py-4 grid-flow-cols-dense">
+            <div className=" sm:col-span-2 row-span-4 flex items-center justify-center"> 
+              <div className="google-map-code rounded-lg shadow-sm  col-span-3 sm:col-span-2 row-span-4 flex items-center justify-center">
+                <iframe src="https://maps.google.com/maps?q=calama&t=&z=15&ie=UTF8&iwloc=&output=embed" width="645" height="300" frameborder="0" style={{border:0}} className='rounded-lg' allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
               </div>
-              {/*footer*/}
-              <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                <button
-                  className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                >
-                  Cancelar
-                </button>
-                <button
-                  className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  type="button"
-                  onClick={()=>{
-                      setShowModal(false)
-                      deleteUser(id_usuario,indexInv)  
-                      .then((res) => {
-                        setIndexInv(0)
-                      }) 
-                    }}
-                >
-                  Eliminar
-                </button>
-              </div>
+            </div>
+            <div className="bg-[#154D80] rounded-lg shadow-sm h-[300px] col-span-3 sm:col-span-2 row-span-4 flex items-center justify-center"> 
+                <div className="py-16 sm:py-0">
+                  <h1 className='text-4xl text-white font-bold text-center'>{onlyCultivo.nombre_cultivo}</h1>
+                  <p className='text-2xl text-white  text-center grid grid-rows-3 font-semibold'>Fecha de creación
+                      <span className="font-semibold">{moment(onlyCultivo.created_at).format('DD-MM-YYYY')}</span>
+                  </p>
+                </div>  
             </div>
           </div>
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-      </>
-    ) : null
-    }
-    
+    </div>
   </>
-  )
+)
 }
 
 export default InvernaderoInicio

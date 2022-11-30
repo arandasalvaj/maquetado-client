@@ -7,6 +7,7 @@ import { getInvernadero, updateInvernadero } from '../../services/invernadero';
 import { UserContext } from '../../context/UserContext'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 import moment from 'moment'
+
 const InvernaderoEditar = () => {
   const {idInvernadero}= useParams()
   const {token} = useContext(UserContext)
@@ -28,7 +29,6 @@ const InvernaderoEditar = () => {
       setValue("termino_temporada",moment(response.data.termino_temporada).format("YYYY-MM-DD"))
     })
     .catch((error)=>{
-      console.log(error)
       if(error.response.status === 404 ){
         throw error.response.data.message
       }
@@ -42,12 +42,14 @@ const InvernaderoEditar = () => {
       updateInvernadero(data,idInvernadero,token)
       .then((response) =>{
         toast.success('INVERNADERO ACTUALIZADO', {
-          position: toast.POSITION.TOP_CENTER
+          position: toast.POSITION.TOP_CENTER,
+          autoClose:2000,
+          theme: "colored",
         })
         const interval = setInterval(() => {
           navigate('/invernadero')
           clearInterval(interval)
-        }, 4000)
+        }, 2000)
       })
       .catch((error)=>{
         if(error.response.status === 404 ){

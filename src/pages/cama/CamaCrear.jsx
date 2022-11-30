@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { IoChevronBack } from 'react-icons/io5'
 import { getAllCultivosUsuario } from '../../services/cultivo';
 import { addCama } from '../../services/cama';
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
@@ -16,6 +15,7 @@ const CamaCrear = () => {
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
   const [cultivos, setCultivos] = useState([])
   const [estadoSelect,setEstadoSelect]=useState(true)
+  
   useEffect(()=>{
     getAllCultivosUsuario(id_usuario,token)
     .then((response)=>{
