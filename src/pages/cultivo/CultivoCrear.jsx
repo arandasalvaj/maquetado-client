@@ -25,7 +25,6 @@ const CultivoCrear = () => {
       setEstadoSelect(false)
       setInvernaderos(response.data) 
     }).catch((error)=>{
-      console.log(error.response.status )
       if(error.response.status === 404){
         
         setEstadoSelect(true)
@@ -35,19 +34,19 @@ const CultivoCrear = () => {
   },[])
 
     const onSubmit=(data)=>{
-      console.log(data)
       addCultivo(data,data?.id_invernadero,token)
       .then((response)=>{
-        toast.success('CULTIVO REGISTRADO', {
-          position: toast.POSITION.TOP_CENTER
+        toast.success('CULTIVO CREADO', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose:2000,
+          theme: "colored",
         })
         const interval = setInterval(() => {
           navigate('/cultivo')
           clearInterval(interval)
-        }, 4000)
+        }, 2000)
       })
       .catch((error)=>{
-        console.log(error)
         const {status, data:{message}} = error.response
         mensaje(message,status)
       })

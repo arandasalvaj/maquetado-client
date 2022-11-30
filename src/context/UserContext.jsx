@@ -1,6 +1,4 @@
 import React, { createContext,useState } from 'react'
-import { useEffect } from 'react'
-
 export const UserContext = createContext()
 
 export const UserProvider = ({children}) => {
@@ -16,7 +14,6 @@ export const UserProvider = ({children}) => {
     const [counterRender,setCounterRender]= useState(0)
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
     const [estadoSocket,setEstadoSocket] = useState(false)
-
 
     const isAuth= ()=>{
         const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]

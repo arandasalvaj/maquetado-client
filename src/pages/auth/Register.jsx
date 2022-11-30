@@ -112,7 +112,7 @@ const Register = () => {
                 <button onClick={()=>setShowLoader(false)} type='submit' className='w-full my-5 py-2 bg-[#406343] shadow-lg text-white font-semibold rounded-lg'>Registrarse</button>
                 <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                     ¿Ya tienes una cuenta?  
-                    <Link to={'/login'} className="font-medium  hover:underline text-[#406343]"> Inicia aqui</Link>
+                    <Link to={'/login'} className="font-medium  hover:underline text-[#406343]"> Inicia aquí</Link>
                 </p>
             </form>
         )

@@ -18,8 +18,6 @@ import Cama from './Cama';
 const CamaDetalle = () => {
   const {idCama} = useParams();
   const {setEstadoSocket} =useContext(UserContext)
-  //const socket = io("https://www.tuinvernadero.xyz");
-  const socket = io("http://localhost:8000");
   const [agua,setAgua]= useState(0)
   const [ppm,setPpm]= useState(0)
   const [ambiente,setAmbiente]= useState(0)
@@ -28,16 +26,24 @@ const CamaDetalle = () => {
 
   useEffect(()=>{
     setEstadoSocket(true)
+    //const socket = io("https://www.tuinvernadero.xyz")
+    const socket = io("http://localhost:8000")
     socket.emit("idCama",idCama)
     socket.on('sensores',(data2)=>{
-      console.log(data2);
+      console.log(data2)
       setSensores(data2)
     })
     socket.on('data',(data)=>{
-      setPpm(data.dataGas[0].ppm_gas)
-      setAmbiente(data.dataAmbiente[0].temperatura_ambiente)
-      setHumedad(data.dataAmbiente[0].humedad_ambiente)
-      setAgua(data.dataAgua[0].temperatura_agua)
+      if(data.dataGas.length > 0){
+        setPpm(data.dataGas[0]?.ppm_gas)
+      }
+      if(data.dataAmbiente.length > 0){
+        setAmbiente(data.dataAmbiente[0]?.temperatura_ambiente)
+        setHumedad(data.dataAmbiente[0]?.humedad_ambiente)
+      }
+      if(data.dataAgua.length > 0){
+        setAgua(data.dataAgua[0]?.temperatura_agua)
+      }
     })
   },[])
 
@@ -66,6 +72,7 @@ const CamaDetalle = () => {
       </div>
 
     <div className='px-12 pt-8'>
+    <h1 className='text-5xl font-semibold text-center pb-20'>Registrar Cama</h1>
       <div className=' bg-gray-100 rounded-t-lg p-4 border border-gray-300 text-center'>
         <h1 className='text-xl font-semibold'>Indicadores Actuales</h1>
       </div>
@@ -111,7 +118,7 @@ const CamaDetalle = () => {
     </div>
       <div className='flex items-center justify-between py-7 px-10'>
         <div className=" w-full">
-            <h1 className='text-4xl font-semibold leading-relaxed text-gray-800 text-center '> Graficos Diario</h1>
+            <h1 className='text-4xl font-semibold leading-relaxed text-gray-800 text-center '>Gráficos Diarios</h1>
         </div>
       </div>
         <div className="grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2 py-10 px-10">

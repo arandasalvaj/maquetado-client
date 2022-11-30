@@ -1,25 +1,15 @@
 import React, { useContext, useEffect,useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import IndicadoresPromedio from "../../components/invernadero/IndicadoresPromedio";
-import InformacionRendimiento from "../../components/invernadero/InformacionRendimiento";
+import { Link, useParams } from 'react-router-dom'
 import { getAllCultivos } from '../../services/cultivo';
 import { getInvernadero } from '../../services/invernadero';
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
-import LoaderTableList from '../../components/table/LoaderTableList';
-import ErrorMessage from '../../components/messages/ErrorMessage';
-import ErrorBusqueda from '../../components/messages/ErrorBusqueda';
-
-import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { UserContext } from '../../context/UserContext';
-import { BiEdit, BiTrash } from 'react-icons/bi';
-import { MdGridView } from 'react-icons/md';
-import ModalEliminarCultivo from '../../components/modal/ModalEliminarCultivo';
 import moment from 'moment'
 
 
 const InvernaderoDetalle = () => {
-    const {showModal,setShowModal,token,messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+    const {token,setMessageError,setCounterRender} = useContext(UserContext)
     
     const {idInvernadero} = useParams()
     const [invernadero,setInvernadero] = useState([])
@@ -55,6 +45,19 @@ const InvernaderoDetalle = () => {
         }
     }
 
+    //https://i.ibb.co/w0myntm/IMAGEN-HRIDRO-JAJAJAJA.png
+    const estadoInvernadero = (estado) =>{
+      switch (estado) {
+      case 0:
+          return <h1 className='bg-red-600 px-4 rounded-xl text-white font-semibold'>Desactivado</h1>
+      case 1:
+          return <h1 className='bg-yellow-500 px-4 rounded-xl text-white font-semibold'>Proceso</h1>
+      case 2:
+          return <h1 className="bg-green-600 px-4 rounded-xl text-white font-semibold">Activado</h1>
+      default:
+          break;
+      }
+  }
   return (
     <>
       <div className=' grid grid-cols-12 '> 
@@ -85,25 +88,111 @@ const InvernaderoDetalle = () => {
             </div>
         </div>
       </main>
-      <div className='px-28'>
-          <IndicadoresPromedio invernadero={invernadero} />
-          <div className=" grid rounded-xl bg-gray-200 my-4 ">
-            <div className=" grid grid-cols-4 gap-4 px-4 py-4 grid-flow-cols-dense">
-              <div className=" sm:col-span-2 row-span-4 flex items-center justify-center"> 
-                <div className="google-map-code rounded-lg shadow-sm  col-span-3 sm:col-span-2 row-span-4 flex items-center justify-center">
-                  <iframe src="https://maps.google.com/maps?q=calama&t=&z=15&ie=UTF8&iwloc=&output=embed" width="645" height="300" frameborder="0" style={{border:0}} className='rounded-lg' allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+
+      <div className="grid grid-rows-3 grid-flow-col gap-3 px-28">
+
+
+        <div className="row-span-1 sm:row-span-3">
+          <div className="p-4 rounded-xl bg-gray-200">
+            <div className='rounded-full bg-white'>
+              <img className="w-200 h-100 object-cover"src="https://i.ibb.co/TwZY9Gy/invernadero-HD-INVER.png"alt=""/>
+            </div>
+
+            <div className="py-16 sm:py-4">
+              <div className='py-2'>
+                <h1 className='text-3xl text-gray-900 font-bold text-center'>Nombre de Invernadero</h1>
+                <h1 className='text-xl text-black font-semibold text-center'>{invernadero.nombre_invernadero}</h1>
+              </div>
+
+              <div className='py-2'>
+                <h1 className='text-3xl text-gray-900 font-bold text-center'>Fecha de creación</h1>
+                <h1 className='text-xl text-black font-semibold text-center'>{moment(invernadero.created_at).format('YYYY-MM-DD')}</h1>
+              </div>
+
+              <div className='py-2'>
+                <h1 className='text-3xl text-gray-900 font-bold text-center'>Ubicación</h1>
+                <h1 className='text-xl text-black font-semibold text-center'>{invernadero.ubicacion_invernadero}</h1>
+              </div>
+
+              <div className='py-2'>
+                <h1 className='text-3xl text-gray-900 font-bold text-center'>Nombre de Cultivo</h1>
+                <h1 className='text-xl text-black font-semibold text-center'>{onlyCultivo.length === 0 ? "No hay cultivo asignado":onlyCultivo.nombre_cultivo}</h1>
+              </div>
+
+            </div>  
+          </div>
+        </div>
+
+
+        <div className="col-span-1 sm:col-span-2">
+          <div className="col-span-3 rounded-xl bg-gray-200">
+            <div className=" grid grid-cols-2 gap-4 p-4 grid-flow-cols-dense border-2 rounded-xl bg-gray-200">
+              <div className=' flex flex-col gap-4'>
+                <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-1 sm:col-span-1 flex items-center justify-center"> 
+                    <div className="flex items-end gap-3 ">
+                        <div>
+                            <div className='flex flex-col gap-2 p-2'>
+                                <h1 className="text-xl text-black-500 font-bold text-center">Inicio de Temporada</h1>
+                                <h1 className='text-center text-[40px] font-semibold'>
+                                    {moment(invernadero.inicio_temporada).format('YYYY-MM-DD')}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-5 sm:col-span-1 flex items-center justify-center"> 
+                    <div className="flex items-end gap-3 ">
+                        <div>
+                            <div className='flex flex-col gap-2 p-2'>
+                                <h1 className="text-xl text-black-500 font-bold text-center">Término de Temporada</h1>
+                                <h1 className='text-center  text-[40px] font-semibold'>
+                                    {moment(invernadero.termino_temporada).format('YYYY-MM-DD')}
+                                </h1>
+                            </div>
+                        </div>
+                    </div> 
                 </div>
               </div>
-              <div className="bg-[#154D80] rounded-lg shadow-sm h-[300px] col-span-3 sm:col-span-2 row-span-4 flex items-center justify-center"> 
-                  <div className="py-16 sm:py-0">
-                    <h1 className='text-4xl text-white font-bold text-center'>{onlyCultivo.nombre_cultivo}</h1>
-                    <p className='text-2xl text-white  text-center grid grid-rows-3 font-semibold'>Fecha de creación
-                        <span className="font-semibold">{moment(onlyCultivo.created_at).format('DD-MM-YYYY')}</span>
-                    </p>
-                  </div>  
+              <div className=' flex flex-col gap-4'>
+                <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-1 sm:col-span-1 flex items-center justify-center"> 
+                    <div className="flex items-end gap-3 ">
+                        <div>
+                            <div className='flex flex-col gap-2 p-2'>
+                                <h1 className="text-xl text-black-500 font-bold text-center">Tamaño</h1>
+                                    <h1 className='text-center text-[40px] font-semibold'>
+                                        {invernadero.tamano_invernadero} m²
+                                    </h1>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+                <div className="bg-white rounded-lg shadow-sm min-h-[100px] col-span-5 sm:col-span-1 flex items-center justify-center"> 
+                    <div className="flex items-end gap-3 ">
+                        <div>
+                            <div className='flex flex-col gap-2 p-2'>
+                                <h1 className="text-xl text-black-500 font-bold text-center">Estado</h1>
+                                <h1 className='text-center text-[25px] font-semibold p-3'>
+                                    {estadoInvernadero(invernadero.estado_invernadero )}
+                                </h1>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="row-span-1 sm:row-span-2">
+          <div className=" grid rounded-xl bg-gray-200 ">
+            <div className="google-map-code rounded-lg shadow-sm col-span-3 row-span-4 flex items-center p-4">
+              <iframe src="https://maps.google.com/maps?q=calama&t=&z=15&ie=UTF8&iwloc=&output=embed" width="850" height="443" frameBorder="0" style={{border:0}} className='rounded-lg' allowFullScreen="" aria-hidden="false" tabIndex="0"></iframe>
+            </div>
+          </div>
+        </div>
+
+
+        
       </div>
     </>
   )

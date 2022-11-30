@@ -55,18 +55,18 @@ const CultivoListado = () => {
     const handleSelectPage = (e)=>{
     setSize(e.target.value)
   }
-  const filtrarInvernadero = (terminoBusqueda)=>{
-    var resultadoBusqueda = cultivo.filter((elemento)=>{
-      if(elemento.nombre_cultivo.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())){
-        return elemento
-      }
-    }) 
-    setOnlyCultivo(resultadoBusqueda)
-  }
+  // const filtrarInvernadero = (terminoBusqueda)=>{
+  //   var resultadoBusqueda = cultivo.filter((elemento)=>{
+  //     if(elemento.nombre_cultivo.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())){
+  //       return elemento
+  //     }
+  //   }) 
+  //   setOnlyCultivo(resultadoBusqueda)
+  // }
 
   const filtrarCultivo = (terminoBusqueda)=>{
     var resultadoBusqueda = cultivo.filter((elemento)=>{
-      if(elemento.nombre_invernadero.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())){
+      if(elemento.nombre_cultivo.toString().toLowerCase().includes(terminoBusqueda.toLowerCase())){
         return elemento
       }
     }) 
@@ -92,26 +92,26 @@ const CultivoListado = () => {
       setMessageError("")
     }
   }
-  const handleBuscarInvernadero = (e) =>{
-    setBusqueda(e.target.value)
-    filtrarInvernadero(e.target.value)
+  // const handleBuscarInvernadero = (e) =>{
+  //   setBusqueda(e.target.value)
+  //   filtrarInvernadero(e.target.value)
 
-    if(onlyCultivo.length === 0){
-      setShowError(true)
-      setMessageError("CULTIVO NO ENCONTRADO")
-      if(e.target.value === ""){
-        setShowError(false)
-        setMessageError("")
-      }
-      if(cultivo.length===0 && e.target.value === ""){
-        setShowError(true)
-        setMessageError("NO HAY CULTIVOS")
-      }
-    }else{
-      setShowError(false)
-      setMessageError("")
-    }
-  }
+  //   if(onlyCultivo.length === 0){
+  //     setShowError(true)
+  //     setMessageError("CULTIVO NO ENCONTRADO")
+  //     if(e.target.value === ""){
+  //       setShowError(false)
+  //       setMessageError("")
+  //     }
+  //     if(cultivo.length===0 && e.target.value === ""){
+  //       setShowError(true)
+  //       setMessageError("NO HAY CULTIVOS")
+  //     }
+  //   }else{
+  //     setShowError(false)
+  //     setMessageError("")
+  //   }
+  // }
   const handleSelect = (e) =>{
     setEstadoFiltro(e.target.value)
   }
@@ -129,17 +129,17 @@ const CultivoListado = () => {
             </div>
           </>
         )
-      case "1":
-        return (
-          <>
-            <div className="relative ml-5">
-              <span className="h-full absolute inset-y-0 left-0 flex items-center pl-2">
-                <RiSearchLine  className="h-4 w-4 fill-current text-gray-500"/>
-              </span>
-              <input placeholder="Buscar por Invernadero" onChange={handleBuscarInvernadero} value={busqueda} className="appearance-none rounded-xl  border border-gray-400 block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-800" />
-            </div>
-          </>
-        )
+      // case "1":
+      //   return (
+      //     <>
+      //       <div className="relative ml-5">
+      //         <span className="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+      //           <RiSearchLine  className="h-4 w-4 fill-current text-gray-500"/>
+      //         </span>
+      //         <input placeholder="Buscar por Invernadero" onChange={handleBuscarInvernadero} value={busqueda} className="appearance-none rounded-xl  border border-gray-400 block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-800" />
+      //       </div>
+      //     </>
+      //   )
       default:
         break;
     }
@@ -167,7 +167,15 @@ const CultivoListado = () => {
       setShowModal(true)
     }
 
+    const estadoInvernadero = (estado) =>{
 
+      if(estado => 0 ){
+        <p className="bg-green-600 rounded-xl text-white">Activado</p>
+      }else{
+        <p className="bg-red-600 rounded-xl text-white">Desactivado</p>
+      }
+
+    }
     return (
       <>
     {showAlert?alert():null}
@@ -183,7 +191,7 @@ const CultivoListado = () => {
             <div className="relative">
                 <select onChange={handleSelect} className="rounded border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none  focus:bg-white focus:border-gray-500 focus:ring-2 focus:ring-green-800">
                     <option value={0}>Cultivo</option>
-                    <option value={1}>Invernadero</option>
+                    {/* <option value={1}>Invernadero</option> */}
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <RiArrowDownSLine />
@@ -214,7 +222,7 @@ const CultivoListado = () => {
                                   Invernadero
                                 </th>
                                 <th scope="col" className="border-gray-200 bg-gray-200 text-center text-xs font-bold text-gray-600 uppercase tracking-wider px-6 py-4">
-                                  Camas
+                                  Estado
                                 </th>
                                 <th scope="col" className="border-gray-200 bg-gray-200 text-center text-xs font-bold text-gray-600 uppercase tracking-wider px-6 py-4">
                                   Fecha
@@ -240,18 +248,14 @@ const CultivoListado = () => {
                                       {data.nombre_invernadero}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      {0}
+                                      {data.estado_cultivos > 0 ? <p className="bg-green-600 rounded-xl text-white">Activado</p>:<p className="bg-red-600 rounded-xl text-white">Desactivado</p>}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      {moment(data.created_at).format('DD-MM-YYYY')}
+                                      {moment(data.created_at).format('YYYY-MM-DD')}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       <div className="flex gap-4 justify-center items-center">
-                                        <button onClick={()=>eliminarCultivo(data.id_cultivo)} className="text-white"type="button">
-                                          <div className='bg-red-200 rounded-full px-2 py-2'>
-                                            <BiTrash className="text-xl text-red-600" />
-                                          </div>
-                                        </button>
+                                        {data.estado_cultivos > 0 ? null:<button onClick={()=>eliminarCultivo(data.id_cultivo)} className="text-white"type="button"><div className='bg-red-200 rounded-full px-2 py-2'><BiTrash className="text-xl text-red-600" /></div></button>}
                                         <button onClick={()=>{navigate(`editar/${data.id_cultivo}`)}} className="text-white"type="button">
                                           <div className='bg-green-200 rounded-full px-2 py-2'>
                                             <BiEdit className="text-xl text-green-600" />
@@ -276,7 +280,7 @@ const CultivoListado = () => {
 
                   <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-md xs:text-sm text-gray-900">
-                        Mostrando {onlyCultivo.length} de {countItem} Invernaderos
+                        Mostrando {onlyCultivo.length} de {countItem} Cultivos
                     </span>
                     <div className="inline-flex mt-2 xs:mt-0">
                         <select onChange={handleSelectPage} className=' border-gray-500 border-2 rounded'>

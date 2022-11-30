@@ -31,12 +31,14 @@ const CamaListado = () => {
   const [size,setSize]=useState(5)
   const [countItem,setCountItem] = useState(0)
   const [idEliminar,setIdEliminar] = useState(0)
-  const socket = io("http://localhost:8000");
 
     useEffect(()=>{
       obtenerCama()
       if(estadoSocket){
+        //const socket = io("https://www.tuinvernadero.xyz")
+        const socket = io("http://localhost:8000")
         socket.emit('end')
+        window.location.reload()
         setEstadoSocket(false)
       }
 
@@ -85,7 +87,6 @@ const CamaListado = () => {
         setShowError(false)
         setMessageError("")
       }
-
     }
   
     const filtrar = (terminoBusqueda)=>{
@@ -105,6 +106,37 @@ const CamaListado = () => {
       setIdEliminar(id_cama)
       setShowModalCosecha(true)
     }
+    const filtroCosecha = (fecha,id_cama) =>{
+      const current = new Date();
+      const date = `${current.getFullYear()}-${current.getMonth()+1}-${current.getDate()}`
+      const fechaTermino =moment(fecha).format("YYYY-MM-DD")
+
+      if(moment(date).isSame(fechaTermino)){
+        return(
+          <>
+            <button onClick={()=>agregarCosecha(id_cama)} className="text-white"type="button">
+              <div className='bg-yellow-200 rounded-full px-2 py-2'>
+                <AiOutlineDollarCircle className="text-xl text-yellow-600" />
+              </div>
+            </button>
+          </>
+        ) 
+      }else{
+        if(moment(date).isAfter(fechaTermino)){
+          return(
+            <>
+              <button onClick={()=>agregarCosecha(id_cama)} className="text-white"type="button">
+                <div className='bg-yellow-200 rounded-full px-2 py-2'>
+                  <AiOutlineDollarCircle className="text-xl text-yellow-600" />
+                </div>
+              </button>
+            </>
+          ) 
+        }
+      }
+    }
+
+
     return (
       <>
       <div className='  flex flex-col justify-between mx-[70px]'>
@@ -194,7 +226,7 @@ const CamaListado = () => {
                                       {data.brotes_cama}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
-                                      { moment(data.created_at).format("DD-MM-YYYY")}
+                                      { moment(data.created_at).format("YYYY-MM-DD")}
                                     </td>
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       <div className="flex gap-4 justify-center items-center">
@@ -213,11 +245,8 @@ const CamaListado = () => {
                                             <MdGridView className='text-xl text-blue-600' />
                                           </div>
                                         </Link>
-                                        <button onClick={()=>agregarCosecha(data.id_cama)} className="text-white"type="button">
-                                          <div className='bg-yellow-200 rounded-full px-2 py-2'>
-                                            <AiOutlineDollarCircle className="text-xl text-yellow-600" />
-                                          </div>
-                                        </button>
+                                          {filtroCosecha(data.termino_temporada,data.id_cama)}
+
                                       </div>
                                     </td>
                                   </tr>

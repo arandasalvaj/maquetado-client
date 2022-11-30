@@ -4,8 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { addInvernadero } from '../../services/invernadero';
-import InvernaderoListado from './InvernaderoListado';
-import { IoChevronBack } from 'react-icons/io5'
 import { AiTwotoneHome,AiOutlineCaretRight } from 'react-icons/ai'
 
 const InvernaderoCrear = () => {
@@ -14,11 +12,8 @@ const InvernaderoCrear = () => {
   const loggedUser = window.localStorage.getItem('loggedUser')
   const {id_usuario} = JSON.parse(loggedUser)
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
-
-
   const [value, setValues] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const [coordenadas,setCoordenadas] = useState({lat:-22.441183,long:-68.90638})
 
 
   const handleChange = async (event) => {
@@ -32,13 +27,15 @@ const InvernaderoCrear = () => {
       data.ubicacion_invernadero = nuevaDireccion
       addInvernadero(data,id_usuario,token)
       .then((response) =>{
-        toast.success('Invernadero creado', {
-          position: toast.POSITION.TOP_CENTER
+        toast.success('INVERNADERO CREADO', {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose:2000,
+          theme: "colored",
         })
         const interval = setInterval(() => {
           navigate('/invernadero')
           clearInterval(interval)
-        }, 4000)
+        }, 2000)
       })
       .catch((error)=>{
         setShowError(true)

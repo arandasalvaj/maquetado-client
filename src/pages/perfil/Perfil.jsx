@@ -1,24 +1,22 @@
-import React,{ useRef, useState } from 'react'
+import React,{ useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { editarPerfil } from '../../services/perfil';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const Perfil = () => {
 
-    const { register, handleSubmit, formState: { errors }} = useForm();
+    const { register, handleSubmit, formState: { errors },setValue,watch} = useForm();
     
     const loggedUser = window.localStorage.getItem('loggedUser')
     const {id_usuario} = JSON.parse(loggedUser)
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
-
-    const [newUsuario,setNewUsuario] = useState([])
     const [currentUsuario, setCurrentUsuario]=useState(JSON.parse(loggedUser))
-
     const [nombre , setNombre] = useState(currentUsuario.nombre_usuario)
     const [apellido, setApellido]=useState(currentUsuario.apellido_usuario)
     const [rut,setRut]=useState(currentUsuario.rut_usuario)
-    const [telefono,setTelefono]=useState(currentUsuario.telefono_usuario)
+    const navigate = useNavigate()
 
     const onSubmit = (data) =>{
         
@@ -31,31 +29,38 @@ const Perfil = () => {
         if(currentUsuario.rut_usuario === data.rut_usuario){
             delete data.rut_usuario
         }
-        
-        //transition duration-300 transform hover:scale-110
-
-        //{...register("telefono_usuario")}
-        
-        // if(currentUsuario.telefono_usuario === data.telefono_usuario){
-        //     delete data.telefono_usuario
-        // }
-
-        console.log("Usuario Actual:",currentUsuario)
-        console.log(data)
-        // editarPerfil(data,id_usuario,token)
-        // .then((response)=>{
-        //     console.log(response)
-        // })
-        // .catch((error)=>{
-        //     console.log(error)
-        // })
+        if(currentUsuario.telefono_usuario === null ){
+            if(watch("telefono_usuario")===""){
+                delete data.telefono_usuario
+            }
+        }else{
+            data["telefono_usuario"]=data.telefono_usuario
+        }
+        if(Object.keys(data).length > 0){
+            editarPerfil(data,id_usuario,token)
+            .then((response)=>{
+                window.localStorage.setItem('loggedUser',JSON.stringify(response.data))
+                setCurrentUsuario(response.data)
+                toast.success('PERFIL ACTUALIZADO', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose:2000,
+                    theme: "colored",
+                })
+                const interval = setInterval(() => {
+                    navigate('/perfil')
+                    clearInterval(interval)
+                }, 2000)
+            })
+            .catch((error)=>{
+            })
+        }
     }
 
-  return (
+return (
     <div className="container mx-auto my-28">
         <div className="bg-white relative shadow-lg border-2 rounded-lg w-5/6 md:w-4/6  lg:w-3/6 xl:w-2/6 mx-auto">
             <div className="flex justify-center">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="" className=" rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110 object-cover" />
+                <img src="https://i.ibb.co/k5c1QjZ/png-clipart-paper-logo-customer-satisfaction-blue-face.png" alt="" className=" rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110 object-cover" />
             </div>
             <div className="mt-16">
                 <h1 className="font-bold text-center text-3xl text-gray-900">{currentUsuario.nombre_usuario} {currentUsuario.apellido_usuario}</h1>
@@ -83,7 +88,7 @@ const Perfil = () => {
                             <label className='py-2 text-gray-700 font-bold text-[16px]'>Telefono</label>
                             <div className="relative">
                                 <p className='text-lg text-black h-full absolute inset-y-0 left-0 flex items-center pl-2 font-semibold'>+56</p>
-                                <input value={telefono}  onChange={(e)=>setTelefono(e.target.value)} maxLength={10}  className="appearance-none rounded-lg border border-gray-400 block pl-11 pr-8 py-2 w-full bg-[#DFEBE5] text-lg placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-800"  type="number" placeholder="Ingrese Telefono"/>
+                                <input  {...register("telefono_usuario")}  maxLength={10}  className="appearance-none rounded-lg border border-gray-400 block pl-11 pr-8 py-2 w-full bg-[#DFEBE5] text-lg placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-800"  type="number" placeholder="Ingrese Telefono"/>
                             </div>
                         </div>
                     </div>}
@@ -95,7 +100,7 @@ const Perfil = () => {
             </div>
         </div>
     </div>
-  )
+)
 }
 
 export default Perfil

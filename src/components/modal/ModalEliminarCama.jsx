@@ -44,11 +44,11 @@ const ModalEliminarCama = ({idCama}) => {
                 </div>
                 {/*body*/}
                 <div className="relative p-6 flex-col whitespace-normal">
-                    <h1 className='my-4 text-black text-xl font-semibold leading-relaxed text-center' >¿Estas seguro que deseas eliminar la cama?</h1>
-                    <span className="my-4 text-slate-500 text-lg leading-relaxed ">
-                        Toda la información relacionada a la cama sera eliminada.
+                    <h1 className='my-4 text-black text-xl font-bold leading-relaxed text-center' >¿Estás seguro de que deseas eliminar la cama?</h1>
+                    <span className="my-4 text-slate-500 text-lg leading-relaxed font-semibold">
+                        Toda la información relacionada con la cama será eliminada.
                     </span>
-                        <h1 className='my-4 text-red-500 text-xl font-bold leading-relaxed text-center' >Esta acción no se puede deshacer</h1>
+                        <h1 className='my-4 text-red-500 text-xl font-bold leading-relaxed text-center uppercase' >Esta acción no se puede deshacer</h1>
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
