@@ -49,12 +49,18 @@ import NotFoundPage from "./pages/NotFoundPage"
 import Perfil from "./pages/perfil/Perfil"
 import Perfilindex from "./pages/perfil/Perfilindex"
 
+<<<<<<< HEAD
 //ALERTA
 
 import Alerta from "./pages/notificaciones/Alerta"
 import AlertaListado from "./pages/notificaciones/AlertaListado"
 
 
+=======
+//ANALITICA
+import  AnaliticaIndex  from "./pages/analitica/AnaliticaIndex"
+import  Analitica  from "./pages/analitica/Analitica"
+>>>>>>> 28611da964d77c854bf88287d8fcc5da7484fb6e
 
 function App() {
   return (
@@ -100,8 +106,13 @@ function App() {
               <Route index element={<Perfil />} />
             </Route>
 
+<<<<<<< HEAD
             <Route path="alerta" element={<Alerta />}>
               <Route index element={<AlertaListado />} />
+=======
+            <Route path="analitica" element={<AnaliticaIndex />}>
+              <Route index element={<Analitica />} />
+>>>>>>> 28611da964d77c854bf88287d8fcc5da7484fb6e
             </Route>
             
             <Route path="*" element={<NotFoundPage />} />

@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { IoIosAnalytics } from "react-icons/io";
 import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import { AiOutlineAlert } from "react-icons/ai";
@@ -118,6 +119,7 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
+<<<<<<< HEAD
                 <Link to={'../alerta'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
                   <div className='flex gap-3'>
                     <AiOutlineAlert className='text-4xl '  />
@@ -126,6 +128,11 @@ const Sidebar = () => {
                       {numeroAlertas?numeroAlertas:0}
                     </div>
                   </div>
+=======
+                <Link to={'../analitica'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
+                  <IoIosAnalytics className='text-4xl' />
+                    Analitica
+>>>>>>> 28611da964d77c854bf88287d8fcc5da7484fb6e
                 </Link>
               </li>
             </ul>
