@@ -15,21 +15,14 @@ const CamaEditar = () => {
   const {id_usuario} = JSON.parse(loggedUser)
   const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
   const [cultivos, setCultivos] = useState([])
-  const [estadoSelect,setEstadoSelect]=useState(true)
-  const [showQuit,setShowQuit]=useState(false)
   
   useEffect(()=>{
     obtenerCama()
     getAllCultivosUsuario(id_usuario,token)
     .then((response)=>{
-      setShowQuit(false)
-      setEstadoSelect(false)
       setCultivos(response.data) 
     }).catch((error)=>{
-      setShowQuit(true)
-      if(error.response.status === 404){
-        setEstadoSelect(true)
-      }
+
     })
     
   },[])
@@ -37,20 +30,10 @@ const CamaEditar = () => {
   const obtenerCama = () =>{
     getCama(idCama,token)
     .then((response) =>{
-      setShowQuit(false)
-      setValue("nombre_cama",response.data[0].nombre_cama)
-      setValue("tamano_cama",response.data[0].tamano_cama)
-      setValue("brotes_cama",response.data[0].brotes_cama)
-      setValue("id_cultivo",response.data[0].nombre_cultivo)
-    })
-    .catch((error)=>{
-      setShowQuit(true)
-      if(error.response.status === 404 ){
-        throw error.response.data.message
-      }
-      if(error.response.status === 409 ){
-        throw error.response.data.message
-      }
+      setValue("nombre_cama",response.data.nombre_cama)
+      setValue("tamano_cama",response.data.tamano_cama)
+      setValue("brotes_cama",response.data.brotes_cama)
+      setValue("id_cultivo",response.data.nombre_cultivo)
     })
   }
   
@@ -67,16 +50,7 @@ const CamaEditar = () => {
           clearInterval(interval)
         }, 2000)
       })
-      .catch((error)=>{
-        if(error.response.status === 404 ){
-          throw error.response.data.message
-        }
-        if(error.response.status === 409 ){
-          throw error.response.data.message
-        }
-      })
     }
-
 
     const formActualizar = () =>{
       return (
@@ -103,16 +77,6 @@ const CamaEditar = () => {
                           <label className='py-2 text-gray-600 font-bold'>Cantidad de brotes</label>
                           <input  {...register("brotes_cama", {required:true})} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline "  type="text" placeholder="Ingrese nombre"/>
                           {errors.nombre_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El nombre es requerido</p>}
-                      </div>
-                    </div>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-4 grid-flow-row'>
-                      <div className='flex flex-col text-[#505568] col-span-2'>
-                          <label className='py-2 text-gray-600 font-bold'>Cultivo</label>
-                            <select {...register("id_cultivo", {required:true})} className="form-select w-full py-2 px-3 text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0
-                            focus:text-gray-700 focus:bg-white" >
-                              {cultivos ? cultivos.map((data,index)=>{return <option key={index} value={data.id_cultivo}>{data.nombre_cultivo}</option>}) :<option selected>No tienes invernaderos disponibles</option>}
-                            </select>
-                          {errors.tamano_invernadero?.type==='required' && <p className='text-red-500 text-sm italic pt-4'>El tamaño es requerido</p>}
                       </div>
                     </div>
                   <div className='flex justify-center gap-16 px-10'>
@@ -151,8 +115,7 @@ const CamaEditar = () => {
           </nav>
         </div>
       </div>
-      {console.log(showQuit)}
-      {showQuit? <h1>Esta cama ya no existe.</h1>:formActualizar()}
+      {formActualizar()}
     </>
   )
 }

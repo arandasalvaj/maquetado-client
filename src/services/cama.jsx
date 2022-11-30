@@ -16,4 +16,3 @@ export const getAllCamas= async(idCultivo,token)=> await axios.get(`${API_URL}v1
 export const getAllCamasUsuario= async(idUsuario,token,size)=> await axios.get(`${API_URL}v1/usuario/${idUsuario}/cultivo/cama?size=${size}`,{headers: {'Authorization': token}})
 
 
-

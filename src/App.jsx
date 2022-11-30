@@ -49,6 +49,13 @@ import NotFoundPage from "./pages/NotFoundPage"
 import Perfil from "./pages/perfil/Perfil"
 import Perfilindex from "./pages/perfil/Perfilindex"
 
+//ALERTA
+
+import Alerta from "./pages/notificaciones/Alerta"
+import AlertaListado from "./pages/notificaciones/AlertaListado"
+
+
+
 function App() {
   return (
     <div className="bg-white">
@@ -82,7 +89,6 @@ function App() {
               <Route path="editar/:idCultivo" element={<CultivoEditar />} />
               <Route path="detalle/:idCultivo" element={<CultivoDetalle />} />
             </Route>
-           
             <Route path="cama" element={<Cama />}>
               <Route index element={<CamaListado />} />
               <Route path="crear" element={<CamaCrear />} />
@@ -92,6 +98,10 @@ function App() {
 
             <Route path="perfil" element={<Perfilindex />}>
               <Route index element={<Perfil />} />
+            </Route>
+
+            <Route path="alerta" element={<Alerta />}>
+              <Route index element={<AlertaListado />} />
             </Route>
             
             <Route path="*" element={<NotFoundPage />} />

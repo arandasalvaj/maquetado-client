@@ -9,12 +9,11 @@ import { UserContext } from '../../context/UserContext'
 import moment from 'moment'
 const CultivoDetalle = () => {
 
-  const {messageError,setMessageError,showError,setShowError,counterRender,setCounterRender} = useContext(UserContext)
+  const {messageError,setMessageError,showError,setShowError,counterRender,setCounterRender,token} = useContext(UserContext)
     const {idCultivo} = useParams()
     const [loader,setLoader] = useState(true)
-    const [cama,setCama] = useState([])
+    const [camaDetalle,setCamaDetalle] = useState([])
     const [size,setSize]=useState(5)
-    const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
     const [countItem,setCountItem] = useState(0)
 
     useEffect(()=>{
@@ -29,11 +28,12 @@ const CultivoDetalle = () => {
           setShowError(true)
           setLoader(false)
           setMessageError("NO HAY CAMAS")
+          setCamaDetalle([])
         }else{
           setShowError(false)
           setMessageError("")
           setLoader(false)
-          setCama(response.data)
+          setCamaDetalle(response.data)
           setCountItem(response?.data[0].full_count)
         }
       })
@@ -106,7 +106,7 @@ const CultivoDetalle = () => {
                         </thead>
                         <tbody>
                           {
-                            cama.map((data,index)=>{
+                            camaDetalle.map((data,index)=>{
                               return (
                                   <tr className="bg-white border-b" key={index}>
                                     <td className="text-sm text-gray-900 px-6 py-4 whitespace-nowrap font-bold">
@@ -124,7 +124,6 @@ const CultivoDetalle = () => {
                                     <td className="text-sm text-gray-900 font-semibold px-6 py-4 whitespace-nowrap">
                                       { moment(data.created_at).format("YYYY-MM-DD")}
                                     </td>
-
                                   </tr>
                               )
                             })
@@ -136,7 +135,7 @@ const CultivoDetalle = () => {
 
                   <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                     <span className="text-md xs:text-sm text-gray-900">
-                        Mostrando {cama.length} de {countItem} Camas
+                        Mostrando {camaDetalle.length} de {countItem} Camas
                     </span>
                     <div className="inline-flex mt-2 xs:mt-0">
                         <select onChange={handleSelectPage} className=' border-gray-500 border-2 rounded'>

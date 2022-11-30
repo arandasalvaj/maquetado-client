@@ -14,7 +14,10 @@ export const UserProvider = ({children}) => {
     const [counterRender,setCounterRender]= useState(0)
     const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
     const [estadoSocket,setEstadoSocket] = useState(false)
-
+    const [numeroAlertas,setNumeroAlertas] = useState(0)
+    const [estadoAlerta,setEstadoAlerta] = useState(true)
+    const [alertas,setAlertas] = useState([])
+    
     const isAuth= ()=>{
         const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
         const loggedUser = window.localStorage.getItem('loggedUser')
@@ -38,6 +41,12 @@ export const UserProvider = ({children}) => {
     }
     return (
         <UserContext.Provider value={{
+            alertas,
+            setAlertas,
+            estadoAlerta,
+            setEstadoAlerta,
+            numeroAlertas,
+            setNumeroAlertas,
             estadoSocket,
             setEstadoSocket,
             showModalCosecha,

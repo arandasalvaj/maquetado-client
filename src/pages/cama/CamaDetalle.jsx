@@ -13,24 +13,29 @@ import { io } from "socket.io-client";
 import moment from 'moment/moment';
 import { UserContext } from '../../context/UserContext';
 import Cama from './Cama';
+import { getCama } from '../../services/cama';
 
 
 const CamaDetalle = () => {
   const {idCama} = useParams();
-  const {setEstadoSocket} =useContext(UserContext)
+  const {setEstadoSocket,token} =useContext(UserContext)
   const [agua,setAgua]= useState(0)
   const [ppm,setPpm]= useState(0)
   const [ambiente,setAmbiente]= useState(0)
   const [humedad,setHumedad]= useState(0)
   const [sensores,setSensores]= useState([])
+  const [cama,setCama]= useState(0)
+  //const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1]
 
   useEffect(()=>{
     setEstadoSocket(true)
+    getCama(idCama,token).then((response)=>{
+      setCama(response.data)
+    })
     //const socket = io("https://www.tuinvernadero.xyz")
     const socket = io("http://localhost:8000")
     socket.emit("idCama",idCama)
     socket.on('sensores',(data2)=>{
-      console.log(data2)
       setSensores(data2)
     })
     socket.on('data',(data)=>{
@@ -47,7 +52,7 @@ const CamaDetalle = () => {
     })
   },[])
 
-  const token = document.cookie.split('; ').find((row) => row.startsWith('token='))?.split('=')[1];
+  
   return (
     <>
     <div className=' grid grid-cols-12 '> 
@@ -63,7 +68,7 @@ const CamaDetalle = () => {
               <li>
               <div className="flex items-center">
                   <AiOutlineCaretRight className="mr-1 w-3 h-3.5 text-gray-600"/>
-                  <span className="text-lg font-medium text-gray-600 md:ml-2">Detalle</span>
+                  <span className="text-lg font-medium text-gray-600 md:ml-2 "> {cama.nombre_cama}</span>
               </div>
               </li>
           </ol>
@@ -72,7 +77,7 @@ const CamaDetalle = () => {
       </div>
 
     <div className='px-12 pt-8'>
-    <h1 className='text-5xl font-semibold text-center pb-20'>Registrar Cama</h1>
+    <h1 className='text-5xl font-semibold text-center pb-20'>{cama.nombre_cama}</h1>
       <div className=' bg-gray-100 rounded-t-lg p-4 border border-gray-300 text-center'>
         <h1 className='text-xl font-semibold'>Indicadores Actuales</h1>
       </div>

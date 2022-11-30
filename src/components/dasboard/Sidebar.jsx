@@ -3,19 +3,24 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { RiMenu3Fill, RiCloseLine,RiLogoutBoxRLine } from "react-icons/ri";
 import { TbBuildingWarehouse } from "react-icons/tb";
+import { AiOutlineAlert } from "react-icons/ai";
 import { GiPlantWatering } from "react-icons/gi";
 import { TbPlant2 } from "react-icons/tb";
 import { UserContext } from '../../context/UserContext';
 import { io } from "socket.io-client";
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const loggedUser = window.localStorage.getItem('loggedUser')
+  const {id_usuario} = JSON.parse(loggedUser)
 
     const toggleMenu = () => {
       setShowMenu(!showMenu);
     };
 
-    const {setAuth,user,setCounter,estadoSocket,setEstadoSocket} =useContext(UserContext)
+    const {setAuth,user,setCounter,estadoSocket,setEstadoSocket,numeroAlertas,setNumeroAlertas,estadoAlerta,setEstadoAlerta,alertas,setAlertas} =useContext(UserContext)
 
     useEffect(()=>{
       if(estadoSocket){
@@ -24,6 +29,40 @@ const Sidebar = () => {
         socket.emit('end')
         window.location.reload()
         setEstadoSocket(false)
+      }
+      if (estadoAlerta){
+        setEstadoAlerta(false)
+        const socket = io("http://localhost:8000")
+        socket.emit("idUsuario",id_usuario)
+        socket.on('alertas',(data)=>{
+          console.log("ALERTAS:", data)
+            if(data.length === 0){
+              setNumeroAlertas(0)
+              setAlertas([])
+              //console.log("SIN ALERTAS:", data)
+            }else{
+              setNumeroAlertas(data[0]?.full_count)
+              setAlertas(data)
+              window.localStorage.setItem('numeroAlertas',JSON.stringify(data[0]?.full_count))
+              const numAlertas = window.localStorage.getItem('numeroAlertas')
+
+              // console.log('ALERTA REAL:',data[0]?.full_count)
+              // console.log('ALERTA REAL:',numAlertas)
+
+              // if(data[0]?.full_count > numAlertas){
+
+              //   toast.warning('HAY NUEVAS ALERTAS', {
+              //     position: toast.POSITION.TOP_CENTER,
+              //     autoClose:2000,
+              //     theme: "colored",
+              //   })
+              //   const interval = setInterval(() => {
+              //       clearInterval(interval)
+              //   }, 2000)
+              // }
+
+            }
+        })
       }
     },[])
 
@@ -78,9 +117,20 @@ const Sidebar = () => {
                     Perfil
                 </Link>
               </li>
+              <li>
+                <Link to={'../alerta'} className='flex items-center gap-4 text-white hover:bg-[#436b46] transition-colors py-2 px-4 rounded-lg font-bold text-lg'>              
+                  <div className='flex gap-3'>
+                    <AiOutlineAlert className='text-4xl '  />
+                      Alertas
+                    <div className='text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-red-200 text-red-700 rounded-lg'>
+                      {numeroAlertas?numeroAlertas:0}
+                    </div>
+                  </div>
+                </Link>
+              </li>
             </ul>
           </div>
-
+          <ToastContainer />
           <div className="flex items-center gap-4 mx-auto pb-12">
             <img className="w-10 h-10 object-cover rounded-full ring-4 ring-white"src="https://i.ibb.co/k5c1QjZ/png-clipart-paper-logo-customer-satisfaction-blue-face.png"alt=""/>
             <div>
